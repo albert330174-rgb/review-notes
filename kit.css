@@ -713,6 +713,12 @@ h4.lab{font-size:13px;line-height:18px;font-weight:600;color:var(--sec);margin:1
 :root.v2 .line .up,:root.v2 .line .down{white-space:normal;font-size:.85em;color:var(--v2muted);}
 
 :root.v2 .line:has(.up)>.col:not(:has(.up))::before{content:"\00a0";font-size:.85em;}
+
+@media (min-width:700px){
+  :root.v2 .stack.lgrid{display:grid;grid-auto-flow:row;grid-template-columns:repeat(5,max-content);gap:4px 8px;align-items:baseline;justify-items:start;}
+  :root.v2 .stack.lgrid>div,:root.v2 .stack.lgrid .line{display:contents;}
+  :root.v2 .stack.lgrid .line>.col{grid-row:auto;}
+}
 :root.v2 .chain{gap:4px 8px;}
 
 :root.v2 .cols{gap:0 1.4em;}
