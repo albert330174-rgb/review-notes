@@ -711,6 +711,8 @@ h4.lab{font-size:13px;line-height:18px;font-weight:600;color:var(--sec);margin:1
 :root.v2 .line .mid{white-space:normal;font-weight:600;}
 :root.v2 .line .mid.mk{font-weight:400;}
 :root.v2 .line .up,:root.v2 .line .down{white-space:normal;font-size:.85em;color:var(--v2muted);}
+
+:root.v2 .line:has(.up)>.col:not(:has(.up))::before{content:"\00a0";font-size:.85em;}
 :root.v2 .chain{gap:4px 8px;}
 
 :root.v2 .cols{gap:0 1.4em;}
