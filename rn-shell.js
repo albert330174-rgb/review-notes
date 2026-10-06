@@ -3,6 +3,7 @@
   var sb=document.querySelector('.sidebar'), tb=document.querySelector('.tocbtn'), main=document.querySelector('main.wrap'); if(!sb||!tb||!main) return;
   var h1=main.querySelector('h1'), SUBJ=h1?h1.textContent.trim().replace(/^\d+\./,''):document.title;
   var PEN='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>';
+  var DL='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10.5l5 5 5-5M5 20h14"/></svg>';
   var BACK='<svg viewBox="0 0 10 17" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 1.5 1.5 8.5l7 7"/></svg>';
   var css=document.createElement('style'); css.textContent=
    ':root{--rn-bar:52px}'+
@@ -15,6 +16,7 @@
    '.rn-bar button,.rn-sf button{width:40px;height:40px;border:0;border-radius:20px;background:transparent;color:var(--label);display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;flex:0 0 auto}'+
    '.rn-bar button:hover,.rn-sf button:hover{background:var(--fill)}.rn-bar button svg,.rn-sf button svg{width:21px;height:21px}'+
    '.rn-fb svg{color:var(--acc)}'+
+   '.rn-bar a.rn-pdf,.rn-sf a.rn-pdf{width:40px;height:40px;border-radius:20px;color:var(--label);display:flex;align-items:center;justify-content:center;flex:0 0 auto}.rn-bar a.rn-pdf:hover,.rn-sf a.rn-pdf:hover{background:var(--fill)}.rn-bar a.rn-pdf svg,.rn-sf a.rn-pdf svg{width:21px;height:21px}'+
    '.rn-sf{position:sticky;bottom:0;margin:16px -20px 0;padding:8px 12px calc(12px + env(safe-area-inset-bottom));display:flex;align-items:center;gap:4px;background:var(--bg);box-shadow:0 -.5px 0 var(--sep)}'+
    '.rn-sf .rn-fb{width:auto;padding:0 12px;gap:6px;font:inherit;font-size:15px;font-weight:600;margin-right:auto}.rn-sf .rn-fb svg{width:18px;height:18px}'+
    '.rn-sh{font-size:24px;line-height:30px;font-weight:700;color:var(--label);margin:0 0 10px}'+
@@ -43,10 +45,13 @@
    'body.rn-open .rn-bar,body.rn-open .rn-top{display:none}'+
    '@media print{.rn-bar,.rn-a,.rn-top{display:none!important}main.wrap{padding-top:0!important;margin-left:auto!important}}';
   document.head.appendChild(css);
+  
+  var PF=decodeURIComponent(location.pathname.split('/').pop()||'').replace(/\.html$/,'.pdf');
+  var PDFA=(window.RN_PDF&&/\.pdf$/.test(PF))?'<a class="rn-pdf" href="'+window.RN_PDF+encodeURIComponent(PF)+'" download="'+PF+'" aria-label="PDF로 받기" title="PDF로 받기">'+DL+'</a>':'';
   var bar=document.createElement('div'); bar.className='rn-bar';
   bar.innerHTML='<a class="rn-home" href="index.html">'+BACK+'전체 과목</a><div class="rn-t"></div>'+
     '<button class="rn-menu" type="button" aria-label="이 과목 목차"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>'+
-    '<button class="rn-fb" type="button" aria-label="피드백">'+PEN+'</button><button class="rn-th" type="button"></button>';
+    PDFA+'<button class="rn-fb" type="button" aria-label="피드백">'+PEN+'</button><button class="rn-th" type="button"></button>';
   var title=bar.querySelector('.rn-t'); title.textContent=SUBJ;
   document.body.insertBefore(bar, document.body.firstChild);
   
@@ -54,7 +59,7 @@
   var sh=document.createElement('div'); sh.className='rn-sh'; sh.textContent=SUBJ;
   sb.insertBefore(sh, sb.firstChild); sb.insertBefore(back, sh);
   var sf=document.createElement('div'); sf.className='rn-sf';
-  sf.innerHTML='<button class="rn-fb" type="button">'+PEN+'<span>피드백</span></button><button class="rn-th" type="button"></button>';
+  sf.innerHTML='<button class="rn-fb" type="button">'+PEN+'<span>피드백</span></button>'+PDFA+'<button class="rn-th" type="button"></button>';
   sb.appendChild(sf);
   var fab=document.querySelector('.rn-fab'), tg=document.querySelector('.rn-tg');
   var fbs=[].slice.call(document.querySelectorAll('.rn-bar .rn-fb,.rn-sf .rn-fb')), ths=[].slice.call(document.querySelectorAll('.rn-bar .rn-th,.rn-sf .rn-th'));
