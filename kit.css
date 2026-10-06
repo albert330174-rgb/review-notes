@@ -756,6 +756,9 @@ h4.lab{font-size:13px;line-height:18px;font-weight:600;color:var(--sec);margin:1
 :root.v2 main.wrap h4.sgsub.sgsub{font-size:.82em;line-height:1.45;font-weight:600;color:var(--v2acc);border-bottom:1px solid var(--v2rule);padding-bottom:3px;}
 :root.v2 main.wrap h3.sggrade.sggrade{font-size:1.02em;line-height:1.35;font-weight:700;color:var(--v2ink);padding-bottom:.3em;border-bottom:1px solid var(--v2ink);}
 
+.ms{font-family:"NotoMusic",serif;font-size:2.6em;line-height:0;vertical-align:-.12em;}   
+.ms.ms-fer{font-size:1.6em;vertical-align:-.62em;}   
+
 /* 배포본: 라이트 = 순백(페이퍼 없음) */
 :root[data-theme="white"],:root[data-theme="paper"]{--bg:#FFFFFF; --card:#FFFFFF; --fill:#F2F2F7; --label:#1D1D1F; --sec:#6E6E73; --ter:#8E8E93; --sep:#E3E3E8; --glass:rgba(255,255,255,.78); --shadow:0 0 0 .5px rgba(0,0,0,.10),0 1px 3px rgba(0,0,0,.04); --gshadow:0 0 0 .5px rgba(0,0,0,.10),0 8px 28px rgba(0,0,0,.08); --acc:#007AFF; color-scheme:light;}
 @media (prefers-color-scheme:light){:root:not([data-theme]){--bg:#FFFFFF; --card:#FFFFFF; --fill:#F2F2F7; --label:#1D1D1F; --sec:#6E6E73; --ter:#8E8E93; --sep:#E3E3E8; --glass:rgba(255,255,255,.78); --shadow:0 0 0 .5px rgba(0,0,0,.10),0 1px 3px rgba(0,0,0,.04); --gshadow:0 0 0 .5px rgba(0,0,0,.10),0 8px 28px rgba(0,0,0,.08); --acc:#007AFF; color-scheme:light;}}
