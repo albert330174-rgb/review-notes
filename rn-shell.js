@@ -16,6 +16,7 @@
    '.rn-bar button,.rn-sf button{width:40px;height:40px;border:0;border-radius:20px;background:transparent;color:var(--label);display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;flex:0 0 auto}'+
    '.rn-bar button:hover,.rn-sf button:hover{background:var(--fill)}.rn-bar button svg,.rn-sf button svg{width:21px;height:21px}'+
    '.rn-fb svg{color:var(--acc)}'+
+   '.rn-pp{float:right;width:28px;height:28px;margin:-4px -6px 0 6px;border-radius:14px;display:flex;align-items:center;justify-content:center;color:var(--ter)}.rn-pp:hover{background:var(--fill);color:var(--acc)}.rn-pp svg{width:16px;height:16px}'+
    '.rn-bar a.rn-pdf,.rn-sf a.rn-pdf{width:40px;height:40px;border-radius:20px;color:var(--label);display:flex;align-items:center;justify-content:center;flex:0 0 auto}.rn-bar a.rn-pdf:hover,.rn-sf a.rn-pdf:hover{background:var(--fill)}.rn-bar a.rn-pdf svg,.rn-sf a.rn-pdf svg{width:21px;height:21px}'+
    '.rn-sf{position:sticky;bottom:0;margin:16px -20px 0;padding:8px 12px calc(12px + env(safe-area-inset-bottom));display:flex;align-items:center;gap:4px;background:var(--bg);box-shadow:0 -.5px 0 var(--sep)}'+
    '.rn-sf .rn-fb{width:auto;padding:0 12px;gap:6px;font:inherit;font-size:15px;font-weight:600;margin-right:auto}.rn-sf .rn-fb svg{width:18px;height:18px}'+
@@ -124,5 +125,18 @@
     main.addEventListener('beforematch', function(ev){ var el=ev.target;
       for(var n=0; n<4 && el.classList.contains('clpsd'); n++){ var hs=[].slice.call(main.querySelectorAll('.tg.closed')).filter(function(h){ return h.compareDocumentPosition(el)&Node.DOCUMENT_POSITION_FOLLOWING; });
         if(!hs.length) break; hs[hs.length-1].click(); } });
+  }
+  
+  if(window.RN_PDF&&window.fetch){
+    fetch(window.RN_PDF+'parts.json').then(function(r){ return r.ok?r.json():{}; }).then(function(man){
+      var subj=decodeURIComponent(location.pathname.split('/').pop()||'').replace(/\.html$/,''), by={};
+      (man[subj]||[]).forEach(function(p){ by[p.k]=p; });
+      [].forEach.call(sb.querySelectorAll('.tgrp'), function(g,k){ var p=by[k+1]; if(!p) return;
+        var host=g.tagName==='DETAILS'?g.querySelector(':scope > summary'):g; if(!host) return;
+        var a=document.createElement('a'); a.className='rn-pp'; a.href=window.RN_PDF+p.file.split('/').map(encodeURIComponent).join('/');
+        a.setAttribute('download',(SUBJ+' '+p.k+'. '+p.title).replace(/[\/:*?"<>|]/g,'·')+'.pdf');
+        a.title='이 대주제만 PDF로 받기 ('+p.pages+'쪽)'; a.setAttribute('aria-label',a.title); a.innerHTML=DL;
+        host.insertBefore(a,host.firstChild); });
+    }).catch(function(){});
   }
 })();

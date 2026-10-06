@@ -1,7 +1,7 @@
 
 (function(){
   document.addEventListener('click', function(ev){
-    var a = ev.target.closest && ev.target.closest('a.dl, a.rn-pdf');
+    var a = ev.target.closest && ev.target.closest('a.dl, a.rn-pdf, a.rn-pp');
     if (!a || ev.metaKey || ev.ctrlKey || ev.shiftKey || !window.fetch || !window.Blob || !URL.createObjectURL) return;
     ev.preventDefault();
     if (a._busy) return; a._busy = 1; a.style.opacity = '.4';
