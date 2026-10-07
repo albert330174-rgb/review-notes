@@ -2,7 +2,8 @@
 (function(){
   var r=document.documentElement, mq=window.matchMedia?matchMedia('(prefers-color-scheme: dark)'):null;
   function get(){ var v=null; try{ v=localStorage.getItem('rn_theme'); }catch(e){}
-    if(v==='paper'){ v='white'; try{ localStorage.setItem('rn_theme','white'); }catch(e){} r.dataset.theme='white'; }
+    if(v==='paper'){ v='white'; try{ localStorage.setItem('rn_theme','white'); }catch(e){} }
+    if(v==='white'||v==='dark') r.dataset.theme=v;   // 10-08 kit.js가 없는 페이지(피드백·처리 현황)는 고른 테마가 새로고침에 풀렸다 — 여기서도 건다(과목 페이지는 kit.js와 같은 값)
     return v; }
   function dark(){ var v=get(); return v ? v==='dark' : !!(mq&&mq.matches); }
   var css=document.createElement('style'); css.textContent=
