@@ -13,23 +13,25 @@ body{margin:0;background:var(--bg);color:var(--label);}
 .in h1{font-size:34px;line-height:41px;font-weight:700;letter-spacing:-.025em;margin:0 0 8px;}
 .fs-lead{color:var(--sec);margin:0 0 20px;}
 .fs-grp{background:var(--card);border-radius:22px;box-shadow:var(--shadow);overflow:hidden;}
-.fs-row{display:flex;align-items:center;gap:12px;min-height:60px;padding:10px 16px 10px 20px;box-sizing:border-box;position:relative;}
+.fs-row{display:block;position:relative;}
 .fs-row+.fs-row::before{content:'';position:absolute;top:0;left:20px;right:0;height:.5px;background:var(--sep);}
-.fs-row .fs-w{flex:1;min-width:0;}
-.fs-row .fs-t{display:block;font-variant-numeric:tabular-nums;}
-.fs-row .fs-s{display:block;font-size:13px;line-height:18px;color:var(--sec);}
-.fs-row .fs-r{flex:0 0 auto;text-align:right;}
+.fs-row summary,.fs-row .fs-sum{display:flex;align-items:center;gap:12px;min-height:60px;padding:10px 16px 10px 20px;box-sizing:border-box;list-style:none;cursor:pointer;}
+.fs-row .fs-sum{cursor:default;}
+.fs-row summary::-webkit-details-marker{display:none;}
+.fs-row summary:active{background:var(--fill);}
+.fs-w{flex:1;min-width:0;}
+.fs-t{display:block;font-variant-numeric:tabular-nums;}
+.fs-s{display:block;font-size:13px;line-height:18px;color:var(--sec);margin-top:2px;}
+.fs-cv{flex:0 0 8px;width:8px;height:14px;color:var(--ter);transition:transform .2s;}
+.fs-row[open] .fs-cv{transform:rotate(90deg);}
+.fs-g{margin:0;padding:0 20px 14px;font-size:15px;line-height:1.5;color:var(--sec);}
+.fs-g+.fs-why{margin-top:-8px;}
 .fs-chip{display:inline-block;padding:3px 10px;border-radius:12px;font-size:13px;line-height:18px;font-weight:600;}
 .fs-chip.fs-fixed{color:var(--ok);background:var(--ok-bg);}
 .fs-chip.fs-review{color:var(--wait);background:var(--wait-bg);}
 .fs-chip.fs-held{color:var(--sec);background:var(--fill);}
-.fs-row .fs-d{display:block;font-size:13px;line-height:18px;color:var(--sec);margin-top:3px;}
 .fs-empty{padding:20px;color:var(--sec);text-align:center;}
 .fs-cap{font-size:13px;line-height:18px;color:var(--sec);margin:8px 20px 0;}
-.fs-key{margin:28px 0 0;padding:0;list-style:none;font-size:15px;line-height:1.5;color:var(--sec);}
-.fs-key li{display:flex;gap:10px;align-items:baseline;margin:0 0 8px;}
-.fs-key .fs-chip{flex:0 0 auto;}
-.fs-go{display:inline-block;margin-top:24px;color:var(--acc);text-decoration:none;}
 :root{--ok:#248A3D;--ok-bg:rgba(52,199,89,.14);--wait:#B25000;--wait-bg:rgba(255,149,0,.16);}
 :root[data-theme="dark"]{--ok:#30D158;--ok-bg:rgba(48,209,88,.18);--wait:#FF9F0A;--wait-bg:rgba(255,159,10,.18);}
 @media (prefers-color-scheme:dark){:root:not([data-theme]){--ok:#30D158;--ok-bg:rgba(48,209,88,.18);--wait:#FF9F0A;--wait-bg:rgba(255,159,10,.18);}}
@@ -38,19 +40,13 @@ body{margin:0;background:var(--bg);color:var(--label);}
 <div class="in">
   <a class="back" href="report.html"><svg viewBox="0 0 10 17" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 1.5 1.5 8.5l7 7"/></svg>피드백</a>
   <h1>처리 현황</h1>
-  <p class="fs-lead">보낸 시각으로 찾아보세요. 내용은 싣지 않아요.</p>
+  <p class="fs-lead">보낸 시각으로 찾아보세요</p>
   <div class="fs-grp">
-    <div class="fs-row"><div class="fs-w"><span class="fs-t">10월 7일 오후 8:24</span><span class="fs-s">과학</span></div><div class="fs-r"><span class="fs-chip fs-fixed">반영</span><span class="fs-d">10월 8일 반영</span></div></div>
-    <div class="fs-row"><div class="fs-w"><span class="fs-t">10월 7일 오전 11:50</span><span class="fs-s">영어</span></div><div class="fs-r"><span class="fs-chip fs-fixed">반영</span><span class="fs-d">10월 8일 반영</span></div></div>
-    <div class="fs-row"><div class="fs-w"><span class="fs-t">10월 6일 오전 6:54</span><span class="fs-s">영어</span></div><div class="fs-r"><span class="fs-chip fs-held">보류</span></div></div>
-    <div class="fs-row"><div class="fs-w"><span class="fs-t">10월 3일 오전 9:25</span><span class="fs-s">실과</span></div><div class="fs-r"><span class="fs-chip fs-fixed">반영</span><span class="fs-d">10월 3일 반영</span></div></div>
+    <details class="fs-row"><summary><div class="fs-w"><span class="fs-t">10월 7일 오후 8:24</span><span class="fs-s">과학 · 10월 8일 반영</span></div><span class="fs-chip fs-fixed">반영</span><svg class="fs-cv" viewBox="0 0 8 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l6 6-6 6"/></svg></summary><p class="fs-g">지구와 우주 &gt; 땅의 변화 · 화산 분출물 고체에 「화산재 + 화산 암석 조각」 용어 추가 요청</p></details>
+    <details class="fs-row"><summary><div class="fs-w"><span class="fs-t">10월 7일 오전 11:50</span><span class="fs-s">영어 · 10월 8일 반영</span></div><span class="fs-chip fs-fixed">반영</span><svg class="fs-cv" viewBox="0 0 8 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l6 6-6 6"/></svg></summary><p class="fs-g">언어 습득 이론 &gt; 모국어 습득 이론 · 생득주의 줄 간격이 이상함</p></details>
+    <details class="fs-row"><summary><div class="fs-w"><span class="fs-t">10월 6일 오전 6:54</span><span class="fs-s">영어</span></div><span class="fs-chip fs-held">보류</span><svg class="fs-cv" viewBox="0 0 8 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l6 6-6 6"/></svg></summary><p class="fs-g">「m」 한 글자 · [위치] 없음</p><p class="fs-g fs-why">보류 사유 · 내용 없음</p></details>
+    <details class="fs-row"><summary><div class="fs-w"><span class="fs-t">10월 3일 오전 9:25</span><span class="fs-s">실과 · 10월 3일 반영</span></div><span class="fs-chip fs-fixed">반영</span><svg class="fs-cv" viewBox="0 0 8 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l6 6-6 6"/></svg></summary><p class="fs-g">디지털 사회와 인공지능 &gt; 프로그래밍 · 성취기준 해설이 좀 이상</p></details>
   </div>
-  <p class="fs-cap">10월 8일 기준 · 목록에 없으면 아직 확인 전이에요</p>
-  <ul class="fs-key">
-    <li><span class="fs-chip fs-fixed">반영</span><span>노트를 고쳤어요</span></li>
-    <li><span class="fs-chip fs-review">검토 중</span><span>확인했고 고치는 중이에요</span></li>
-    <li><span class="fs-chip fs-held">보류</span><span>지금은 고치지 않아요 — 근거를 찾지 못했거나 노트 범위 밖이에요</span></li>
-  </ul>
-  <a class="fs-go" href="report.html">피드백 보내기</a>
+  <p class="fs-cap">10월 8일 기준 · 없으면 아직 확인 전</p>
 </div>
 <script src="rn-theme.js?v=140188e2"></script><script src="rn-dl.js?v=2554a6de"></script></html>

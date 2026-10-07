@@ -18,9 +18,10 @@ body{margin:0;background:var(--bg);color:var(--label);}
 .grp a.dl{position:absolute;top:50%;right:36px;transform:translateY(-50%);width:40px;height:40px;border-radius:20px;display:flex;align-items:center;justify-content:center;color:var(--acc);}
 .grp a.dl svg{width:20px;height:20px;}
 @media (hover:hover){.grp a.dl:hover{background:var(--fill);}}
-.in-foot{margin:16px 20px 0;font-size:13px;line-height:18px;color:var(--ter);}
+.in-sec{margin:32px 20px 8px;font-size:13px;line-height:18px;font-weight:400;color:var(--sec);}
+.in-foot{margin:8px 20px 0;font-size:13px;line-height:18px;color:var(--ter);}
 .in-foot a{color:var(--acc);text-decoration:none;}
-@media print{.in-foot{display:none;}}
+@media print{.in-foot,.in-sec,.in-sec+.grp{display:none;}}
 .grp a.go svg{width:8px;height:14px;color:var(--ter);flex:0 0 auto;}
 @media (max-width:430px){ .in{padding:40px 16px 56px;} .in h1{font-size:28px;line-height:34px;} }
 </style>
@@ -40,7 +41,12 @@ body{margin:0;background:var(--bg);color:var(--label);}
     <div class="srow"><a class="go" href="11.통합교과.html">통합교과<svg viewBox="0 0 8 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l6 6-6 6"/></svg></a><a class="dl" href="https://raw.githubusercontent.com/imgostudy/review-notes/pdf/11.%ED%86%B5%ED%95%A9%EA%B5%90%EA%B3%BC.pdf" download="11.통합교과.pdf" aria-label="통합교과 PDF로 받기" title="PDF로 받기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10.5l5 5 5-5M5 20h14"/></svg></a></div>
     <div class="srow"><a class="go" href="13.총창.html">총창<svg viewBox="0 0 8 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l6 6-6 6"/></svg></a><a class="dl" href="https://raw.githubusercontent.com/imgostudy/review-notes/pdf/13.%EC%B4%9D%EC%B0%BD.pdf" download="13.총창.pdf" aria-label="총창 PDF로 받기" title="PDF로 받기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10.5l5 5 5-5M5 20h14"/></svg></a></div>
   </nav>
-  <p class="in-foot"><a href="report.html">피드백</a> · <a href="https://github.com/imgostudy/review-notes/issues/new">GitHub 이슈</a></p>
+  <h2 class="in-sec">피드백</h2>
+  <nav class="grp">
+    <div class="srow"><a class="go" href="report.html">피드백 보내기<svg viewBox="0 0 8 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l6 6-6 6"/></svg></a></div>
+    <div class="srow"><a class="go" href="status.html">처리 현황<svg viewBox="0 0 8 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l6 6-6 6"/></svg></a></div>
+  </nav>
+  <p class="in-foot">과목 페이지 오른쪽 아래 「피드백」 버튼으로도 보낼 수 있어요 · <a href="https://github.com/imgostudy/review-notes/issues/new">GitHub 이슈</a></p>
 </div>
 <script src="kit.js?v=16f68bb9"></script>
 <script src="rn-theme.js?v=140188e2"></script><script src="rn-dl.js?v=2554a6de"></script></html>
