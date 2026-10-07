@@ -96,12 +96,14 @@
   var links=[].slice.call(sb.querySelectorAll('a[href^="#"]')).map(function(a){ return [a, document.getElementById(decodeURIComponent(a.getAttribute('href').slice(1)))]; }).filter(function(x){ return x[1]; });
   var on=null, hashT=0;
   
+  var moved=!location.hash; ['wheel','touchmove','keydown','mousedown'].forEach(function(e){ addEventListener(e, function(){ moved=true; }, {passive:true, once:true}); });
+  
   var grps=[].slice.call(sb.querySelectorAll('details.tgrp')), curG=null;
   function openG(g){ if(!g||g===curG) return; curG=g; grps.forEach(function(d){ d.open=(d===g); }); }
   openG(grps[0]);
   function spy(){ var best=null, bt=-1e9, lim=innerHeight*.3; links.forEach(function(x){ if(!x[1].getClientRects().length) return; var t=x[1].getBoundingClientRect().top; if(t<=lim&&t>bt){ bt=t; best=x; } });
     var a=best&&best[0];
-    clearTimeout(hashT); hashT=setTimeout(function(){ var h=a&&scrollY>200?a.getAttribute('href'):''; if(location.hash!==h&&decodeURIComponent(location.hash)!==decodeURIComponent(h))
+    clearTimeout(hashT); if(moved) hashT=setTimeout(function(){ var h=a&&scrollY>200?a.getAttribute('href'):''; if(location.hash!==h&&decodeURIComponent(location.hash)!==decodeURIComponent(h))
       history.replaceState(history.state,'',h||(location.pathname+location.search)); }, 250);
     if(a===on) return; if(on) on.classList.remove('rn-on'); on=a; if(on){ on.classList.add('rn-on'); openG(on.closest('details.tgrp'));
       if(wide()&&!sbHover&&Date.now()-sbTouch>1500){ var r=on.getBoundingClientRect(), s=sb.getBoundingClientRect();
