@@ -45,6 +45,7 @@ button.qz-row{cursor:pointer;} button.qz-row:active{background:var(--q-fill);}
 .qz-sw::after{content:'';position:absolute;top:2px;left:2px;width:27px;height:27px;border-radius:50%;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,.2);transition:transform .2s;}
 .qz-sw:checked{background:#34C759;} .qz-sw:checked::after{transform:translateX(20px);} .qz-sw:disabled{opacity:.4;}
 .qz-cap{font-size:13px;line-height:18px;color:var(--q-sec);margin:8px 16px 24px;}
+.rn-tip{position:fixed;z-index:200;transform:translate(-50%,-100%);padding:8px 14px;border-radius:18px;background:var(--q-label);color:var(--q-bg);font-size:14px;line-height:1.4;white-space:nowrap;opacity:0;transition:opacity .2s;pointer-events:none}.rn-tip.on{opacity:.92}
 .qz-main{display:block;width:100%;min-height:50px;border:0;border-radius:25px;background:var(--q-acc);color:#fff;font-size:17px;font-weight:600;cursor:pointer;}
 .qz-main:disabled{opacity:.4;cursor:default;}
 .qz-main.qsub{background:var(--q-fill);color:var(--q-acc);}
@@ -178,7 +179,7 @@ button.qz-row{cursor:pointer;} button.qz-row:active{background:var(--q-fill);}
 <div class="qz-sheet" id="sh" role="dialog" aria-label="이 문제 이상해요"><div class="qz-odd">
   <div class="qh"><b>이 문제 이상해요</b><button class="qz-x" type="button" id="bShX" aria-label="닫기">✕</button></div>
   <textarea id="shT" placeholder="어디가 이상한지"></textarea>
-  <button class="qz-main" type="button" id="bShGo" disabled>보내기</button>
+  <button class="qz-main" type="button" id="bShGo">보내기</button>
   <p class="qz-mini qz-hide" id="shOk">보냈어요 · <a class="qz-link" href="status.html">처리 현황</a></p>
 </div></div>
 <script>
@@ -291,14 +292,15 @@ function result(){ var done=run.res.length, ok=run.res.filter(Boolean).length, w
 $('bAgain').onclick=function(){ start(shuffle(run.wrong.slice())); };
 $('bNew').onclick=function(){ run=null; show('vSet'); info(); };
 var odd=null;
-$('bOdd').onclick=function(e){ e.stopPropagation(); odd=run.list[run.i]; $('shT').value=''; $('bShGo').disabled=true; $('bShGo').textContent='보내기'; $('shOk').classList.add('qz-hide'); $('sh').classList.add('on'); setTimeout(function(){ $('shT').focus(); },50); };
+$('bOdd').onclick=function(e){ e.stopPropagation(); odd=run.list[run.i]; $('shT').value=''; $('bShGo').disabled=false; $('bShGo').textContent='보내기'; $('shOk').classList.add('qz-hide'); $('sh').classList.add('on'); setTimeout(function(){ $('shT').focus(); },50); };
 function shut(){ $('sh').classList.remove('on'); }
 $('bShX').onclick=shut; $('sh').onclick=function(e){ if(e.target===$('sh')) shut(); };
-$('shT').oninput=function(){ $('bShGo').disabled=!$('shT').value.trim(); };
-$('bShGo').onclick=function(){ if(!odd||$('bShGo').disabled) return; var b=$('bShGo'); b.disabled=true; b.textContent='보내는 중…';
+
+var tip=function(btn,msg){ var t=document.querySelector('.rn-tip'); if(!t){ t=document.createElement('div'); t.className='rn-tip'; document.body.appendChild(t); } var r=btn.getBoundingClientRect(); t.textContent=msg; t.style.left=(r.left+r.width/2)+'px'; t.style.top=(r.top-10)+'px'; t.classList.add('on'); clearTimeout(t._h); t._h=setTimeout(function(){ t.classList.remove('on'); },1800); };
+$('bShGo').onclick=function(){ if(!odd||$('bShGo').disabled) return; var b=$('bShGo'); if(!$('shT').value.trim()){ tip(b,'어디가 이상한지 적어 주세요'); $('shT').focus(); return; } b.disabled=true; b.textContent='보내는 중…';
   var body=new URLSearchParams(); body.append(E_SUBJ, odd.sn);
   body.append(E_TEXT, '[카드] '+odd.id+'\n[위치] 쪽지시험 > '+odd.t+(odd.m?' > '+odd.m:'')+'\n[내용] '+$('shT').value.trim());
-  fetch(FORM,{method:'POST',mode:'no-cors',body:body}).then(function(){ b.textContent='보내기'; $('shT').value=''; $('shOk').classList.remove('qz-hide'); })
+  fetch(FORM,{method:'POST',mode:'no-cors',body:body}).then(function(){ b.disabled=false; b.textContent='보내기'; $('shT').value=''; $('shOk').classList.remove('qz-hide'); })
     .catch(function(){ b.disabled=false; b.textContent='다시 보내기'; alert('보내지 못했어요'); }); };
 document.addEventListener('keydown', function(e){ if($('sh').classList.contains('on')||$('pk').classList.contains('on')){ if(e.key==='Escape'){ shut(); $('pk').classList.remove('on'); } return; }
   if($('vQ').classList.contains('qz-hide')||e.metaKey||e.ctrlKey||e.altKey) return;

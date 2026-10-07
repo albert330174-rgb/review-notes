@@ -48,6 +48,8 @@ textarea:focus,.row select:focus{outline:none;}
 .cap{font-size:13px;line-height:18px;color:var(--sec);margin:8px 20px 20px;}
 .send{display:block;width:100%;min-height:50px;margin-top:24px;border:0;border-radius:25px;background:var(--acc);color:#fff;font:inherit;font-size:17px;font-weight:600;}
 .send:disabled{opacity:.45;}
+
+.rn-tip{position:fixed;z-index:200;transform:translate(-50%,-100%);padding:8px 14px;border-radius:18px;background:var(--label);color:var(--bg);font-size:14px;line-height:1.4;white-space:nowrap;opacity:0;transition:opacity .2s;pointer-events:none}.rn-tip.on{opacity:.92}
 .done{display:none;text-align:center;padding:48px 20px;}
 .done b{display:block;font-size:22px;margin-bottom:8px;}
 .done p{color:var(--sec);margin:0 0 20px;}
@@ -58,7 +60,7 @@ textarea:focus,.row select:focus{outline:none;}
 <div class="in">
   <a class="back" href="index.html"><svg viewBox="0 0 10 17" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 1.5 1.5 8.5l7 7"/></svg>목차</a>
   <h1>피드백</h1>
-  <form id="f">
+  <form id="f" novalidate>
     <div class="grp">
       <div class="row"><label for="s">과목</label><select id="s" required><option value="">선택</option></select><button class="pv" type="button" data-for="s"><span></span></button><svg class="cv" viewBox="0 0 8 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1 1l6 6-6 6"/></svg></div>
       <div class="row"><label for="g">단원</label><select id="g" disabled><option value="">선택 안 함</option></select><button class="pv" type="button" data-for="g"><span></span></button><svg class="cv" viewBox="0 0 8 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1 1l6 6-6 6"/></svg></div>
@@ -66,7 +68,7 @@ textarea:focus,.row select:focus{outline:none;}
     </div>
     <p class="cap">단원·절은 선택</p>
     <div class="grp ta"><textarea id="t" required placeholder="고칠 내용"></textarea></div>
-    <button class="send" id="b" type="submit" disabled>보내기</button>
+    <button class="send" id="b" type="submit">보내기</button>
     <a class="more" href="status.html">처리 현황</a>
   </form>
   <div class="done" id="ok"><b>보냈어요</b><p></p><a href="status.html">처리 현황</a> · <a href="index.html">목차로</a></div>
@@ -83,7 +85,8 @@ function fillG(){ const g=$('g'), p=$('p'); g.length=1; p.length=1; p.disabled=t
   g.disabled=!s; if(s) s.forEach((x,i)=>g.appendChild(opt(i,x[0]))); check(); }
 function fillP(){ const p=$('p'); p.length=1; const s=TOC[$('s').value], x=s&&s[$('g').value];
   p.disabled=!(x&&x[1].length); if(x) x[1].forEach(n=>p.appendChild(opt(n,n))); }
-function check(){ $('b').disabled=!($('s').value && $('t').value.trim()); }
+const tip=function(btn,msg){ var t=document.querySelector('.rn-tip'); if(!t){ t=document.createElement('div'); t.className='rn-tip'; document.body.appendChild(t); } var r=btn.getBoundingClientRect(); t.textContent=msg; t.style.left=(r.left+r.width/2)+'px'; t.style.top=(r.top-10)+'px'; t.classList.add('on'); clearTimeout(t._h); t._h=setTimeout(function(){ t.classList.remove('on'); },1800); }
+function check(){}
 $('s').onchange=fillG; $('g').onchange=fillP; $('t').oninput=check;
 
 (()=>{ const q=new URLSearchParams(location.search), s=q.get('s'); if(!s||!TOC[s]) return; $('s').value=s; fillG();
@@ -100,7 +103,10 @@ $('rpL').onclick=e=>{ const b=e.target.closest('button'); if(!b) return; const s
 $('rpX').onclick=()=>$('rp').classList.remove('on'); $('rp').onclick=e=>{ if(e.target===$('rp')) $('rp').classList.remove('on'); };
 document.addEventListener('keydown',e=>{ if(e.key==='Escape') $('rp').classList.remove('on'); });
 sync();
-$('f').onsubmit=async ev=>{ ev.preventDefault(); if($('b').disabled) return; $('b').disabled=true; $('b').textContent='보내는 중…';
+$('f').onsubmit=async ev=>{ ev.preventDefault(); if($('b').disabled) return;
+  if(!$('s').value){ tip($('b'),'과목을 골라 주세요'); return; }
+  if(!$('t').value.trim()){ tip($('b'),'고칠 내용을 적어 주세요'); $('t').focus(); return; }
+  $('b').disabled=true; $('b').textContent='보내는 중…';
   const s=$('s').value, x=TOC[s]&&TOC[s][$('g').value], where=[x&&x[0], $('p').value].filter(Boolean).join(' > ');
   const body=new URLSearchParams(); body.append(E_SUBJ, s); body.append(E_TEXT, (where?'[위치] '+where+'\n':'')+'[내용] '+$('t').value.trim());
   try{ await fetch(FORM, {method:'POST', mode:'no-cors', body}); $('f').style.display='none'; $('ok').style.display='block'; }
