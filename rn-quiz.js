@@ -12,13 +12,16 @@
   document.head.appendChild(css);
   var ICON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2.5"/><path d="M8.5 9.5l1.6 1.6 3-3M8.5 15.5h7"/></svg>';
   
-  function spot(el){ return el.closest('h1,h2,h3,h4,h5,h6') || el; }   // 제목 안(마스킹 감싸개 안 포함)이면 제목째
+  var HD='.part,h2,.r-head,.r-jeol';   // 묶음이 시작하는 제목 꼴 — 대주제 배너 · 절 제목 · 판 머리칸(영어 수업 활동·교사 언어 · 도덕 교과서 편찬 방향은 h2가 아니라 이 칸)
+  function head(el){ var h=el.closest(HD); if(h) return h; var w=document.createTreeWalker(main, NodeFilter.SHOW_ELEMENT); w.currentNode=el;
+    var n; while((n=w.nextNode())) if(n.matches(HD)) return n; return el; }
+  function spot(nx, own){ var h=head(nx); while(h.parentElement && h.parentElement!==main && !(own && h.parentElement.contains(own))) h=h.parentElement; return h; }
   ids.forEach(function(id, i){
-    var g=Q.g[id]; if(!g) return;
+    var g=Q.g[id]; if(!g||g[1]<5) return;   // 5문제 미만 묶음은 줄을 안 붙인다(10-08 · 들어가도 금방 끝남 — 쪽지시험 화면 범위 피커로는 그대로 풀 수 있다)
     var nx=null; for(var j=i+1;j<ids.length && !nx;j++) nx=document.getElementById(ids[j]);
     var d=document.createElement('div'); d.className='rn-qz'; d.id='rn-qz-'+id;   // 쪽지시험에서 돌아올 자리(읽던 단원 끝)
     d.innerHTML='<a href="quiz.html?s='+encodeURIComponent(Q.s)+'&t='+encodeURIComponent(g[0])+'&from='+encodeURIComponent(id)+'" title="'+g[0].replace(/[&<>"]/g,'')+' 쪽지시험">'+ICON+'<span>'+g[0].replace(/[&<>]/g,'')+' 쪽지시험 <b>'+g[1]+'문제 ›</b></span></a>';   // 묶음 = 왼쪽 목차 큰 제목 — 「단원」은 사이트 어디에도 없는 말이라 이름을 그대로(10-08)
-    if(nx){ var b=spot(nx); b.parentElement.insertBefore(d, b); }
+    if(nx){ var b=spot(nx, document.getElementById(id)); b.parentElement.insertBefore(d, b); }
     else { var secs=main.querySelectorAll('section.pg'); (secs.length?secs[secs.length-1]:main).appendChild(d); }
   });
 })();
