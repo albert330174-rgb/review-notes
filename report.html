@@ -20,6 +20,10 @@ body{margin:0;background:var(--bg);color:var(--label);}
 .row .cv{width:8px;height:14px;color:var(--ter);flex:0 0 auto;}
 textarea{display:block;width:100%;box-sizing:border-box;min-height:160px;margin:0;padding:14px 20px;border:0;background:transparent;font:inherit;font-size:17px;line-height:1.5;color:var(--label);resize:vertical;}
 textarea::placeholder{color:var(--ter);}
+
+textarea:focus,.row select:focus{outline:none;}
+.grp.ta:focus-within{box-shadow:0 0 0 2px var(--acc);}
+.row:has(select:focus-visible){background:var(--fill);}
 .cap{font-size:13px;line-height:18px;color:var(--sec);margin:8px 20px 20px;}
 .send{display:block;width:100%;min-height:50px;margin-top:24px;border:0;border-radius:25px;background:var(--acc);color:#fff;font:inherit;font-size:17px;font-weight:600;}
 .send:disabled{opacity:.45;}
@@ -40,7 +44,7 @@ textarea::placeholder{color:var(--ter);}
       <div class="row"><label for="p">절</label><select id="p" disabled><option value="">선택 안 함</option></select><svg class="cv" viewBox="0 0 8 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1 1l6 6-6 6"/></svg></div>
     </div>
     <p class="cap">단원·절은 선택</p>
-    <div class="grp"><textarea id="t" required placeholder="고칠 내용"></textarea></div>
+    <div class="grp ta"><textarea id="t" required placeholder="고칠 내용"></textarea></div>
     <button class="send" id="b" type="submit" disabled>보내기</button>
     <a class="more" href="status.html">처리 현황</a>
   </form>
