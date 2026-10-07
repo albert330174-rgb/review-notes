@@ -2,7 +2,7 @@
 <html lang="ko">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>쪽지시험 · 초등 임용 정리 노트</title><script data-goatcounter="https://imgostudy.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script><link rel="icon" href="icon.svg" type="image/svg+xml"><meta name="description" content="초등 임용 정리 노트 — 장면·사례 적용 문제를 풀고 스스로 채점해요"><meta property="og:type" content="website"><meta property="og:site_name" content="초등 임용 정리 노트"><meta property="og:title" content="쪽지시험 · 초등 임용 정리 노트"><meta property="og:description" content="초등 임용 정리 노트 — 장면·사례 적용 문제를 풀고 스스로 채점해요"><meta property="og:url" content="https://imgostudy.github.io/review-notes/quiz.html">
+<title>쪽지시험 · 초등 임용 정리 노트</title><script data-goatcounter="https://imgostudy.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script><link rel="icon" href="icon.svg" type="image/svg+xml"><meta name="description" content="초등 임용 정리 노트 — 노트 내용으로 만든 문제를 풀고 스스로 채점해요"><meta property="og:type" content="website"><meta property="og:site_name" content="초등 임용 정리 노트"><meta property="og:title" content="쪽지시험 · 초등 임용 정리 노트"><meta property="og:description" content="초등 임용 정리 노트 — 노트 내용으로 만든 문제를 풀고 스스로 채점해요"><meta property="og:url" content="https://imgostudy.github.io/review-notes/quiz.html">
 <link rel="stylesheet" href="kit.css?v=54143cc8">
 <style>
 
@@ -132,7 +132,7 @@ button.qz-row{cursor:pointer;} button.qz-row:active{background:var(--q-fill);}
 <div class="qz-in" id="vSet">
   <a class="qz-back" href="index.html" id="bBack1"><svg viewBox="0 0 10 17" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 1.5 1.5 8.5l7 7"/></svg>목차</a>
   <h1>쪽지시험</h1>
-  <p class="qz-lead">노트 내용을 장면·사례에 적용하는 문제예요. 정답을 보고 스스로 채점해요.</p>
+  <p class="qz-lead">노트 내용으로 만든 문제예요. 정답을 보고 스스로 채점해요.</p>
   <div class="qz-grp">
     <button class="qz-row" type="button" id="bRange"><span class="qk">범위</span><span class="v" id="sRange"></span><svg class="qz-cv" viewBox="0 0 8 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1 1l6 6-6 6"/></svg></button>
     <div class="qz-row"><span class="qk">문항 수</span><span class="qz-nv" id="sNv"></span><span class="qz-step"><button type="button" id="sNm" aria-label="줄이기"><svg viewBox="0 0 16 16"><path d="M3.5 8h9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button><i></i><button type="button" id="sNp" aria-label="늘리기"><svg viewBox="0 0 16 16"><path d="M3.5 8h9M8 3.5v9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button></span></div>
@@ -308,7 +308,7 @@ var QS=new URLSearchParams(location.search), FROM=QS.get('from'), NOTE=(QS.get('
 function backTo(a){ if(!NOTE) return; a.href=NOTE; a.lastChild.textContent='노트'; }
 if(NOTE){ backTo($('bBack1')); backTo($('bBack2')); $('bNote').href=NOTE; $('bNote').classList.remove('qz-hide'); }
 load();
-fetch('quiz-data.json?v=21a1126a').then(function(r){ return r.json(); }).then(function(j){ D=j.cards||[];
+fetch('quiz-data.json?v=d18e7529').then(function(r){ return r.json(); }).then(function(j){ D=j.cards||[];
   D.forEach(function(c){ BY[c.id]=c; if(!TOPS[c.s]){ TOPS[c.s]=[]; SUBJ.push(c.s); }
     var x=TOPS[c.s].filter(function(z){ return z.t===c.t; })[0]; if(!x){ x={t:c.t, n:0, ms:[]}; TOPS[c.s].push(x); } x.n++;
     var y=x.ms.filter(function(z){ return z.m===(c.m||''); })[0]; if(!y){ y={m:c.m||'', n:0}; x.ms.push(y); } y.n++; });
