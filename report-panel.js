@@ -21,7 +21,7 @@
    '.rn-row .v{flex:1;text-align:right;font-size:15px}'+
    '.rn-ta{display:block;box-sizing:border-box;width:100%;min-height:130px;margin:12px 0 0;padding:12px 16px;border:0;border-radius:18px;background:var(--card);font:inherit;font-size:16px;line-height:1.5;color:var(--label);resize:vertical}'+
    '.rn-ta::placeholder{color:var(--ter)}.rn-send{display:block;width:100%;min-height:48px;margin-top:12px;border:0;border-radius:24px;background:var(--acc);color:#fff;font:inherit;font-size:17px;font-weight:600;cursor:pointer}.rn-send:disabled{opacity:.45}'+
-   '.rn-ok{display:none;text-align:center;color:var(--sec);padding:10px 0}'+
+   '.rn-ok{display:none;text-align:center;color:var(--sec);padding:10px 0}.rn-ok a{color:var(--acc);text-decoration:none}'+
    '@media print{.rn-fab,.rn-pan{display:none!important}}';
   document.head.appendChild(css);
   var fab=document.createElement('button'); fab.className='rn-fab'; fab.type='button';
@@ -32,7 +32,7 @@
     '<div class="rn-row"><span>단원</span><select class="rn-g"><option value="">선택 안 함</option></select></div>'+
     '<div class="rn-row"><span>절</span><select class="rn-p"><option value="">선택 안 함</option></select></div></div>'+
     '<textarea class="rn-ta" placeholder="고칠 내용"></textarea>'+
-    '<button class="rn-send" type="button" disabled>보내기</button><div class="rn-ok">보냈어요</div></div>';
+    '<button class="rn-send" type="button" disabled>보내기</button><div class="rn-ok">보냈어요 · <a href="status.html">처리 현황</a></div></div>';
   document.body.appendChild(fab); document.body.appendChild(pan);
   var q=function(s){return pan.querySelector(s)}, selG=q('.rn-g'), selP=q('.rn-p'), ta=q('.rn-ta'), send=q('.rn-send'), ok=q('.rn-ok');
   q('.v').textContent=SUBJ;
