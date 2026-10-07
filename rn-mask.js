@@ -8,13 +8,15 @@
   var BOXF='<svg viewBox="0 0 20 16" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="1.5" y="3" width="17" height="10" rx="2.5" fill="currentColor" fill-opacity=".22"/></svg>';
   var CHECK='<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3.2 3L13 4.5"/></svg>';
   var css=document.createElement('style'); var H=':not(.rn-show)';
-  var on='body.rn-m-term .rn-k'+H+',body.rn-m-desc .rn-k'+H+',body.rn-m-term .rn-c'+H+',body.rn-m-term .rn-h'+H+',body.rn-m-desc .rn-d'+H;
+  
+  var T=['body.rn-m-term .rn-k'+H,'body.rn-m-desc .rn-k'+H,'body.rn-m-term .rn-c'+H,'body.rn-m-term .rn-h'+H,'body.rn-m-desc .rn-d'+H];
+  var on=T.map(function(t){ return t+' .rn-in,'+t+'.rn-in'; }).join(',');
   var sel=function(suf){ return on.split(',').map(function(s){ return s+suf; }).join(','); };
   css.textContent=
-    on+'{color:transparent!important;background:var(--fill)!important;border-radius:4px;text-decoration:none!important;cursor:pointer;-webkit-box-decoration-break:clone;box-decoration-break:clone}'+
+    on+'{color:transparent!important;background:linear-gradient(var(--fill),var(--fill)) 0 50%/100% 1.05em no-repeat!important;text-decoration:none!important;-webkit-box-decoration-break:clone;box-decoration-break:clone}'+
     sel(' *')+'{color:transparent!important;text-decoration:none!important;background:transparent!important}'+
     sel(' svg')+','+sel(' img')+'{visibility:hidden}'+
-    'body.rn-m-desc div.rn-d'+H+'{width:fit-content;max-width:100%}'+
+    T.join(',')+'{cursor:pointer}'+
     '.rn-show{cursor:pointer}'+
     
     '.rn-mk{height:34px;padding:0 8px;border:0;border-radius:10px;background:transparent;color:var(--label);font:inherit;font-size:15px;font-weight:600;display:flex;align-items:center;gap:6px;cursor:pointer;white-space:nowrap;flex:0 0 auto}'+
@@ -57,6 +59,18 @@
       var w=document.createElement('span'); w.className='rn-h';
       while(e.firstChild) w.appendChild(e.firstChild); e.appendChild(w); });
   }
+  
+  function wrapIn(el){ var run=[];
+    function flush(){ if(!run.length) return; if(!run.some(function(n){ return n.nodeType!==3 || n.textContent.trim(); })){ run=[]; return; }
+      var s=document.createElement('span'); s.className='rn-in'; run[0].parentNode.insertBefore(s, run[0]); run.forEach(function(n){ s.appendChild(n); }); run=[]; }
+    [].slice.call(el.childNodes).forEach(function(n){
+      if(n.nodeType===3 || (n.nodeType===1 && /^inline/.test(getComputedStyle(n).display) && !n.querySelector('div,p,ul,ol,table'))) run.push(n);
+      else { flush(); if(n.nodeType===1) wrapIn(n); } });
+    flush(); }
+  [].forEach.call(main.querySelectorAll('.rn-k,.rn-c,.rn-d'), function(e){
+    if(e.closest('.rn-in')) e.classList.add('rn-in');                 // 바깥 대상의 글자 조각 안에 든 인라인 대상 = 그 자체가 조각
+    else if(!e.querySelector('.rn-in')) wrapIn(e); });
+  [].forEach.call(main.querySelectorAll('.rn-h'), function(e){ e.classList.add('rn-in'); });   // 제목 감싸개는 이미 인라인 글자 조각
   var mode='off'; try{ mode=localStorage.getItem(KEY)||'off'; }catch(e){} if(MODES.indexOf(mode)<0) mode='off';
   function hidden(el){ return (mode!=='off' && el.classList.contains('rn-k')) || (mode==='term' && (el.classList.contains('rn-c')||el.classList.contains('rn-h'))) || (mode==='desc' && el.classList.contains('rn-d')); }
   
