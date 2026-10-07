@@ -7,12 +7,13 @@
   var BACK='<svg viewBox="0 0 10 17" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 1.5 1.5 8.5l7 7"/></svg>';
   var css=document.createElement('style'); css.textContent=
    ':root{--rn-bar:52px}'+
-   '.rn-bar{position:absolute;top:0;left:0;right:0;z-index:30;height:var(--rn-bar);display:flex;align-items:center;gap:4px;padding:0 8px 0 12px;box-shadow:0 .5px 0 var(--sep);background:var(--bg)}'+
+   '.rn-bar{position:absolute;top:0;left:0;right:0;z-index:30;height:var(--rn-bar);display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:4px;padding:0 8px;box-shadow:0 .5px 0 var(--sep);background:var(--bg)}'+
+   '.rn-bar>.rn-menu{justify-self:start}.rn-bar>.rn-t{max-width:52vw}.rn-bar>:last-child:not(.rn-t){justify-self:end}'+   
    '.rn-bar.peek{position:fixed;background:var(--glass,var(--bg));-webkit-backdrop-filter:blur(20px) saturate(180%);backdrop-filter:blur(20px) saturate(180%);animation:rnDown .2s ease}'+
    '@keyframes rnDown{from{transform:translateY(-100%)}to{transform:none}}'+
    '.rn-bar a.rn-home{display:flex;align-items:center;gap:2px;color:var(--acc);text-decoration:none;font-size:16px;padding:8px 6px;white-space:nowrap}'+
    '.rn-bar a.rn-home svg{width:10px;height:17px}'+
-   '.rn-bar .rn-t{flex:1;min-width:0;text-align:center;font-weight:600;font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--label)}'+
+   '.rn-bar .rn-t{min-width:0;text-align:center;font-weight:600;font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--label)}'+
    '.rn-bar button,.rn-sf button{width:40px;height:40px;border:0;border-radius:20px;background:transparent;color:var(--label);display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;flex:0 0 auto}'+
    '.rn-bar button:hover,.rn-sf button:hover{background:var(--fill)}.rn-bar button svg,.rn-sf button svg{width:21px;height:21px}'+
    '.rn-fb svg{color:var(--acc)}'+
@@ -38,7 +39,7 @@
      '.sidebar{top:0!important;transform:none!important;transition:none;padding-bottom:0}.scrim{display:none!important}'+
      'main.wrap{margin-left:max(280px,calc((100% - 1160px)/2))!important;width:min(calc(100% - 280px),1160px)!important;transition:none}}'+
    '@media (min-width:1000px) and (max-width:1399px){body.tocopen main.wrap{margin-left:auto!important;width:min(100%,1160px)!important}body.tocopen .scrim{display:block}}'+
-   '@media (max-width:1399px){body.tocopen .rn-top{display:none}main.wrap{padding-top:calc(var(--rn-bar) + 28px)!important}.rn-sf,.rn-back{display:none}.sidebar{width:min(320px,86vw);max-width:none}}'+
+   '@media (max-width:1399px){body.tocopen .rn-top{display:none}main.wrap{padding-top:calc(var(--rn-bar) + 28px)!important}.sidebar{width:min(320px,86vw);max-width:none}}'+
    '.rn-top{position:fixed;right:calc(16px + env(safe-area-inset-right));bottom:calc(16px + env(safe-area-inset-bottom));z-index:29;width:44px;height:44px;border:0;border-radius:22px;padding:0;cursor:pointer;'+
      'display:flex;align-items:center;justify-content:center;color:var(--label);background:var(--glass,var(--card));-webkit-backdrop-filter:blur(20px) saturate(180%);backdrop-filter:blur(20px) saturate(180%);'+
      'box-shadow:0 0 0 .5px var(--sep),0 4px 14px rgba(0,0,0,.10);opacity:0;transform:translateY(8px);pointer-events:none;transition:opacity .2s,transform .2s}'+
@@ -50,9 +51,8 @@
   var PF=decodeURIComponent(location.pathname.split('/').pop()||'').replace(/\.html$/,'.pdf');
   var PDFA=(window.RN_PDF&&/\.pdf$/.test(PF))?'<a class="rn-pdf" href="'+window.RN_PDF+encodeURIComponent(PF)+'" download="'+PF+'" aria-label="PDF로 받기" title="PDF로 받기">'+DL+'</a>':'';
   var bar=document.createElement('div'); bar.className='rn-bar';
-  bar.innerHTML='<a class="rn-home" href="index.html">'+BACK+'전체 과목</a><div class="rn-t"></div>'+
-    '<button class="rn-menu" type="button" aria-label="이 과목 목차"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>'+
-    PDFA+'<button class="rn-fb" type="button" aria-label="피드백">'+PEN+'</button><button class="rn-th" type="button"></button>';
+  bar.innerHTML='<button class="rn-menu" type="button" aria-label="이 과목 목차"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>'+
+    '<div class="rn-t"></div>';   // 오른쪽 = 가리기(rn-mask.js가 붙인다)
   var title=bar.querySelector('.rn-t'); title.textContent=SUBJ;
   document.body.insertBefore(bar, document.body.firstChild);
   
@@ -64,7 +64,7 @@
   sb.appendChild(sf);
   var fab=document.querySelector('.rn-fab'), tg=document.querySelector('.rn-tg');
   var fbs=[].slice.call(document.querySelectorAll('.rn-bar .rn-fb,.rn-sf .rn-fb')), ths=[].slice.call(document.querySelectorAll('.rn-bar .rn-th,.rn-sf .rn-th'));
-  fbs.forEach(function(b){ if(fab) b.onclick=function(){ fab.click(); }; else b.remove(); });
+  fbs.forEach(function(b){ if(fab) b.onclick=function(){ if(!wide()&&sb.classList.contains('open')) tb.click(); fab.click(); }; else b.remove(); });   // 좁은 화면 = 서랍 안 버튼이라 서랍을 닫고 연다
   function syncTh(){ ths.forEach(function(b){ b.innerHTML=tg.innerHTML; b.setAttribute('aria-label',tg.getAttribute('aria-label')||'테마'); }); }
   if(tg){ ths.forEach(function(b){ b.onclick=function(){ tg.click(); syncTh(); }; }); syncTh(); new MutationObserver(syncTh).observe(tg,{childList:true}); } else ths.forEach(function(b){ b.remove(); });
   bar.querySelector('.rn-menu').onclick=function(){ tb.click(); };
