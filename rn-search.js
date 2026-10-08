@@ -81,6 +81,10 @@
   });
 
   var HS=/ /g;
+  
+  function gcEv(p){ try{ var g=window.goatcounter; if(g&&g.count) g.count({path:String(p).slice(0,180), title:String(p).slice(0,180), event:true}); }catch(e){} }
+  var logged='', logT=0;
+  function logQ(q, none){ q=String(q||'').trim(); if(q.length<2||q===logged) return; logged=q; gcEv((none?'search-none/':'search/')+q.slice(0,40)); }
   function clean(s){ return String(s||'').replace(HS,''); }
   
   function tidy(h){ return clean(h).replace(/([(\[「『〈]) /g,'$1').replace(/ ([)\]」』〉,])/g,'$1').replace(/ · /g,'·').replace(/ (<\/mark>)([)\]」』〉,])/g,'$1$2'); }
@@ -118,6 +122,7 @@
       var LV={h2:0,h3:1,h4:2};
       ds=ds.map(function(d,i){ var h=th(d); return {d:d, k:h?0:1, l:h?(LV[d.meta.lv]!=null?LV[d.meta.lv]:3):0, i:i}; })
         .sort(function(a,b){ return a.k-b.k || a.l-b.l || a.i-b.i; }).map(function(x){ return x.d; }).slice(0,25);
+      clearTimeout(logT); logT=setTimeout(function(){ if(my===seq) logQ(q, !ds.length); }, 1500);
       if(!ds.length){ ls.innerHTML='<div class="rn-sx-n">찾는 말이 없어요</div>'; return; }
       ls.innerHTML='<div class="rn-sx-g">'+ds.map(function(d){
         var path=[here&&SUBJ?'':d.meta.subj, clean(d.meta.path)].filter(Boolean).join(' › ');
@@ -131,6 +136,7 @@
   function flash(id){ var el=document.getElementById(id); if(!el) return; el.classList.remove('rn-sx-hit'); void el.offsetWidth; el.classList.add('rn-sx-hit'); }
   ls.addEventListener('click', function(e){
     var a=e.target.closest('a'); if(!a) return; var u=new URL(a.getAttribute('href'), location.href), f=decodeURIComponent(u.pathname.split('/').pop()), id=decodeURIComponent(u.hash.slice(1));   
+    clearTimeout(logT); logQ(inp.value, false);
     try{ sessionStorage.setItem('rn_sx_hit', id); }catch(er){}
     if(f!==FILE) return;
     e.preventDefault(); close();
