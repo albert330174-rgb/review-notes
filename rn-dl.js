@@ -1,11 +1,13 @@
 
 (function(){
+  
+  function gcEv(p){ try{ var g=window.goatcounter; if(g&&g.count) g.count({path:String(p).slice(0,180), title:String(p).slice(0,180), event:true}); }catch(e){} }
   document.addEventListener('click', function(ev){
     var a = ev.target.closest && ev.target.closest('a.dl, a.rn-pdf, a.rn-pp');
     if (!a || ev.metaKey || ev.ctrlKey || ev.shiftKey || !window.fetch || !window.Blob || !URL.createObjectURL) return;
     ev.preventDefault();
     if (a._busy) return; a._busy = 1; a.style.opacity = '.4';
-    var name = a.getAttribute('download') || 'note.pdf';
+    var name = a.getAttribute('download') || 'note.pdf'; gcEv('pdf/' + name.replace(/\.pdf$/i, ''));
     fetch(a.href).then(function(r){ if (!r.ok) throw new Error(r.status); return r.blob(); }).then(function(b){
       
       var u = URL.createObjectURL(new Blob([b], {type: 'application/octet-stream'}));

@@ -260,7 +260,9 @@ function pick(p){ var lim=nCur()||undefined; if($('sW').checked) return shuffle(
     .sort(function(a,b){ return (rec[a.id][3]-rec[b.id][3]) || (rec[a.id][2]-rec[b.id][2]); });
   return fresh.concat(old).slice(0,lim); }
 function show(v){ ['vSet','vQ','vR'].forEach(function(x){ $(x).classList.toggle('qz-hide', x!==v); }); scrollTo(0,0); }
-function start(list){ run={list:list, i:0, res:[]}; $('qName').textContent=selN()?rangeText():'쪽지시험'; show('vQ'); paint(); }
+
+function gcEv(p){ try{ var g=window.goatcounter; if(g&&g.count) g.count({path:String(p).slice(0,180), title:String(p).slice(0,180), event:true}); }catch(e){} }
+function start(list, again){ if(!again) gcEv('quiz/start/'+(selN()?rangeText():'전체')); run={list:list, i:0, res:[]}; $('qName').textContent=selN()?rangeText():'쪽지시험'; show('vQ'); paint(); }
 $('bGo').onclick=function(){ start(pick(pool())); };
 function img(box, c, on){ box.innerHTML=''; (c.img||[]).forEach(function(m){ if(m.on!==on) return; var i=document.createElement('img'); i.className='qz-img'; i.src=m.p; i.alt='문제 그림'; i.loading='lazy'; box.appendChild(i); }); }
 var revealed=false;
@@ -284,12 +286,12 @@ function rate(ok){ if(!run||!revealed) return; var c=run.list[run.i], r=rec[c.id
 $('bShow').onclick=reveal; $('qCard').onclick=function(e){ if(e.target.closest('a,button')) return; reveal(); };
 $('bOk').onclick=function(){ rate(true); }; $('bNo').onclick=function(){ rate(false); };
 $('bQuit').onclick=function(){ if(run&&run.res.length) result(); else { run=null; show('vSet'); info(); } };
-function result(){ var done=run.res.length, ok=run.res.filter(Boolean).length, wr=run.list.slice(0,done).filter(function(c,i){ return !run.res[i]; });
+function result(){ if(!run.logged){ run.logged=1; gcEv('quiz/done'); } var done=run.res.length, ok=run.res.filter(Boolean).length, wr=run.list.slice(0,done).filter(function(c,i){ return !run.res[i]; });
   $('rScore').textContent=done+'문제 중 '+ok+'개 맞음'; $('rSub').textContent=wr.length?'틀린 문제는 노트에서 확인해 보세요':'다 맞았어요';
   $('bAgain').classList.toggle('qz-hide', !wr.length); run.wrong=wr;
   $('rWrong').innerHTML = wr.length ? '<h2>틀린 문제</h2><div class="qz-grp">'+wr.map(function(c){ return '<div class="qz-w"><div><p>'+esc(c.q)+'</p><p class="wa">'+esc(c.a)+'</p></div>'+(c.h?'<a class="qz-go" href="'+esc(c.h)+'" target="_blank" rel="noopener" aria-label="노트에서 보기" title="노트에서 보기">'+GO+'</a>':'')+'</div>'; }).join('')+'</div>' : '';
   show('vR'); }
-$('bAgain').onclick=function(){ start(shuffle(run.wrong.slice())); };
+$('bAgain').onclick=function(){ start(shuffle(run.wrong.slice()), true); };
 $('bNew').onclick=function(){ run=null; show('vSet'); info(); };
 var odd=null;
 $('bOdd').onclick=function(e){ e.stopPropagation(); odd=run.list[run.i]; $('shT').value=''; $('bShGo').disabled=false; $('bShGo').textContent='보내기'; $('shOk').classList.add('qz-hide'); $('sh').classList.add('on'); setTimeout(function(){ $('shT').focus(); },50); };
@@ -317,8 +319,8 @@ fetch('quiz-data.json?v=60adaffc').then(function(r){ return r.json(); }).then(fu
   var s0=QS.get('s'), t0=QS.get('t'); if(s0&&t0&&TOPS[s0]&&TOPS[s0].some(function(x){ return x.t===t0; })) keysOf(s0,t0).forEach(function(k){ sel[k]=1; });
   info();
   
-  var c0=QS.get('card'); if(c0&&BY[c0]){ start([BY[c0]]); $('qName').textContent='제보한 문제'; }
+  var c0=QS.get('card'); if(c0&&BY[c0]){ start([BY[c0]], true); $('qName').textContent='제보한 문제'; }
   }).catch(function(){ $('sInfo').textContent='문제를 불러오지 못했어요 — 새로고침해 주세요'; $('bGo').disabled=true; });
 })();
 </script>
-<script src="rn-theme.js?v=140188e2"></script><script src="rn-dl.js?v=2554a6de"></script></html>
+<script src="rn-theme.js?v=140188e2"></script><script src="rn-dl.js?v=c1e22fd8"></script></html>
