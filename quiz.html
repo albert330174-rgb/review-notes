@@ -272,6 +272,8 @@ function pick(p){ var lim=nCur()||p.length, g={}, ks=[];
     open.forEach(function(s){ var f=Math.min(Math.floor(share[s]), g[s].length-take[s]); take[s]+=f; given+=f; });
     var rest=left-given; open.slice().sort(function(a,b){ return (share[b]%1)-(share[a]%1); }).forEach(function(s){ if(rest>0 && take[s]<g[s].length){ take[s]++; rest--; } });
     left=lim-ks.reduce(function(a,s){ return a+take[s]; },0); open=open.filter(function(s){ return take[s]<g[s].length; }); if(left===prev) break; }
+  
+  if(lim>=ks.length) ks.forEach(function(s){ if(take[s]>0 || !g[s].length) return; var big=ks.reduce(function(a,x){ return take[x]>take[a]?x:a; }, ks[0]); if(take[big]>1){ take[big]--; take[s]=1; } });
   var out=[]; ks.forEach(function(s){ out=out.concat(order(g[s]).slice(0,take[s])); }); return shuffle(out); }
 function show(v){ ['vSet','vQ','vR'].forEach(function(x){ $(x).classList.toggle('qz-hide', x!==v); }); scrollTo(0,0); }
 
