@@ -315,7 +315,10 @@ fetch('quiz-data.json?v=ba0b8d3a').then(function(r){ return r.json(); }).then(fu
     var x=TOPS[c.s].filter(function(z){ return z.t===c.t; })[0]; if(!x){ x={t:c.t, n:0, ms:[]}; TOPS[c.s].push(x); } x.n++;
     var y=x.ms.filter(function(z){ return z.m===(c.m||''); })[0]; if(!y){ y={m:c.m||'', n:0}; x.ms.push(y); } y.n++; });
   var s0=QS.get('s'), t0=QS.get('t'); if(s0&&t0&&TOPS[s0]&&TOPS[s0].some(function(x){ return x.t===t0; })) keysOf(s0,t0).forEach(function(k){ sel[k]=1; });
-  info(); }).catch(function(){ $('sInfo').textContent='문제를 불러오지 못했어요 — 새로고침해 주세요'; $('bGo').disabled=true; });
+  info();
+  
+  var c0=QS.get('card'); if(c0&&BY[c0]){ start([BY[c0]]); $('qName').textContent='제보한 문제'; }
+  }).catch(function(){ $('sInfo').textContent='문제를 불러오지 못했어요 — 새로고침해 주세요'; $('bGo').disabled=true; });
 })();
 </script>
 <script src="rn-theme.js?v=140188e2"></script><script src="rn-dl.js?v=2554a6de"></script></html>
