@@ -105,7 +105,7 @@
       if(!ds.length){ ls.innerHTML='<div class="rn-sx-n">찾는 말이 없어요</div>'; return; }
       ls.innerHTML='<div class="rn-sx-g">'+ds.map(function(d){
         var path=[here&&SUBJ?'':d.meta.subj, clean(d.meta.path)].filter(Boolean).join(' › ');
-        return '<a href="'+esc(d.url.replace(/^\/+/,''))+'">'+(path?'<span class="rn-sx-p">'+esc(path)+'</span>':'')+
+        return '<a href="'+esc(d.url)+'">'+(path?'<span class="rn-sx-p">'+esc(path)+'</span>':'')+
           '<span class="rn-sx-t">'+esc(clean(d.meta.title))+'</span><span class="rn-sx-e">'+dropTitle(tidy(d.excerpt), tidy(d.meta.title))+'</span></a>'; }).join('')+'</div>';
       ls.scrollTop=0;
     }).catch(function(){ if(my===seq) ls.innerHTML='<div class="rn-sx-n">검색을 불러오지 못했어요</div>'; });
@@ -114,7 +114,7 @@
   
   function flash(id){ var el=document.getElementById(id); if(!el) return; el.classList.remove('rn-sx-hit'); void el.offsetWidth; el.classList.add('rn-sx-hit'); }
   ls.addEventListener('click', function(e){
-    var a=e.target.closest('a'); if(!a) return; var href=a.getAttribute('href'), k=href.indexOf('#'), f=decodeURIComponent(href.slice(0,k)), id=decodeURIComponent(href.slice(k+1));
+    var a=e.target.closest('a'); if(!a) return; var u=new URL(a.getAttribute('href'), location.href), f=decodeURIComponent(u.pathname.split('/').pop()), id=decodeURIComponent(u.hash.slice(1));   
     try{ sessionStorage.setItem('rn_sx_hit', id); }catch(er){}
     if(f!==FILE) return;
     e.preventDefault(); close();
