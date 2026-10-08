@@ -110,7 +110,7 @@ $('f').onsubmit=async ev=>{ ev.preventDefault(); if($('b').disabled) return;
   $('b').disabled=true; $('b').textContent='보내는 중…';
   const s=$('s').value, x=TOC[s]&&TOC[s][$('g').value], where=[x&&x[0], $('p').value].filter(Boolean).join(' > ');
   const body=new URLSearchParams(); body.append(E_SUBJ, s); body.append(E_TEXT, (where?'[위치] '+where+'\n':'')+'[내용] '+$('t').value.trim());
-  try{ await fetch(FORM, {method:'POST', mode:'no-cors', body}); $('f').style.display='none'; $('ok').style.display='block'; }
+  try{ await fetch(FORM, {method:'POST', mode:'no-cors', body}); try{var a=JSON.parse(localStorage.getItem('rn-fb-sent')||'[]');a.push({t:Date.now(),s:s});localStorage.setItem('rn-fb-sent',JSON.stringify(a.slice(-20)));}catch(e){} $('f').style.display='none'; $('ok').style.display='block'; }
   catch(e){ $('b').disabled=false; $('b').textContent='다시 보내기'; alert('보내지 못했어요'); } };
 </script>
 <script src="rn-theme.js?v=140188e2"></script><script src="rn-dl.js?v=c1e22fd8"></script></html>

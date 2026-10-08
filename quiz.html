@@ -318,7 +318,7 @@ var tip=function(btn,msg){ var t=document.querySelector('.rn-tip'); if(!t){ t=do
 $('bShGo').onclick=function(){ if(!odd||$('bShGo').disabled) return; var b=$('bShGo'); if(!$('shT').value.trim()){ tip(b,'어디가 이상한지 적어 주세요'); $('shT').focus(); return; } b.disabled=true; b.textContent='보내는 중…';
   var body=new URLSearchParams(); body.append(E_SUBJ, odd.sn);
   body.append(E_TEXT, '[카드] '+odd.id+'\n[위치] 쪽지시험 > '+odd.t+(odd.m?' > '+odd.m:'')+'\n[내용] '+$('shT').value.trim());
-  fetch(FORM,{method:'POST',mode:'no-cors',body:body}).then(function(){ b.disabled=false; b.textContent='보내기'; $('shT').value=''; $('shOk').classList.remove('qz-hide'); })
+  fetch(FORM,{method:'POST',mode:'no-cors',body:body}).then(function(){ try{var a=JSON.parse(localStorage.getItem('rn-fb-sent')||'[]');a.push({t:Date.now(),s:odd.sn});localStorage.setItem('rn-fb-sent',JSON.stringify(a.slice(-20)));}catch(e){} b.disabled=false; b.textContent='보내기'; $('shT').value=''; $('shOk').classList.remove('qz-hide'); })
     .catch(function(){ b.disabled=false; b.textContent='다시 보내기'; alert('보내지 못했어요'); }); };
 document.addEventListener('keydown', function(e){ if($('sh').classList.contains('on')||$('pk').classList.contains('on')){ if(e.key==='Escape'){ shut(); $('pk').classList.remove('on'); } return; }
   if($('vQ').classList.contains('qz-hide')||e.metaKey||e.ctrlKey||e.altKey) return;

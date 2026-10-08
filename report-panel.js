@@ -75,6 +75,6 @@
   send.onclick=function(){ if(send.disabled) return; if(!ta.value.trim()){ tip(send,'고칠 내용을 적어 주세요'); ta.focus(); return; } send.disabled=true; send.textContent='보내는 중…';
     var g=G[selG.value], where=[g&&g[0], selP.value].filter(Boolean).join(' > ');
     var body=new URLSearchParams(); body.append(E_SUBJ, SUBJ); body.append(E_TEXT, (where?'[위치] '+where+'\n':'')+'[내용] '+ta.value.trim());
-    fetch(FORM,{method:'POST',mode:'no-cors',body:body}).then(function(){ ta.value=''; send.disabled=false; send.textContent='보내기'; ok.style.display='block'; })
+    fetch(FORM,{method:'POST',mode:'no-cors',body:body}).then(function(){ try{var a=JSON.parse(localStorage.getItem('rn-fb-sent')||'[]');a.push({t:Date.now(),s:SUBJ});localStorage.setItem('rn-fb-sent',JSON.stringify(a.slice(-20)));}catch(e){} ta.value=''; send.disabled=false; send.textContent='보내기'; ok.style.display='block'; })
       .catch(function(){ send.disabled=false; send.textContent='다시 보내기'; alert('보내지 못했어요'); }); };
 })();
