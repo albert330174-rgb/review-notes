@@ -111,7 +111,13 @@
           var seen={}, out=[]; all.forEach(function(a){ a.forEach(function(d){ if(!seen[d.url]){ seen[d.url]=1; out.push(d); } }); }); return out; }); });
     }).then(function(ds){
       if(my!==seq) return;
-      ds=ds.slice(0,25);
+      
+      var qn=norm(q.replace(/\s+/g,'')), terms=q.split(/\s+/).map(norm).filter(Boolean);
+      function th(d){ var t=clean(d.meta.title), ws=t.split(/[\s·/,()\[\]:;「」]+/).map(norm).filter(Boolean);
+        return terms.every(function(x){ return ws.some(function(w){ return w.indexOf(x)===0; }); }) || norm(t).indexOf(qn)>=0; }
+      var LV={h2:0,h3:1,h4:2};
+      ds=ds.map(function(d,i){ var h=th(d); return {d:d, k:h?0:1, l:h?(LV[d.meta.lv]!=null?LV[d.meta.lv]:3):0, i:i}; })
+        .sort(function(a,b){ return a.k-b.k || a.l-b.l || a.i-b.i; }).map(function(x){ return x.d; }).slice(0,25);
       if(!ds.length){ ls.innerHTML='<div class="rn-sx-n">찾는 말이 없어요</div>'; return; }
       ls.innerHTML='<div class="rn-sx-g">'+ds.map(function(d){
         var path=[here&&SUBJ?'':d.meta.subj, clean(d.meta.path)].filter(Boolean).join(' › ');
