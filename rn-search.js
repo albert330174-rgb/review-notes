@@ -94,14 +94,24 @@
     return terms.every(function(t){ return ms.some(function(x){ return x.indexOf(t)===0; }); }); }
   var seq=0, tm=0;
   inp.addEventListener('input', function(){ clr.classList.toggle('on', !!inp.value); clearTimeout(tm); tm=setTimeout(run, 140); });
+  
+  function variants(q){ var v=[]; if(/\s/.test(q)) v.push(q.replace(/\s+/g,''));
+    else if(q.length>=3 && q.length<=12) for(var i=1;i<q.length;i++) v.push(q.slice(0,i)+' '+q.slice(i));
+    return v; }
+  function find(p, q){
+    return p.search(q, here&&SUBJ?{filters:{subj:SUBJ}}:{}).then(function(r){ return Promise.all(r.results.slice(0,40).map(function(x){ return x.data(); })); })
+      .then(function(ds){ var terms=q.split(/\s+/).map(norm).filter(Boolean);
+        return ds.filter(function(d){ return hits(d.excerpt, terms) || hits('<mark>'+(d.meta.title||'')+'</mark>', terms); }); }); }
   function run(){
     var q=inp.value.trim(), my=++seq; if(!q){ ls.innerHTML=''; return; }
     load().then(function(p){
-      return p.search(q, here&&SUBJ?{filters:{subj:SUBJ}}:{}).then(function(r){ return Promise.all(r.results.slice(0,40).map(function(x){ return x.data(); })); });
+      return find(p, q).then(function(ds){
+        if(ds.length) return ds;
+        return Promise.all(variants(q).map(function(v){ return find(p, v); })).then(function(all){
+          var seen={}, out=[]; all.forEach(function(a){ a.forEach(function(d){ if(!seen[d.url]){ seen[d.url]=1; out.push(d); } }); }); return out; }); });
     }).then(function(ds){
       if(my!==seq) return;
-      var terms=q.split(/\s+/).map(norm).filter(Boolean);
-      ds=ds.filter(function(d){ return hits(d.excerpt, terms) || hits('<mark>'+(d.meta.title||'')+'</mark>', terms); }).slice(0,25);
+      ds=ds.slice(0,25);
       if(!ds.length){ ls.innerHTML='<div class="rn-sx-n">찾는 말이 없어요</div>'; return; }
       ls.innerHTML='<div class="rn-sx-g">'+ds.map(function(d){
         var path=[here&&SUBJ?'':d.meta.subj, clean(d.meta.path)].filter(Boolean).join(' › ');
