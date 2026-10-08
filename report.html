@@ -80,6 +80,7 @@ const TOC={"국어": [["기초 문식성", ["낱자와 음소", "글자와 음�
 const FORM='https://docs.google.com/forms/d/e/1FAIpQLSfz6jnwKa5X7m2UGdgl0CS1w878pH9G4IJCBow2QKHcaJN0Yg/formResponse', E_SUBJ='entry.1832714038', E_TEXT='entry.524873215';
 const $=id=>document.getElementById(id);
 const opt=(v,l)=>{ const o=document.createElement('option'); o.value=v; o.textContent=l; return o; };
+$('s').appendChild(opt('일반','일반'));   // 일반 피드백(10-08) — 폼 「과목」 선택지에 「일반」 추가함 · 단원·절 없음
 Object.keys(TOC).forEach(s=>$('s').appendChild(opt(s,s)));
 function fillG(){ const g=$('g'), p=$('p'); g.length=1; p.length=1; p.disabled=true; const s=TOC[$('s').value];
   g.disabled=!s; if(s) s.forEach((x,i)=>g.appendChild(opt(i,x[0]))); check(); }

@@ -255,10 +255,24 @@ $('pkNo').onclick=function(){ $('pk').classList.remove('on'); };
 $('pkOk').onclick=function(){ sel=pkSel; $('pk').classList.remove('on'); info(); };
 $('pk').onclick=function(e){ if(e.target===$('pk')) $('pk').classList.remove('on'); };
 function shuffle(a){ for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)), t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
-function pick(p){ var lim=nCur()||undefined; if($('sW').checked) return shuffle(p.slice()).slice(0,lim);
+function order(p){ if($('sW').checked) return shuffle(p.slice());
   var fresh=shuffle(p.filter(function(c){ return !rec[c.id]; })), old=p.filter(function(c){ return rec[c.id]; })
     .sort(function(a,b){ return (rec[a.id][3]-rec[b.id][3]) || (rec[a.id][2]-rec[b.id][2]); });
-  return fresh.concat(old).slice(0,lim); }
+  return fresh.concat(old); }
+
+var EXAM_W={'국어':11,'수학':11,'사회':9,'과학':9,'체육':8,'영어':7,'음악':5,'미술':5,'실과':5,'도덕':5,'통합교과':3,'총창':2};
+function pick(p){ var lim=nCur()||p.length, g={}, ks=[];
+  p.forEach(function(c){ if(!g[c.s]){ g[c.s]=[]; ks.push(c.s); } g[c.s].push(c); });
+  if(ks.length<2 || lim>=p.length) return order(p).slice(0,lim);
+  var w={}, tot={}, inS={}; D.forEach(function(c){ tot[c.s]=(tot[c.s]||0)+1; if(inSel(c)) inS[c.s]=(inS[c.s]||0)+1; });
+  ks.forEach(function(s){ w[s]=(EXAM_W[sname(s)]||3)*((inS[s]||0)/(tot[s]||1)); });
+  var take={}, left=lim, open=ks.slice(); ks.forEach(function(s){ take[s]=0; });
+  while(left>0 && open.length){ var prev=left, W=open.reduce(function(a,s){ return a+w[s]; },0)||open.length, share={}, given=0;
+    open.forEach(function(s){ share[s]=left*(W?w[s]/W:1/open.length); });
+    open.forEach(function(s){ var f=Math.min(Math.floor(share[s]), g[s].length-take[s]); take[s]+=f; given+=f; });
+    var rest=left-given; open.slice().sort(function(a,b){ return (share[b]%1)-(share[a]%1); }).forEach(function(s){ if(rest>0 && take[s]<g[s].length){ take[s]++; rest--; } });
+    left=lim-ks.reduce(function(a,s){ return a+take[s]; },0); open=open.filter(function(s){ return take[s]<g[s].length; }); if(left===prev) break; }
+  var out=[]; ks.forEach(function(s){ out=out.concat(order(g[s]).slice(0,take[s])); }); return shuffle(out); }
 function show(v){ ['vSet','vQ','vR'].forEach(function(x){ $(x).classList.toggle('qz-hide', x!==v); }); scrollTo(0,0); }
 
 function gcEv(p){ try{ var g=window.goatcounter; if(g&&g.count) g.count({path:String(p).slice(0,180), title:String(p).slice(0,180), event:true}); }catch(e){} }
