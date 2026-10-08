@@ -310,7 +310,7 @@ var QS=new URLSearchParams(location.search), FROM=QS.get('from'), NOTE=(QS.get('
 function backTo(a){ if(!NOTE) return; a.href=NOTE; a.lastChild.textContent='노트'; }
 if(NOTE){ backTo($('bBack1')); backTo($('bBack2')); $('bNote').href=NOTE; $('bNote').classList.remove('qz-hide'); }
 load();
-fetch('quiz-data.json?v=988af408').then(function(r){ return r.json(); }).then(function(j){ D=j.cards||[];
+fetch('quiz-data.json?v=f825181b').then(function(r){ return r.json(); }).then(function(j){ D=j.cards||[];
   D.forEach(function(c){ BY[c.id]=c; if(!TOPS[c.s]){ TOPS[c.s]=[]; SUBJ.push(c.s); }
     var x=TOPS[c.s].filter(function(z){ return z.t===c.t; })[0]; if(!x){ x={t:c.t, n:0, ms:[]}; TOPS[c.s].push(x); } x.n++;
     var y=x.ms.filter(function(z){ return z.m===(c.m||''); })[0]; if(!y){ y={m:c.m||'', n:0}; x.ms.push(y); } y.n++; });
