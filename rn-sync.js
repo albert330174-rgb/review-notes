@@ -6,6 +6,21 @@
   function sySave(){ try{ if(sy) localStorage.setItem(SYK, JSON.stringify(sy)); else localStorage.removeItem(SYK); }catch(e){} }
   function getRec(){ try{ return JSON.parse(localStorage.getItem(KEY)||'{}')||{}; }catch(e){ return {}; } }
   function putRec(r){ try{ localStorage.setItem(KEY, JSON.stringify(r)); }catch(e){} }
+  var FKEEP=60*864e5;   
+  function lsJ(k, v){ try{ return JSON.parse(localStorage.getItem(k)||'null')||v; }catch(e){ return v; } }
+  function lsP(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
+  function fbMerge(F, up){ var now=Date.now(), sent=lsJ('rn-fb-sent',[]).filter(function(x){ return x&&x.t&&x.s&&now-x.t<FKEEP; }), gone=lsJ('rn-fb-gone',[]).filter(function(t){ return now-t<FKEEP; }), ch=false;
+    var have={}; sent.forEach(function(x){ have[x.t]=x; });
+    Object.keys(F||{}).forEach(function(t){ var v=F[t], n=+t; if(!(now-n<FKEEP)) return;
+      if(v===''){ if(gone.indexOf(n)<0){ gone.push(n); ch=true; } if(have[n]){ sent=sent.filter(function(x){ return x.t!==n; }); delete have[n]; ch=true; } }
+      else if(!have[n] && gone.indexOf(n)<0){ have[n]={t:n, s:String(v).slice(0,20)}; sent.push(have[n]); ch=true; } });
+    sent.forEach(function(x){ if(!F || F[x.t]==null) up['f/'+x.t]=String(x.s).slice(0,20); });
+    gone.forEach(function(t){ if(!F || F[t]!=='') up['f/'+t]=''; });
+    if(ch){ sent.sort(function(a,b){ return a.t-b.t; }); lsP('rn-fb-sent', sent.slice(-200)); lsP('rn-fb-gone', gone); }
+    return ch; }
+  function idMerge(rid, up){ var mine=null; try{ mine=localStorage.getItem('rn-fb-id'); }catch(e){}
+    if(rid && /^[A-Z2-9]{4}$/.test(rid)){ if(rid!==mine){ try{ localStorage.setItem('rn-fb-id', rid); }catch(e){} return true; } }
+    else if(mine && /^[A-Z2-9]{4}$/.test(mine)) up.id=mine; return false; }
   function enc(r){ return r.join(','); }
   function dec(s){ var a=String(s||'').split(',').map(Number); return a.length===4&&a.every(function(x){ return isFinite(x); })?a:null; }
   function norm(s){ return String(s||'').toUpperCase().replace(/[^A-Z0-9]/g,''); }
@@ -22,12 +37,13 @@
       Object.keys(rec).forEach(function(k){ if(!rec[k]||rec[k][2]<=clr){ delete rec[k]; ch=true; } });
       Object.keys(R).forEach(function(k){ var x=dec(R[k]); if(!x||x[2]<=clr) return; if(!rec[k]||rec[k][2]<x[2]){ rec[k]=x; ch=true; } });
       Object.keys(rec).forEach(function(k){ var x=R[k]&&dec(R[k]); if(!x||x[2]<rec[k][2]) up['r/'+k]=enc(rec[k]); });
+      if(fbMerge(d.f, up)) ch=true; if(idMerge(d.id, up)) ch=true;
       sy.clr=clr; if(ch) putRec(rec); return push(up).then(function(){ if(ch) changed(); return ch; }); }); }
   var pend={}, pt=0;
   function mark(id){ if(!sy) return; pend[id]=1; clearTimeout(pt); pt=setTimeout(function(){ var rec=getRec(), up={}; Object.keys(pend).forEach(function(k){ if(rec[k]) up['r/'+k]=enc(rec[k]); }); pend={}; push(up).catch(function(){}); }, 2000); }
   function clear(){ putRec({}); if(sy){ sy.clr=Date.now(); sySave(); push({}).catch(function(){}); } }
   function sync(){ if(sy) pull().catch(function(){}); }
-  window.RNSync={ on:function(){ return !!sy; }, mark:mark, clear:clear, pull:function(){ return sy?pull().catch(function(){ return false; }):Promise.resolve(false); }, onChange:function(f){ cbs.push(f); } };
+  window.RNSync={ on:function(){ return !!sy; }, fbGone:function(t){ var g=lsJ('rn-fb-gone',[]); if(g.indexOf(t)<0){ g.push(t); lsP('rn-fb-gone', g); } if(sy) push({['f/'+t]:''}).catch(function(){}); }, mark:mark, clear:clear, pull:function(){ return sy?pull().catch(function(){ return false; }):Promise.resolve(false); }, onChange:function(f){ cbs.push(f); } };
   document.addEventListener('visibilitychange', function(){ if(document.visibilityState==='visible') sync(); });
   paintRow();
 
@@ -75,7 +91,7 @@
   $('rnsCode').addEventListener('keydown', function(e){ if(e.key==='Enter'&&!e.isComposing) $('rnsGo').click(); });
   $('rnsLinkGo').onclick=function(){ connect(this.dataset.k, this); };
   $('rnsFirst').onclick=function(){ var b=this, c='ABCDEFGHJKLMNPQRSTUVWXYZ23456789', a=new Uint32Array(12), k=''; crypto.getRandomValues(a); for(var i=0;i<12;i++) k+=c[a[i]%c.length];
-    b.disabled=true; sy={code:k}; var rec=getRec(), up={}; Object.keys(rec).forEach(function(id){ up['r/'+id]=enc(rec[id]); });
+    b.disabled=true; sy={code:k}; var rec=getRec(), up={}; Object.keys(rec).forEach(function(id){ up['r/'+id]=enc(rec[id]); }); fbMerge(null, up); idMerge(null, up);
     push(up).then(function(){ sySave(); must=true; view(); paintRow(); }).catch(function(){ sy=null; err('연결하지 못했어요. 잠시 뒤 다시 해 주세요.'); }).then(function(){ b.disabled=false; }); };
   $('rnsDone').onclick=function(){ must=false; view(); };
   $('rnsShare').onclick=function(){ var b=this, u=linkUrl(); $('rnsDone').disabled=false;

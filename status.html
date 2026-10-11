@@ -65,7 +65,7 @@ body{margin:0;background:var(--bg);color:var(--label);}
   <a class="back" href="index.html"><svg viewBox="0 0 10 17" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 1.5 1.5 8.5l7 7"/></svg>목차</a>
   <h1>처리 현황</h1>
   <p class="fs-lead">보낸 시각으로 찾아보세요</p>
-  <section class="fs-mine" hidden><h2 class="fs-h">이 기기에서 보낸 제보<span class="fs-id" hidden></span></h2><div class="fs-grp"></div></section>
+  <section class="fs-mine" hidden><h2 class="fs-h"><span class="fs-mt">이 기기에서 보낸 제보</span><span class="fs-id" hidden></span></h2><div class="fs-grp"></div></section>
   <div class="fs-seg" hidden><button type="button" data-v="open">진행 중<span></span></button><button type="button" data-v="done">완료<span></span></button></div>
   <div class="fs-grp fs-list">
     <details class="fs-row" data-k="국어|2026-10-11T16:51"><summary><div class="fs-w"><span class="fs-t">10월 11일 오후 4:51</span><span class="fs-s">국어 · 32분 만에 반영</span></div><span class="fs-chip fs-fixed">반영</span><svg class="fs-cv" viewBox="0 0 8 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l6 6-6 6"/></svg></summary><div class="fs-x"><div><p class="fs-g">문법 &gt; 문장 · 묶음 표시가 기능까지 덮음</p><p class="fs-g fs-why">묶음 괄호가 위 항목 이름까지 덮던 것 고침</p></div><a class="fs-go" href="1.%EA%B5%AD%EC%96%B4.html#%EB%AC%B8%EB%B2%95_-_%EB%AC%B8%EC%9E%A5" aria-label="노트에서 그 절 보기" title="노트에서 그 절 보기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6M20 4l-9 9M18 14v4.5a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 4 18.5v-11A1.5 1.5 0 0 1 5.5 6H10"/></svg></a></div></details>
@@ -129,13 +129,14 @@ body{margin:0;background:var(--bg);color:var(--label);}
     var g=mineBox.querySelector('.fs-grp'); g.innerHTML='';
     rows.forEach(function(r){ var k=r.dataset.k?key(r):r._k; var m=k && sent.filter(function(x){ return same(x,k); })[0]; if(m){ var c=r.cloneNode(true); c.classList.remove('hid');
       var x=document.createElement('button'); x.type='button'; x.className='fs-del'; x.setAttribute('aria-label','이 기기 목록에서 지우기'); x.title='지우기'; x.innerHTML=XI;   
-      x.addEventListener('click',function(ev){ ev.preventDefault(); ev.stopPropagation(); sent=sent.filter(function(y){ return y!==m; }); try{ localStorage.setItem('rn-fb-sent', JSON.stringify(sent)); }catch(e){} render(); });
+      x.addEventListener('click',function(ev){ ev.preventDefault(); ev.stopPropagation(); sent=sent.filter(function(y){ return y!==m; }); try{ localStorage.setItem('rn-fb-sent', JSON.stringify(sent)); }catch(e){} if(window.RNSync) RNSync.fbGone(m.t); render(); });
       (c.querySelector('summary')||c.querySelector('.fs-sum')).insertBefore(x, (c.querySelector('summary')||c.querySelector('.fs-sum')).firstChild); g.appendChild(c); } });
     mineBox.hidden=!g.children.length;
   }
   seg.addEventListener('click',function(ev){ var b=ev.target.closest('button'); if(!b) return; tab=b.dataset.v; shown=PAGE; render(); });
   more.addEventListener('click',function(){ shown+=PAGE; render(); });
-  function draw(pend){
+  var lastPend=[];
+  function draw(pend){ lastPend=pend;
     var all=pend.slice(); sent.forEach(function(m){ if(now-m.t<PEND_KEEP && !all.some(function(p){ return same(p,m); })) all.push(m); });
     all=all.filter(function(p){ return !have.some(function(h){ return same(h,p); }); }).sort(function(a,b){ return b.t-a.t; });
     [].forEach.call(L.querySelectorAll('.fs-pend'),function(r){ r.remove(); });
@@ -146,6 +147,9 @@ body{margin:0;background:var(--bg);color:var(--label);}
     render();
   }
   draw([]);
+  
+  addEventListener('load', function(){ if(!window.RNSync) return; function mt(){ var t=mineBox.querySelector('.fs-mt'); if(t) t.textContent=RNSync.on()?'내가 보낸 제보':'이 기기에서 보낸 제보'; } mt();
+    function upd(){ try{ sent=JSON.parse(localStorage.getItem('rn-fb-sent')||'[]').filter(function(x){ return x&&x.s&&now-x.t<MINE_KEEP; }); var fi=document.querySelector('.fs-id'), id=localStorage.getItem('rn-fb-id'); if(fi&&id){ fi.textContent='#'+id; fi.hidden=false; } }catch(e){} mt(); draw(lastPend); } RNSync.onChange(upd); upd(); });
   var U='https://docs.google.com/spreadsheets/d/e/2PACX-1vTgYCftZOObbxcZS6GW8t19CDikJvKT9IRlrCDyX3yTvwHOultBYoE9sZ9HmKJ-qF9Sw5QaHpL8ZWx4/pub?gid=21&single=true&output=csv'; if(!U) return;
   fetch(U,{cache:'no-store'}).then(function(r){ return r.ok?r.text():''; }).then(function(t){
     draw(t.split(/\r?\n/).slice(1).map(function(l){ var m=l.match(/^(\d{4})-(\d\d)-(\d\d) (\d\d):(\d\d),(.+)$/);
@@ -153,4 +157,4 @@ body{margin:0;background:var(--bg);color:var(--label);}
   }).catch(function(){});
 })();
 </script>
-<script src="rn-theme.js?v=140188e2"></script><script src="rn-dl.js?v=c1e22fd8"></script></html>
+<script src="rn-theme.js?v=140188e2"></script><script src="rn-dl.js?v=c1e22fd8"></script><script src="rn-sync.js?v=8386b041"></script></html>
