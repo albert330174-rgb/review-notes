@@ -1,5 +1,44 @@
 
 (function(){
+  var on=/[?&]dbg=1/.test(location.search);
+  try{ if(/[?&]dbg=0/.test(location.search)){ sessionStorage.removeItem('rn_dbg'); return; } if(on) sessionStorage.setItem('rn_dbg','1'); else on=sessionStorage.getItem('rn_dbg')==='1'; }catch(e){}
+  if(!on) return;
+  var box=document.createElement('div');
+  box.style.cssText='position:fixed;left:6px;bottom:6px;z-index:2147483647;max-width:min(94vw,560px);font:11px/1.35 ui-monospace,Menlo,monospace;background:rgba(0,0,0,.85);color:#7CFC00;padding:6px 8px;border-radius:8px;white-space:pre-wrap;word-break:break-all;pointer-events:none;max-height:48vh;overflow:hidden';
+  document.body.appendChild(box);
+  var L=[], t0=Date.now();
+  function log(s){ L.push(((Date.now()-t0)/1000).toFixed(1)+' '+s); if(L.length>16) L.shift(); box.textContent=L.join('\n'); }
+  function where(){ var st=String(new Error().stack||'').split(String.fromCharCode(10)).slice(3), out=[];
+    for(var i=0;i<st.length&&out.length<2;i++){ var m=st[i].match(/([\w.%-]+\.(?:js|html))(?:\?[^:]*)?:(\d+)/); if(m) out.push(decodeURIComponent(m[1]).replace(/\.js$/,'')+':'+m[2]); }
+    return out.join('<')||'?'; }
+  var lastProg=0, lastS='';
+  function wrap(o,k,name,quiet){ var f=o&&o[k]; if(typeof f!=='function') return;
+    o[k]=function(){ lastProg=Date.now(); lastS=name+'@'+where(); if(!quiet) log('▶ '+lastS+' '+JSON.stringify([].slice.call(arguments)).slice(0,50)); return f.apply(this,arguments); }; }
+  wrap(window,'scrollTo','scrollTo'); wrap(window,'scroll','scroll'); wrap(window,'scrollBy','scrollBy');
+  wrap(Element.prototype,'scrollIntoView','intoView'); wrap(HTMLElement.prototype,'focus','focus');
+  wrap(history,'pushState','push'); wrap(history,'replaceState','replace',true);
+  try{ var se=document.scrollingElement||document.documentElement, d=Object.getOwnPropertyDescriptor(Element.prototype,'scrollTop');
+    Object.defineProperty(se,'scrollTop',{configurable:true, get:function(){ return d.get.call(this); }, set:function(v){ lastProg=Date.now(); lastS='scrollTop@'+where(); log('▶ '+lastS+' '+v); d.set.call(this,v); }}); }catch(e){}
+  var touching=false, tEnd=0;
+  addEventListener('touchstart',function(){ touching=true; },{passive:true,capture:true});
+  addEventListener('touchend',function(){ touching=false; tEnd=Date.now(); },{passive:true,capture:true});
+  addEventListener('touchcancel',function(){ touching=false; tEnd=Date.now(); },{passive:true,capture:true});
+  function topText(){ var e=document.elementFromPoint(innerWidth/2, Math.min(innerHeight-1,140)); return e?(e.textContent||'').replace(/\s+/g,' ').trim().slice(0,14):'-'; }
+  var py=scrollY, ph=document.documentElement.scrollHeight;
+  (function tick(){ var y=scrollY, h=document.documentElement.scrollHeight;
+    if(Math.abs(y-py)>1200) log('⚡ '+Math.round(py)+'→'+Math.round(y)+(touching?' 손가락':' 뗀지 '+(Date.now()-tEnd)+'ms')+' · 코드 '+(lastProg?(Date.now()-lastProg)+'ms전 '+lastS:'없음')+' · 길이 '+ph+'→'+h+' · 높이 '+innerHeight+' · #'+decodeURIComponent(location.hash.slice(1)).slice(0,16)+' · '+topText());
+    else if(Math.abs(h-ph)>800) log('↕ 길이 '+ph+'→'+h+' y '+Math.round(y));
+    py=y; ph=h; requestAnimationFrame(tick); })();
+  var rw=innerWidth, rh=innerHeight;
+  addEventListener('resize',function(){ if(innerWidth!==rw) log('◻ 폭 '+rw+'→'+innerWidth); rw=innerWidth; rh=innerHeight; });
+  addEventListener('hashchange',function(){ log('# '+decodeURIComponent(location.hash).slice(0,24)); });
+  addEventListener('popstate',function(){ log('◀ popstate'); });
+  addEventListener('pageshow',function(e){ log('pageshow'+(e.persisted?' 캐시':'')); });
+  document.addEventListener('focusin',function(e){ var t=e.target; log('◎ 초점 '+t.tagName+'.'+String(t.className||'').slice(0,20)); });
+  log('진단 켜짐 · '+innerWidth+'×'+innerHeight+' · y '+Math.round(scrollY));
+})();
+
+(function(){
   var sb=document.querySelector('.sidebar'), tb=document.querySelector('.tocbtn'), main=document.querySelector('main.wrap'); if(!sb||!tb||!main) return;
   var h1=main.querySelector('h1'), SUBJ=h1?h1.textContent.trim().replace(/^\d+\./,''):document.title;
   var PEN='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>';
