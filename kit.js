@@ -214,19 +214,7 @@
     var w=document.createElement('span'); w.className='bracew'; sv.parentNode.insertBefore(w, sv); w.appendChild(sv);    
   });
    
-  function braceFrom(){
-    document.querySelectorAll('main.wrap .converge > .bracew').forEach(function(w){
-      w.style.marginTop=''; w.style.height=''; w.style.alignSelf='';
-      var left=w.previousElementSibling; if(!left) return;
-      var ms=left.querySelector('[data-b="s"],[data-b="se"]'), me=left.querySelector('[data-b="e"],[data-b="se"]'); if(!ms||!me) return;
-      var lb=left.getBoundingClientRect(), a=ms.getBoundingClientRect(), b=me.getBoundingClientRect();
-      if(a.top-lb.top<4) return;
-      var cb=w.parentElement.getBoundingClientRect();
-      w.style.alignSelf='flex-start'; w.style.marginTop=(a.top-cb.top).toFixed(1)+'px'; w.style.height=(b.bottom-a.top).toFixed(1)+'px';
-    });
-  }
-  braceFrom(); window.addEventListener('load', braceFrom); if(document.fonts&&document.fonts.ready) document.fonts.ready.then(braceFrom);
-  var _bf; window.addEventListener('resize', function(){ clearTimeout(_bf); _bf=setTimeout(braceFrom,200); });
+  /* 10-12 braceFrom(괄호를 첫 항목부터로 재서 옮기기) 걷음 — 목차 이동 뒤 resize 에서 국어 「국어의 계열」 괄호에 margin-top 7692px 를 박아 본문이 7,600px 밀렸다(아이패드 1210 · 목차 이동·튕김·빈칸). 재고 옮기는 JS 금지 · 머리줄 덮임은 마크업/CSS 로 */
    
   document.querySelectorAll('main.wrap .cols').forEach(function(cl){
     var bare=[].filter.call(cl.querySelectorAll(':scope > .stack > .row'), function(r){
