@@ -213,9 +213,7 @@
     var st=sv.previousElementSibling; if(st && st.classList.contains('stack')) [].forEach.call(st.children, function(k){ if(k.textContent.trim().length<=14) k.classList.add('nw'); });    
     var w=document.createElement('span'); w.className='bracew'; sv.parentNode.insertBefore(w, sv); w.appendChild(sv);    
   });
-   
-  /* 10-12 braceFrom(괄호를 첫 항목부터로 재서 옮기기) 걷음 — 목차 이동 뒤 resize 에서 국어 「국어의 계열」 괄호에 margin-top 7692px 를 박아 본문이 7,600px 밀렸다(아이패드 1210 · 목차 이동·튕김·빈칸). 재고 옮기는 JS 금지 · 머리줄 덮임은 마크업/CSS 로 */
-   
+
   document.querySelectorAll('main.wrap .cols').forEach(function(cl){
     var bare=[].filter.call(cl.querySelectorAll(':scope > .stack > .row'), function(r){
       if([].some.call(r.childNodes, function(n){ return n.nodeType===3 ? n.textContent.trim() : !(n.classList.contains('num') || n.classList.contains('term')); })) return false;
