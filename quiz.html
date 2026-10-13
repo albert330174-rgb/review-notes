@@ -36,10 +36,10 @@ button.qz-row{cursor:pointer;} button.qz-row:active{background:var(--q-fill);}
 .qz-seg button{border:0;background:transparent;font-size:15px;min-width:48px;height:32px;border-radius:7px;cursor:pointer;}
 .qz-seg button.on{background:var(--q-card);box-shadow:0 1px 3px rgba(0,0,0,.12),0 0 0 .5px rgba(0,0,0,.04);font-weight:600;}
 
-.qz-nv{margin-left:auto;display:flex;align-items:baseline;font-variant-numeric:tabular-nums;color:var(--q-label);cursor:text;}
+.qz-nv{margin-left:auto;display:flex;align-items:center;font-variant-numeric:tabular-nums;color:var(--q-label);cursor:text;}
 
-.qz-nv input{box-sizing:content-box;width:3ch;margin:0 2px 0 0;padding:1px 4px;border:0;border-radius:6px;background:none;font:inherit;font-size:17px;color:var(--q-acc);text-align:right;font-variant-numeric:tabular-nums;-webkit-appearance:none;appearance:none;}
-.qz-nv input:focus{outline:none;background:var(--q-fill);} .qz-nv input::placeholder{color:var(--q-ter);opacity:1;}.qz-nv input:disabled{color:var(--q-ter);-webkit-text-fill-color:var(--q-ter);opacity:1;}
+.qz-nv input{box-sizing:content-box;width:3ch;height:32px;margin:0 6px 0 0;padding:0 10px;border:0;border-radius:9px;background:var(--q-fill);line-height:32px;font:inherit;font-size:17px;color:var(--q-acc);text-align:right;font-variant-numeric:tabular-nums;-webkit-appearance:none;appearance:none;}
+.qz-nv input:focus{outline:none;box-shadow:0 0 0 2px var(--q-acc);} .qz-nv input::placeholder{color:var(--q-ter);opacity:1;}.qz-nv input:disabled{color:var(--q-ter);-webkit-text-fill-color:var(--q-ter);opacity:1;}
 .qz-nv [hidden]{display:none;}
 .qz-step{display:inline-flex;align-items:center;background:var(--q-fill);border-radius:9px;height:32px;flex:0 0 auto;}
 .qz-step button{width:46px;height:32px;border:0;background:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--q-label);border-radius:9px;}
@@ -148,7 +148,7 @@ button.qz-row{cursor:pointer;} button.qz-row:active{background:var(--q-fill);}
   <p class="qz-lead">노트 내용으로 만든 문제예요. 정답을 보고 스스로 채점해요.</p>
   <div class="qz-grp">
     <button class="qz-row" type="button" id="bRange"><span class="qk">범위</span><span class="v" id="sRange"></span><svg class="qz-cv" viewBox="0 0 8 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1 1l6 6-6 6"/></svg></button>
-    <div class="qz-row"><span class="qk">문항 수</span><label class="qz-nv" id="sNv"><span id="sNa">전부&nbsp;</span><input id="sNi" type="text" inputmode="numeric" pattern="[0-9]*" enterkeyhint="done" autocomplete="off" aria-label="문항 수"><span id="sNu">문제</span></label><span class="qz-step"><button type="button" id="sNm" aria-label="줄이기"><svg viewBox="0 0 16 16"><path d="M3.5 8h9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button><i></i><button type="button" id="sNp" aria-label="늘리기"><svg viewBox="0 0 16 16"><path d="M3.5 8h9M8 3.5v9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button></span></div>
+    <div class="qz-row"><span class="qk">문항 수</span><label class="qz-nv" id="sNv"><span id="sNa">전부&nbsp;&nbsp;</span><input id="sNi" type="text" inputmode="numeric" pattern="[0-9]*" enterkeyhint="done" autocomplete="off" aria-label="문항 수"><span id="sNu">문제</span></label><span class="qz-step"><button type="button" id="sNm" aria-label="줄이기"><svg viewBox="0 0 16 16"><path d="M3.5 8h9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button><i></i><button type="button" id="sNp" aria-label="늘리기"><svg viewBox="0 0 16 16"><path d="M3.5 8h9M8 3.5v9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button></span></div>
     <div class="qz-row"><label class="qk" for="sW">틀린 문제만</label><input type="checkbox" class="qz-sw" id="sW" role="switch"></div>
     <div class="qz-row"><label class="qk" for="sWr">써 보기</label><input type="checkbox" class="qz-sw" id="sWr" role="switch"></div>
   </div>
