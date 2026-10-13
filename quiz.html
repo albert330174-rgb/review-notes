@@ -35,6 +35,7 @@ button.qz-row{cursor:pointer;} button.qz-row:active{background:var(--q-fill);}
 .qz-seg{display:inline-flex;background:var(--q-fill);border-radius:9px;padding:2px;margin-left:auto;}
 .qz-seg button{border:0;background:transparent;font-size:15px;min-width:48px;height:32px;border-radius:7px;cursor:pointer;}
 .qz-seg button.on{background:var(--q-card);box-shadow:0 1px 3px rgba(0,0,0,.12),0 0 0 .5px rgba(0,0,0,.04);font-weight:600;}
+#sOrd button{padding:0 12px;}   
 
 .qz-nv{margin-left:auto;display:flex;align-items:center;font-variant-numeric:tabular-nums;color:var(--q-label);cursor:text;}
 
@@ -149,6 +150,7 @@ button.qz-row{cursor:pointer;} button.qz-row:active{background:var(--q-fill);}
   <div class="qz-grp">
     <button class="qz-row" type="button" id="bRange"><span class="qk">범위</span><span class="v" id="sRange"></span><svg class="qz-cv" viewBox="0 0 8 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1 1l6 6-6 6"/></svg></button>
     <div class="qz-row"><span class="qk">문항 수</span><label class="qz-nv" id="sNv"><span id="sNa">전부&nbsp;&nbsp;</span><input id="sNi" type="text" inputmode="numeric" pattern="[0-9]*" enterkeyhint="done" autocomplete="off" aria-label="문항 수"><span id="sNu">문제</span></label><span class="qz-step"><button type="button" id="sNm" aria-label="줄이기"><svg viewBox="0 0 16 16"><path d="M3.5 8h9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button><i></i><button type="button" id="sNp" aria-label="늘리기"><svg viewBox="0 0 16 16"><path d="M3.5 8h9M8 3.5v9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button></span></div>
+    <div class="qz-row" id="rOrd"><span class="qk">순서</span><span class="qz-seg" id="sOrd" role="group" aria-label="출제 순서"><button type="button" data-o="0">새 문제 먼저</button><button type="button" data-o="1">복습 먼저</button></span></div>
     <div class="qz-row"><label class="qk" for="sW">틀린 문제만</label><input type="checkbox" class="qz-sw" id="sW" role="switch"></div>
     <div class="qz-row"><label class="qk" for="sWr">써 보기</label><input type="checkbox" class="qz-sw" id="sWr" role="switch"></div>
   </div>
@@ -195,6 +197,7 @@ button.qz-row{cursor:pointer;} button.qz-row:active{background:var(--q-fill);}
   <button class="qz-main" type="button" id="bShGo">보내기</button>
   <p class="qz-mini qz-hide" id="shOk">보냈어요 · <a class="qz-link" href="status.html">처리 현황</a></p>
 </div></div>
+<script src="rn-fsrs.js?v=432fd34a"></script>
 <script>
 (function(){
 function rnFbId(){ try{ var v=localStorage.getItem('rn-fb-id'); if(!v){ var c='ABCDEFGHJKLMNPQRSTUVWXYZ23456789', a=new Uint32Array(4); crypto.getRandomValues(a); v=''; for(var i=0;i<4;i++) v+=c[a[i]%c.length]; localStorage.setItem('rn-fb-id',v); } return v; }catch(e){ return ''; } }
@@ -207,6 +210,17 @@ var $=function(id){ return document.getElementById(id); };
 var D=[], BY={}, rec={}, run=null, nPick=10, SUBJ=[], TOPS={}, sel={};
 function load(){ try{ rec=JSON.parse(localStorage.getItem(KEY)||'{}')||{}; }catch(e){ rec={}; } }
 function save(){ try{ localStorage.setItem(KEY, JSON.stringify(rec)); }catch(e){} }
+
+var FSK=KEY+'_fs', FS={}, FSD=false, ENG=null, TR=0.9, ORD=0;
+function fsLoad(){ try{ FS=JSON.parse(localStorage.getItem(FSK)||'{}')||{}; }catch(e){ FS={}; } }
+function fsSave(){ FSD=false; try{ localStorage.setItem(FSK, JSON.stringify(FS)); }catch(e){} }
+function eng(){ if(!ENG&&window.FSRS) try{ ENG=FSRS.fsrs(FSRS.generatorParameters({request_retention:TR, enable_fuzz:false, enable_short_term:false})); }catch(e){} return ENG; }
+function fsCard(a){ return {due:new Date(a[0]), stability:a[1], difficulty:a[2], state:a[3], reps:a[4], lapses:a[5], last_review:new Date(a[6]), scheduled_days:a[7], learning_steps:a[8]||0, elapsed_days:0}; }
+function fsStep(a, t, ok){ var e=eng(); if(!e) return a; try{ var c=e.next(a?fsCard(a):FSRS.createEmptyCard(new Date(t)), new Date(t), ok?FSRS.Rating.Good:FSRS.Rating.Again).card;
+  return [+c.due, Math.round(c.stability*1e4)/1e4, Math.round(c.difficulty*1e4)/1e4, c.state, c.reps, c.lapses, t, c.scheduled_days, c.learning_steps||0]; }catch(x){ return a; } }
+function fsGet(id){ var a=FS[id], r=rec[id]; if(!r){ if(a){ delete FS[id]; FSD=true; } return null; }
+  if(r[2]&&(!a||a[6]<r[2])){ var b=fsStep(a, r[2], r[3]===1); if(b&&b!==a){ FS[id]=b; FSD=true; a=b; } } return a||null; }
+function fsR(id, now){ var a=fsGet(id), e=eng(); if(!a||!e) return 1; try{ return e.get_retrievability(fsCard(a), now, false); }catch(x){ return 1; } }
 try{ var n0=+localStorage.getItem(KEY+'_n'); if(n0>=1&&n0<=100&&n0===Math.floor(n0)) nPick=n0; }catch(e){}
 function esc(s){ return String(s).replace(/[&<>"]/g,function(m){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]; }); }
 function sname(s){ return s.split('.').slice(1).join('.')||s; }
@@ -228,12 +242,14 @@ function rangeText(){ if(!selN()) return '전체';
 function info(){ var p=pool(), all=D.filter(inSel), wn=all.filter(function(c){ return rec[c.id]&&rec[c.id][3]===0; }).length, seen=all.filter(function(c){ return rec[c.id]; }).length;
   $('sRange').textContent=rangeText();
   $('sW').disabled=!wn; if(!wn) $('sW').checked=false;
-  $('sInfo').textContent=$('sW').checked ? '틀린 문제 '+p.length+'개' : '문제 '+all.length.toLocaleString()+'개 · 푼 것 '+seen+'개 · 안 푼 것부터 나와요';
+  var now=new Date(), due=ORD?all.filter(function(c){ return rec[c.id]&&fsR(c.id, now)<TR; }).length:0; if(FSD) fsSave();
+  $('sInfo').textContent=$('sW').checked ? '틀린 문제 '+p.length+'개' : !ORD ? '문제 '+all.length.toLocaleString()+'개 · 푼 것 '+seen+'개 · 안 푼 것부터 나와요'
+    : due ? '문제 '+all.length.toLocaleString()+'개 · 복습할 때 된 것 '+due+'개부터 나와요' : '문제 '+all.length.toLocaleString()+'개 · 복습할 때 된 것이 없어 안 푼 것부터 나와요';
   slSet(p.length);
   $('bGo').disabled=!p.length;
   var tot=Object.keys(rec).filter(function(k){ return BY[k]; }), ok=tot.filter(function(k){ return rec[k][3]===1; }).length;
   $('sRec').innerHTML = tot.length ? (window.RNSync&&RNSync.on()?'연동 기록':'이 기기 기록')+' · 푼 문제 '+tot.length+'개 · 마지막에 맞힌 것 '+ok+'개 · <button class="qz-link" type="button" id="bClr">기록 지우기</button>' : (window.RNSync&&RNSync.on()?'기록이 연동 기기와 함께 맞춰져요':'기록은 이 기기에만 남아요');
-  var c=$('bClr'); if(c) c.onclick=function(){ var on=window.RNSync&&RNSync.on(); if(confirm(on?'연동된 모든 기기의 쪽지시험 기록을 지울까요?':'이 기기의 쪽지시험 기록을 지울까요?')){ rec={}; save(); if(on) RNSync.clear(); info(); } }; }
+  var c=$('bClr'); if(c) c.onclick=function(){ var on=window.RNSync&&RNSync.on(); if(confirm(on?'연동된 모든 기기의 쪽지시험 기록을 지울까요?':'이 기기의 쪽지시험 기록을 지울까요?')){ rec={}; save(); FS={}; fsSave(); if(on) RNSync.clear(); info(); } }; }
 
 var poolN=0;   // nPick = 고른 값(기억) · 화면 값 = 지금 범위에 맞춘 값(nCur) — 범위가 좁아져도 고른 값을 잃지 않는다
 function stepVals(){ var v=[], top=Math.min(poolN,100); for(var i=5;i<top;i+=5) v.push(i); v.push(top); return v; }   // 한 번에 최대 100 · 범위가 100 이하면 끝 = 전부
@@ -249,6 +265,10 @@ $('sNi').onfocus=function(){ this.placeholder=this.value; this.value=''; this.st
 $('sNi').onkeydown=function(e){ if(e.key==='Enter'){ e.preventDefault(); this.blur(); } };
 $('sNi').onchange=$('sNi').onblur=function(){ var v=parseInt(String(this.value).replace(/[^0-9]/g,''),10); if(poolN&&v>0) nSet(Math.min(v,poolN,100)); else slShow(); };
 $('sW').onchange=info;
+try{ ORD=localStorage.getItem(KEY+'_ord')==='1'?1:0; }catch(e){}
+function ordPaint(){ [].forEach.call($('sOrd').children, function(b){ b.classList.toggle('on', +b.dataset.o===ORD); b.setAttribute('aria-pressed', +b.dataset.o===ORD); }); }
+$('sOrd').onclick=function(e){ var b=e.target.closest('button'); if(!b) return; ORD=+b.dataset.o; try{ localStorage.setItem(KEY+'_ord', ORD); }catch(x){} ordPaint(); info(); };
+if(!window.FSRS){ ORD=0; $('rOrd').hidden=true; } ordPaint();
 var pkSel={}, pkOpen={};
 var pkOpenT={};
 function pkDraw(){ var q=$('pkQ').value.trim(), h=[], hit=function(x){ return !q||x.indexOf(q)>=0; };
@@ -276,7 +296,11 @@ $('pkNo').onclick=function(){ $('pk').classList.remove('on'); };
 $('pkOk').onclick=function(){ sel=pkSel; $('pk').classList.remove('on'); info(); };
 $('pk').onclick=function(e){ if(e.target===$('pk')) $('pk').classList.remove('on'); };
 function shuffle(a){ for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)), t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
-function order(p){ if($('sW').checked) return shuffle(p.slice());
+function byR(p){ var now=new Date(), R={}; p.forEach(function(c){ R[c.id]=fsR(c.id, now); }); if(FSD) fsSave(); return p.slice().sort(function(a,b){ return R[a.id]-R[b.id]; }); }
+function order(p){ if(ORD){ var sn=byR(p.filter(function(c){ return rec[c.id]; })), now=new Date(), due=sn.filter(function(c){ return fsR(c.id, now)<TR; });
+    if($('sW').checked) return sn;
+    return due.concat(shuffle(p.filter(function(c){ return !rec[c.id]; })), sn.slice(due.length)); }
+  if($('sW').checked) return shuffle(p.slice());
   var fresh=shuffle(p.filter(function(c){ return !rec[c.id]; })), old=p.filter(function(c){ return rec[c.id]; })
     .sort(function(a,b){ return (rec[a.id][3]-rec[b.id][3]) || (rec[a.id][2]-rec[b.id][2]); });
   return fresh.concat(old); }
@@ -325,7 +349,7 @@ function reveal(){ if(!run||$('vQ').classList.contains('qz-hide')||revealed) ret
   var qi=$('qIn'), mine=$('sWr').checked?qi.value.trim():''; qi.blur(); if(mine){ $('qMine').innerHTML='<b>내 답</b>'+esc(mine); $('qMine').classList.remove('qz-hide'); }
   $('qAns').style.visibility=''; $('qCover').classList.add('qz-hide'); $('aShow').classList.add('qz-hide'); $('aRate').classList.remove('qz-hide'); }
 function rate(ok){ if(!run||!revealed) return; var c=run.list[run.i], r=rec[c.id]||[0,0,0,0];
-  r[0]++; if(ok) r[1]++; r[2]=Date.now(); r[3]=ok?1:0; rec[c.id]=r; save(); run.res.push(ok); if(window.RNSync) RNSync.mark(c.id); if(!run.again) qsUp(c.id, ok);
+  r[0]++; if(ok) r[1]++; r[2]=Date.now(); r[3]=ok?1:0; rec[c.id]=r; save(); var fb=fsStep(FS[c.id], r[2], ok); if(fb){ FS[c.id]=fb; fsSave(); } run.res.push(ok); if(window.RNSync) RNSync.mark(c.id); if(!run.again) qsUp(c.id, ok);
   run.i++; if(run.i<run.list.length) paint(); else result(); }
 $('bShow').onclick=reveal; $('qCard').onclick=function(e){ if(e.target.closest('a,button,textarea')) return; reveal(); };
 $('qIn').addEventListener('keydown', function(e){ if(e.key==='Enter' && !e.shiftKey && !e.isComposing && e.keyCode!==229){ e.preventDefault(); reveal(); } e.stopPropagation(); });   // 쓰는 동안은 Space·Z·C 단축키를 막는다
@@ -358,7 +382,7 @@ document.addEventListener('keydown', function(e){ if($('sh').classList.contains(
 var QS=new URLSearchParams(location.search), FROM=QS.get('from'), NOTE=(QS.get('s')&&FROM)?encodeURIComponent(QS.get('s'))+'.html#rn-qz-'+encodeURIComponent(FROM):null;
 function backTo(a){ if(!NOTE) return; a.href=NOTE; a.lastChild.textContent='노트'; }
 if(NOTE){ backTo($('bBack1')); backTo($('bBack2')); $('bNote').href=NOTE; $('bNote').classList.remove('qz-hide'); }
-load();
+load(); fsLoad();
 fetch('quiz-data.json?v=4ca58ad0').then(function(r){ return r.json(); }).then(function(j){ D=j.cards||[];
   D.forEach(function(c){ BY[c.id]=c; if(!TOPS[c.s]){ TOPS[c.s]=[]; SUBJ.push(c.s); }
     var x=TOPS[c.s].filter(function(z){ return z.t===c.t; })[0]; if(!x){ x={t:c.t, n:0, ms:[]}; TOPS[c.s].push(x); } x.n++;
