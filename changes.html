@@ -31,7 +31,7 @@ html[data-theme="dark"] .cg-k.added{color:#62CC88;}html[data-theme="dark"] .cg-k
 /* 설명 줄(10-13) = 기본 접힘 · 접기 표시 = 불릿 자리 ▾(노트 접기와 같은 꼴 · 닫힘 = 돌려서 ▸) · summary 안이라 눌러진다 */
 .cg-sec li.cg-dl::before{display:none;}
 .cg-d summary{position:relative;display:block;cursor:pointer;list-style:none;} .cg-d summary::-webkit-details-marker{display:none;}
-.cg-d summary::before{content:'\25BE';position:absolute;left:-17px;top:3px;width:14px;text-align:center;color:var(--ter);font-size:13px;transform:rotate(-90deg);transition:transform .12s;}
+.cg-d summary::before{content:'\25BE';position:absolute;left:-20px;top:0;width:18px;text-align:center;color:var(--ter);font-size:17px;transform:rotate(-90deg);transition:transform .12s;}
 .cg-d[open] summary::before{transform:none;}
 .cg-n{margin:4px 0 2px;} .cg-sec .cg-n li{padding:1px 0;font-size:14px;line-height:20px;color:var(--sec);} .cg-sec .cg-n li::before{left:-11px;top:9px;width:3px;height:3px;}
 @media (max-width:560px){ .cg-rel{grid-template-columns:1fr;} .cg-when{padding:0 4px 8px;display:flex;align-items:baseline;gap:8px;} .cg-when span,.cg-when i{margin-top:0;} }
