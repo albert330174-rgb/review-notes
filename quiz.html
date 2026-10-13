@@ -36,7 +36,11 @@ button.qz-row{cursor:pointer;} button.qz-row:active{background:var(--q-fill);}
 .qz-seg button{border:0;background:transparent;font-size:15px;min-width:48px;height:32px;border-radius:7px;cursor:pointer;}
 .qz-seg button.on{background:var(--q-card);box-shadow:0 1px 3px rgba(0,0,0,.12),0 0 0 .5px rgba(0,0,0,.04);font-weight:600;}
 
-.qz-nv{margin-left:auto;font-variant-numeric:tabular-nums;color:var(--q-label);}
+.qz-nv{margin-left:auto;display:flex;align-items:baseline;font-variant-numeric:tabular-nums;color:var(--q-label);cursor:text;}
+
+.qz-nv input{box-sizing:content-box;width:3ch;margin:0 2px 0 0;padding:1px 4px;border:0;border-radius:6px;background:none;font:inherit;font-size:17px;color:var(--q-acc);text-align:right;font-variant-numeric:tabular-nums;-webkit-appearance:none;appearance:none;}
+.qz-nv input:focus{outline:none;background:var(--q-fill);} .qz-nv input::placeholder{color:var(--q-ter);opacity:1;}.qz-nv input:disabled{color:var(--q-ter);-webkit-text-fill-color:var(--q-ter);opacity:1;}
+.qz-nv [hidden]{display:none;}
 .qz-step{display:inline-flex;align-items:center;background:var(--q-fill);border-radius:9px;height:32px;flex:0 0 auto;}
 .qz-step button{width:46px;height:32px;border:0;background:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--q-label);border-radius:9px;}
 .qz-step button:active{background:var(--q-sep);} .qz-step button:disabled{color:var(--q-ter);cursor:default;}
@@ -144,7 +148,7 @@ button.qz-row{cursor:pointer;} button.qz-row:active{background:var(--q-fill);}
   <p class="qz-lead">노트 내용으로 만든 문제예요. 정답을 보고 스스로 채점해요.</p>
   <div class="qz-grp">
     <button class="qz-row" type="button" id="bRange"><span class="qk">범위</span><span class="v" id="sRange"></span><svg class="qz-cv" viewBox="0 0 8 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1 1l6 6-6 6"/></svg></button>
-    <div class="qz-row"><span class="qk">문항 수</span><span class="qz-nv" id="sNv"></span><span class="qz-step"><button type="button" id="sNm" aria-label="줄이기"><svg viewBox="0 0 16 16"><path d="M3.5 8h9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button><i></i><button type="button" id="sNp" aria-label="늘리기"><svg viewBox="0 0 16 16"><path d="M3.5 8h9M8 3.5v9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button></span></div>
+    <div class="qz-row"><span class="qk">문항 수</span><label class="qz-nv" id="sNv"><span id="sNa">전부&nbsp;</span><input id="sNi" type="text" inputmode="numeric" pattern="[0-9]*" enterkeyhint="done" autocomplete="off" aria-label="문항 수"><span id="sNu">문제</span></label><span class="qz-step"><button type="button" id="sNm" aria-label="줄이기"><svg viewBox="0 0 16 16"><path d="M3.5 8h9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button><i></i><button type="button" id="sNp" aria-label="늘리기"><svg viewBox="0 0 16 16"><path d="M3.5 8h9M8 3.5v9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button></span></div>
     <div class="qz-row"><label class="qk" for="sW">틀린 문제만</label><input type="checkbox" class="qz-sw" id="sW" role="switch"></div>
     <div class="qz-row"><label class="qk" for="sWr">써 보기</label><input type="checkbox" class="qz-sw" id="sWr" role="switch"></div>
   </div>
@@ -203,7 +207,7 @@ var $=function(id){ return document.getElementById(id); };
 var D=[], BY={}, rec={}, run=null, nPick=10, SUBJ=[], TOPS={}, sel={};
 function load(){ try{ rec=JSON.parse(localStorage.getItem(KEY)||'{}')||{}; }catch(e){ rec={}; } }
 function save(){ try{ localStorage.setItem(KEY, JSON.stringify(rec)); }catch(e){} }
-try{ var n0=+localStorage.getItem(KEY+'_n'); if(n0>=5&&n0%5===0) nPick=n0; }catch(e){}
+try{ var n0=+localStorage.getItem(KEY+'_n'); if(n0>=1&&n0<=100&&n0===Math.floor(n0)) nPick=n0; }catch(e){}
 function esc(s){ return String(s).replace(/[&<>"]/g,function(m){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]; }); }
 function sname(s){ return s.split('.').slice(1).join('.')||s; }
 function key(c){ return c.s+'|'+c.t+'|'+(c.m||''); }   // 고르기 단위 = 중주제(10-08 「대주제로만 빼니 뭉친다」 · 도형과 측정 163)
@@ -233,11 +237,17 @@ function info(){ var p=pool(), all=D.filter(inSel), wn=all.filter(function(c){ r
 
 var poolN=0;   // nPick = 고른 값(기억) · 화면 값 = 지금 범위에 맞춘 값(nCur) — 범위가 좁아져도 고른 값을 잃지 않는다
 function stepVals(){ var v=[], top=Math.min(poolN,100); for(var i=5;i<top;i+=5) v.push(i); v.push(top); return v; }   // 한 번에 최대 100 · 범위가 100 이하면 끝 = 전부
-function nCur(){ if(poolN<=0) return 0; var top=Math.min(poolN,100); if(nPick>=top) return top; var vs=stepVals().filter(function(x){ return x<=nPick; }); return vs.length?vs[vs.length-1]:stepVals()[0]; }
+function nCur(){ return poolN<=0?0:Math.min(nPick,poolN,100); }   // 직접 넣은 수(10-13)도 그대로 · 범위 끝에서 자름
 function slSet(n){ poolN=n; slShow(); }
-function slShow(){ var vs=stepVals(), c=nCur(), i=vs.indexOf(c); $('sNv').textContent=poolN?(c>=poolN?'전부 ':'')+c+'문제':'—'; $('sNm').disabled=!poolN||i<=0; $('sNp').disabled=!poolN||i>=vs.length-1; }
-function stepBy(d){ var vs=stepVals(), i=Math.max(0,Math.min(vs.length-1,vs.indexOf(nCur())+d)); nPick=(vs[i]>=poolN&&poolN<=100)?999:vs[i]; slShow(); if(nPick<999) try{ localStorage.setItem(KEY+'_n', nPick); }catch(x){} }
+function slShow(){ var vs=stepVals(), c=nCur(), ni=$('sNi'); $('sNa').hidden=!poolN||c<poolN; $('sNu').hidden=!poolN; ni.disabled=!poolN; if(document.activeElement!==ni){ ni.value=poolN?c:'—'; ni.style.width=String(ni.value).length+'ch'; }   
+  $('sNm').disabled=!poolN||!vs.some(function(x){ return x<c; }); $('sNp').disabled=!poolN||!vs.some(function(x){ return x>c; }); }
+function nSet(v){ nPick=(v>=poolN&&poolN<=100)?999:v; slShow(); if(nPick<999) try{ localStorage.setItem(KEY+'_n', nPick); }catch(x){} }
+function stepBy(d){ var vs=stepVals(), c=nCur(), t=d>0?vs.filter(function(x){ return x>c; })[0]:vs.filter(function(x){ return x<c; }).pop(); if(t) nSet(t); }   // 12 에서 ± = 15·10
 $('sNm').onclick=function(){ stepBy(-1); }; $('sNp').onclick=function(){ stepBy(1); };
+
+$('sNi').onfocus=function(){ this.placeholder=this.value; this.value=''; this.style.width='3ch'; };   // 누르면 비우고 원래 값은 흐린 글씨로 — 전체 선택(타이밍 의존)은 안 씀
+$('sNi').onkeydown=function(e){ if(e.key==='Enter'){ e.preventDefault(); this.blur(); } };
+$('sNi').onchange=$('sNi').onblur=function(){ var v=parseInt(String(this.value).replace(/[^0-9]/g,''),10); if(poolN&&v>0) nSet(Math.min(v,poolN,100)); else slShow(); };
 $('sW').onchange=info;
 var pkSel={}, pkOpen={};
 var pkOpenT={};
