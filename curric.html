@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>내용 체계표 · 초등 임용 정리 노트</title><script data-goatcounter="https://imgostudy.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script><script>(function(){try{var L=localStorage,d=new Date(),f=function(x){return x.getFullYear()+'-'+(x.getMonth()+1)+'-'+x.getDate();},k=f(d);if(L.getItem('rn_v_day')===k)return;var nw=!L.getItem('rn_v_seen'),pv=(L.getItem('rn_v_day')||'').split('-'),gp=8;if(pv.length===3){gp=Math.round((new Date(d.getFullYear(),d.getMonth(),d.getDate())-new Date(+pv[0],pv[1]-1,+pv[2]))/864e5);if(!(gp>=1))gp=8;if(gp>8)gp=8;}var n=0;(function go(){var g=window.goatcounter;if(g&&g.count){var e=function(p){g.count({path:p,title:p,event:true});};e('visit/day');if(nw)e('visit/new');e('visit/gap/'+gp);L.setItem('rn_v_day',k);L.setItem('rn_v_seen','1');return;}if(++n<40)setTimeout(go,250);})();}catch(e){}})();</script><link rel="icon" href="icon.svg" type="image/svg+xml"><meta name="description" content="2022 개정 음악·미술·체육 내용 체계표 — 마스킹으로 가리고 떠올려 보기"><meta property="og:type" content="website"><meta property="og:site_name" content="초등 임용 정리 노트"><meta property="og:title" content="내용 체계표 · 초등 임용 정리 노트"><meta property="og:description" content="2022 개정 음악·미술·체육 내용 체계표 — 마스킹으로 가리고 떠올려 보기"><meta property="og:url" content="https://imgostudy.github.io/review-notes/curric.html">
+<title>내용 체계표 · 초등 임용 정리 노트</title><script data-goatcounter="https://imgostudy.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script><script>(function(){try{var L=localStorage,d=new Date(),f=function(x){return x.getFullYear()+'-'+(x.getMonth()+1)+'-'+x.getDate();},k=f(d);if(L.getItem('rn_v_day')===k)return;var nw=!L.getItem('rn_v_seen'),pv=(L.getItem('rn_v_day')||'').split('-'),gp=8;if(pv.length===3){gp=Math.round((new Date(d.getFullYear(),d.getMonth(),d.getDate())-new Date(+pv[0],pv[1]-1,+pv[2]))/864e5);if(!(gp>=1))gp=8;if(gp>8)gp=8;}var n=0;(function go(){var g=window.goatcounter;if(g&&g.count){var e=function(p){g.count({path:p,title:p,event:true});};e('visit/day');if(nw)e('visit/new');e('visit/gap/'+gp);L.setItem('rn_v_day',k);L.setItem('rn_v_seen','1');return;}if(++n<40)setTimeout(go,250);})();}catch(e){}})();</script><link rel="icon" href="icon.svg" type="image/svg+xml"><meta name="description" content="2022 개정 음악·미술·체육 내용 체계표 · 통합교과 성취기준 — 마스킹으로 가리고 떠올려 보기"><meta property="og:type" content="website"><meta property="og:site_name" content="초등 임용 정리 노트"><meta property="og:title" content="내용 체계표 · 초등 임용 정리 노트"><meta property="og:description" content="2022 개정 음악·미술·체육 내용 체계표 · 통합교과 성취기준 — 마스킹으로 가리고 떠올려 보기"><meta property="og:url" content="https://imgostudy.github.io/review-notes/curric.html">
 <link rel="icon" href="icon.svg">
 <link rel="stylesheet" href="kit.css?v=158c008e">
 <style>
@@ -212,10 +212,39 @@ function peTL(){
   }
   return h + '</div>';
 }
+
+const INTEG = {
+  "(1) 우리는 누구로 살아갈까": [
+    ["학교 생활 습관과 학습 습관을 형성하여 안전하고 건강하게 생활한다.", "학교 안팎의 모습과 생활을 탐색하며 안전한 학교생활을 한다.", "즐겁게 놀이하며, 건강하고 안전하게 생활한다."],
+    ["나를 이해하고 존중하며 생활한다.", "나를 탐색하여 나에 대해 설명한다.", "놀이하며 내 몸의 움직임이나 감각을 느낀다."],
+    ["가족이나 주변 사람을 배려하며 관계를 맺는다.", "가족이나 주변 사람에게 관심을 갖고 함께 살아가는 모습을 탐구한다.", "가족이나 주변 사람과 소통하며 어울린다."],
+    ["생태환경에서 더불어 살기 위해 노력한다.", "사람과 자연, 동식물이 어우러져 사는 생태를 탐구한다.", "우리를 둘러싼 자연의 아름다움을 감상한다."]],
+  "(2) 우리는 어디서 살아갈까": [
+    ["공동체에서 내가 할 수 있는 일을 찾아보고 실천한다.", "우리가 살고 있는 마을과 사람들이 생활하는 모습을 살펴본다.", "내가 참여할 수 있는 문화 예술을 향유한다."],
+    ["우리나라의 소중함을 알고 사랑하는 마음을 기른다.", "우리나라의 모습이나 문화를 조사한다.", "우리나라의 문화 예술을 즐긴다."],
+    ["차이나 다양성을 서로 존중하면서 생활한다.", "알고 싶은 나라를 탐구하며 다른 나라에 관심을 갖는다.", "다른 나라의 문화 예술을 체험한다."],
+    ["새로운 활동에 호기심을 갖고 도전한다.", "궁금한 세계를 다양한 매체로 탐색한다.", "다양한 세상을 상상하고 표현한다."]],
+  "(3) 우리는 지금 어떻게 살아갈까": [
+    ["하루의 가치를 느끼며 지금을 소중히 여긴다.", "하루의 변화와 사람들이 하루를 살아가는 모습을 탐색한다.", "하루를 건강하고 활기차게 지낸다."],
+    ["계절의 변화에 대응하며 생활한다.", "계절과 생활의 관계를 탐구한다.", "자연의 변화를 느끼며 놀이한다."],
+    ["여러 인물의 삶을 통해 공동체성을 기른다.", "관심 있는 대상의 과거와 현재를 살펴보고 미래를 상상한다.", "전통문화를 새롭게 표현한다."],
+    ["공동체 속에서 지속가능성을 위한 삶의 방식을 찾아 실천한다.", "우리의 생활과 관련된 지속가능성의 다양한 사례를 찾고 탐색한다.", "안전과 안녕을 위한 아동의 권리가 있음을 알고 누린다."]],
+  "(4) 우리는 무엇을 하며 살아갈까": [
+    ["모두를 위한 생활환경을 만드는 데 참여한다.", "생활도구의 모양이나 기능을 탐색하고 바꾸어본다.", "주변의 물건을 활용하여 놀잇감을 만든다."],
+    ["다양한 생각이나 의견에 대해 개방적인 태도를 형성한다.", "상상한 것을 다양한 매체와 재료로 구현한다.", "자유롭게 상상하며 놀이한다."],
+    ["여럿이 하는 활동에 관심을 갖고 자발적으로 협력한다.", "경험한 것 중에서 관심 있는 주제를 정하고 조사한다.", "생각이나 느낌을 살려 전시나 공연 활동을 한다."],
+    ["지금까지의 생활 습관과 학습 습관을 되돌아본다.", "배운 것과 배울 것을 연결하며 앞으로의 배움을 상상한다.", "기억에 남는 경험을 떠올리며 의미를 부여한다."]]
+};
+function integBook(){   
+  const COLS = ['바른 생활', '슬기로운 생활', '즐거운 생활'], AB = ['바', '슬', '즐'];
+  return Object.entries(INTEG).map(([area, rows], ai) => `<h2>${esc(area)}</h2><div class="card"><table><tr><th style="width:52px">번호</th>${COLS.map(c => `<th>${c}</th>`).join('')}</tr>`
+    + rows.map((r, ri) => `<tr><td class="ct-k">0${ri + 1}</td>${r.map((x, ci) => `<td><div class="ct-it"><span class="ct-nm">${AB[ci]}0${ai + 1}-0${ri + 1}</span><span class="c" data-g="12" data-cat="${COLS[ci]}">${esc(x)}</span></div></td>`).join('')}</tr>`).join('')
+    + '</table></div>').join('');
+}
 function buildBook(){
   const music = Object.entries(MUSIC).map(([area, cats]) => bookTable(area, Object.entries(cats).map(([cat, rows]) => [cat, rows.map(r => r[0]), rows.map(r => r[1])]))).join('');
   const art = Object.entries(ART).map(([area, d]) => bookTable(area, [["지식·이해", d.rows.map(r => r[0]), d.rows.map(r => r[2])], ["과정·기능", d.rows.map(r => r[1]), d.rows.map(r => r[3])], ["가치·태도", d.val.map(r => r[0]), d.val.map(r => r[1])]])).join('');
-  const subs = [['music', '음악', music], ['art', '미술', art], ['pe', '체육', peVal() + peEx('34') + peEx('56') + peTL()]];
+  const subs = [['music', '음악', music], ['art', '미술', art], ['pe', '체육', peVal() + peEx('34') + peEx('56') + peTL()], ['integ', '통합교과', integBook()]];
   for (const [name, d] of Object.entries(EXTRA))
     subs.push([d.id, name, Object.entries(d.areas).map(([area, cats]) => bookTable(area, Object.entries(cats).map(([cat, [a, b]]) => [cat, a || [], b || []]))).join('')]);
   document.getElementById('ctSubs').innerHTML = subs.map(([id, name]) => `<button data-sub="${id}">${esc(name)}</button>`).join('');
@@ -269,9 +298,11 @@ buildBook();
   document.body.appendChild(mm);
   var b=document.createElement('button'); b.type='button'; b.className='rn-mk'; b.setAttribute('aria-haspopup','menu'); b.setAttribute('aria-expanded','false'); document.getElementById('ctMk').appendChild(b);
   var cg=document.getElementById('ctG'), cc=document.getElementById('ctC');
-  function chips(){ cg.innerHTML=[['all','전체'],['34','3~4'],['56','5~6']].map(function(x){ return '<button type="button" data-gr="'+x[0]+'">'+x[1]+'</button>'; }).join('');
+  function chips(){ var gs=[['all','전체'],['34','3~4'],['56','5~6']].filter(function(x){ return x[0]==='all' || document.querySelector('#book'+sub+' .c[data-g="'+x[0]+'"]'); });   
+    if(!gs.some(function(x){ return x[0]===gr; })){ gr='all'; save(); }
+    cg.innerHTML=gs.map(function(x){ return '<button type="button" data-gr="'+x[0]+'">'+x[1]+'</button>'; }).join('');
     cc.innerHTML=[['all','전체']].concat(cats().map(function(k){ return [k, CAT_LABEL[k]||k]; })).map(function(x){ return '<button type="button" data-ca="'+x[0]+'">'+x[1]+'</button>'; }).join(''); }
-  function paint(){ b.innerHTML=(on?BOXF:BOX)+'<span>마스킹</span>'; b.classList.toggle('on', on); cg.hidden=cc.hidden=!on;
+  function paint(){ b.innerHTML=(on?BOXF:BOX)+'<span>마스킹</span>'; b.classList.toggle('on', on); cc.hidden=!on; cg.hidden=!on||cg.children.length<2;   
     [].forEach.call(mm.querySelectorAll('button[data-o]'), function(x){ var sel=(x.dataset.o==='1')===on; x.classList.toggle('sel', sel); x.setAttribute('aria-checked', sel); });
     var tb=mm.querySelector('button[data-t]'); tb.classList.toggle('sel', typing()); tb.setAttribute('aria-checked', typing());
     [].forEach.call(cg.querySelectorAll('button'), function(x){ x.classList.toggle('on', x.dataset.gr===gr); x.setAttribute('aria-pressed', x.dataset.gr===gr); });
