@@ -36,7 +36,7 @@
     '.rn-mm button:hover{background:var(--fill)}.rn-mm .ck{width:16px;height:16px;flex:0 0 auto;color:var(--acc);visibility:hidden}.rn-mm button.sel .ck{visibility:visible}'+
     '.rn-mm .t{display:flex;flex-direction:column;gap:1px}.rn-mm .t b{font-size:15px;font-weight:600}.rn-mm .t small{font-size:12px;color:var(--sec,var(--mk))}'+
     '.rn-mm .nt{margin:4px 4px 2px;padding:8px 6px 2px;border-top:.5px solid var(--sep);font-size:12px;line-height:17px;color:var(--sec,var(--mk))}'+
-    '.rn-mm .nt u{text-decoration-color:var(--acc);text-underline-offset:2px}'+
+    '.rn-mm .nt u{text-decoration-color:var(--acc);text-underline-offset:2px}@media (hover:none){.rn-mm .kb{display:none}}'+
     
     '.rn-ty{position:absolute;z-index:40;display:flex;align-items:center;gap:4px;padding:2px;border-radius:8px;background:var(--card,var(--bg));box-shadow:0 0 0 1.5px var(--acc),0 4px 14px rgba(0,0,0,.12)}'+
     '.rn-ty input{min-width:72px;border:0;outline:0;background:transparent;color:var(--label);font:inherit;padding:0 4px;height:calc(1.4em + 4px)}'+
@@ -122,10 +122,41 @@
     setTimeout(function(){ inp.focus(); }, 0); }
   document.addEventListener('click', function(ev){ if(ty && !ty.box.contains(ev.target)) tyClose(); }, true);   // 화면 크기 바뀜으로는 닫지 않는다(폰·패드 키보드가 올라올 때 resize가 난다)
   
+  var kOpened=[];
+  function allHidden(){ return [].slice.call(main.querySelectorAll('.rn-k,.rn-c,.rn-h,.rn-d')).filter(function(e){ return hidden(e) && !e.classList.contains('rn-show') && e.getClientRects().length && !e.parentElement.closest('.rn-k:not(.rn-show),.rn-c:not(.rn-show),.rn-h:not(.rn-show),.rn-d:not(.rn-show)'); }); }
+  function barB(){ var b=document.querySelector('.rn-bar'); var r=b&&b.getBoundingClientRect(); return r&&r.bottom>0?r.bottom:0; }   // 위 막대가 덮는 높이(내려가 숨으면 0)
+  function inView(e){ var r=e.getBoundingClientRect(); return r.bottom>barB()+4 && r.top<innerHeight-40; }
+  
+  function follow(n){ var r=n.getBoundingClientRect(); if(r.top>innerHeight*.6 || r.bottom<barB()+4) scrollBy({top:Math.round(r.top-innerHeight*.33), behavior:'smooth'}); }
+  function kNext(){
+    if(ty){ var tt=ty.t; reveal(tt); kOpened.push(tt); tyClose(); }   // 입력칸이 떠 있으면 = 「보기」 하고 다음으로
+    var all=allHidden(), last=kOpened[kOpened.length-1], n=null;
+    if(last && document.contains(last) && inView(last)){ for(var i=0;i<all.length;i++) if(last.compareDocumentPosition(all[i])&4){ n=all[i]; break; } }
+    if(!n){ var bt=barB()+4; for(var j=0;j<all.length;j++){ var r=all[j].getBoundingClientRect(); if(r.bottom>bt){ n=all[j]; break; } } }
+    if(!n) return;
+    follow(n);
+    if(typing() && !n.classList.contains('rn-d')){ tyOpen(n); return; }
+    n.classList.add('rn-show'); kOpened.push(n); }
+  function kPrev(){ tyClose(); var p=kOpened.pop(); if(p){ p.classList.remove('rn-show','rn-tyok','rn-tyno'); follow(p); } }
+  
+  document.addEventListener('keydown', function(ev){
+    var sp=ev.key===' '||ev.code==='Space';
+    if(mode==='off' || ev.metaKey || ev.ctrlKey || ev.altKey || (!sp && ev.key!=='ArrowRight' && ev.key!=='ArrowLeft')) return;
+    var a=document.activeElement; if(ty || opener || (a && (/^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName) || a.isContentEditable))) return;
+    ev.preventDefault(); if(ev.key==='ArrowLeft' || (sp && ev.shiftKey)) kPrev(); else kNext(); });
+  
+  var padPrev=[], padT=0;
+  function padLoop(){ try{ var gs=navigator.getGamepads(), g=null; for(var i=0;i<gs.length;i++) if(gs[i]&&gs[i].connected){ g=gs[i]; break; }
+      if(g && !opener){ var b=g.buttons, now=Date.now(), dn=function(k){ return !!(b[k]&&(b[k].pressed||b[k].value>.5)); };
+        [[1,kNext],[15,kNext],[3,kPrev],[14,kPrev]].forEach(function(x){ var is=dn(x[0]); if(is && !padPrev[x[0]] && mode!=='off') x[1](); padPrev[x[0]]=is; });
+        [12,13].forEach(function(k){ var is=dn(k); if(is && (!padPrev[k] || now-padT>110)){ scrollBy(0, (k===13?1:-1)*Math.round(innerHeight*.12)); padT=now; } padPrev[k]=is; }); } }catch(e){}
+    requestAnimationFrame(padLoop); }
+  if(navigator.getGamepads) requestAnimationFrame(padLoop);
+  
   var mm=document.createElement('div'); mm.className='rn-mm'; mm.setAttribute('role','menu');
   mm.innerHTML=ITEMS.map(function(x){ return '<button type="button" role="menuitemradio" data-m="'+x[0]+'"><span class="ck">'+CHECK+'</span><span class="t"><b>'+x[1]+'</b>'+(x[2]?'<small>'+x[2]+'</small>':'')+'</span></button>'; }).join('')+
     '<button type="button" class="tg" role="menuitemcheckbox" data-t="1"><span class="ck">'+CHECK+'</span><span class="t"><b>타이핑으로 열기</b><small>개념어 마스킹에서 · 모르면 보기</small></span></button>'+
-    '<div class="nt">교육과정 글은 어느 쪽이든 <u>밑줄 친 핵심어</u>만 가려요 · 가린 칸을 누르면 열려요</div>';
+    '<div class="nt">교육과정 글은 어느 쪽이든 <u>밑줄 친 핵심어</u>만 가려요 · 가린 칸을 누르면 열려요<span class="kb"> · 키보드 Space 다음 칸 · Shift+Space 닫기</span></div>';
   document.body.appendChild(mm);
   var btns=[], opener=null;
   function paint(){ document.body.classList.toggle('rn-m-term', mode==='term'); document.body.classList.toggle('rn-m-desc', mode==='desc');
