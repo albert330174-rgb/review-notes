@@ -148,7 +148,7 @@
   var padPrev=[], padT=0;
   function padLoop(){ try{ var gs=navigator.getGamepads(), g=null; for(var i=0;i<gs.length;i++) if(gs[i]&&gs[i].connected){ g=gs[i]; break; }
       if(g && !opener){ var b=g.buttons, now=Date.now(), dn=function(k){ return !!(b[k]&&(b[k].pressed||b[k].value>.5)); };
-        [[1,kNext],[15,kNext],[3,kPrev],[14,kPrev]].forEach(function(x){ var is=dn(x[0]); if(is && !padPrev[x[0]] && mode!=='off') x[1](); padPrev[x[0]]=is; });
+        [[0,kNext],[15,kNext],[2,kPrev],[14,kPrev]].forEach(function(x){ var is=dn(x[0]); if(is && !padPrev[x[0]] && mode!=='off') x[1](); padPrev[x[0]]=is; });
         [12,13].forEach(function(k){ var is=dn(k); if(is && (!padPrev[k] || now-padT>110)){ scrollBy(0, (k===13?1:-1)*Math.round(innerHeight*.12)); padT=now; } padPrev[k]=is; }); } }catch(e){}
     requestAnimationFrame(padLoop); }
   if(navigator.getGamepads) requestAnimationFrame(padLoop);
