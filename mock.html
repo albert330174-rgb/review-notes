@@ -74,6 +74,7 @@ button,input{font:inherit;color:inherit;}
 .mk-dot{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:8px;vertical-align:1px;}
 .mk-row .k small{font-size:13px;color:var(--m-ter);margin-left:8px;}
 .mk-sec2{margin-top:18px;}
+.mk-sec b{font-weight:700;color:var(--m-label);} .mk-sec b.mk-over{color:var(--m-dn);}
 
 .mk-lg{display:flex;flex-direction:column;gap:4px;margin:10px 16px 0;font-size:13px;line-height:18px;color:var(--m-sec);}
 .mk-lg div{display:flex;align-items:baseline;gap:6px;}.mk-lg i{flex:0 0 auto;width:8px;height:8px;border-radius:2px;align-self:center;}.mk-lg b{flex:0 0 auto;font-weight:600;color:var(--m-label);}
@@ -100,7 +101,7 @@ button,input{font:inherit;color:inherit;}
     <label class="mk-row"><span class="k">A</span><input id="fA" type="text" inputmode="decimal" placeholder="0 ~ 39" maxlength="5"><span class="u">점</span></label>
     <label class="mk-row"><span class="k">B</span><input id="fB" type="text" inputmode="decimal" placeholder="0 ~ 41" maxlength="5"><span class="u">점</span></label>
   </div>
-  <div class="mk-sec mk-sec2">틀린 문항 · 안 넣어도 됨</div>
+  <div class="mk-sec mk-sec2" id="kh">틀린 문항 · 안 넣어도 됨</div>
   <div class="mk-grp">
     <label class="mk-row"><span class="k"><i class="mk-dot" style="background:var(--m-k1)"></i>모름</span><input id="k1" class="kf" type="text" inputmode="numeric" placeholder="—" maxlength="2"><span class="u">개</span></label>
     <label class="mk-row"><span class="k"><i class="mk-dot" style="background:var(--m-k2)"></i>핀트</span><input id="k2" class="kf" type="text" inputmode="numeric" placeholder="—" maxlength="2"><span class="u">개</span></label>
@@ -188,10 +189,17 @@ function today(){ var d=new Date(); d=new Date(d.getTime()-d.getTimezoneOffset()
 function kv(i){ var v=String($('k'+i).value||'').trim(); if(!v) return ''; return /^\d{1,2}$/.test(v)?+v:null; }   
 function kinds(){ var a=[1,2,3,4].map(kv); if(a.every(function(x){ return x===''; })) return null; return a.map(function(x){ return x===''?0:x; }); }   
 function ok(){ return $('fN').value.trim() && /^\d{4}-\d{2}-\d{2}$/.test($('fD').value) && num($('fA').value,MXA)!=null && num($('fB').value,MXB)!=null && [1,2,3,4].every(function(i){ return kv(i)!==null; }); }
-function upd(){ $('add').disabled=!ok(); }
+
+function lost(){ var a=num($('fA').value,MXA), b=num($('fB').value,MXB); return a==null||b==null?null:Math.ceil(MXA+MXB-a-b-1e-9); }
+function ksumIn(){ return [1,2,3,4].reduce(function(t,i){ var v=kv(i); return t+(typeof v==='number'?v:0); },0); }
+function kfit(){ var l=lost(); return l==null || ksumIn()<=l; }
+function upd(){ var l=lost(), k=ksumIn(), h=$('kh');
+  if(l==null) h.innerHTML='틀린 문항 · 안 넣어도 됨';
+  else h.innerHTML='틀린 문항 · '+(k?'<b class="'+(k>l?'mk-over':'')+'">'+k+'</b> / '+l+'개':l+'개 안에서')+' · 안 넣어도 됨';
+  $('add').disabled=!(ok() && kfit()); }
 ['fN','fD','fA','fB','k1','k2','k3','k4'].forEach(function(i){ $(i).addEventListener('input', upd); });
 $('fD').value=today();
-$('add').onclick=function(){ if(!ok()) return;
+$('add').onclick=function(){ if(!ok()||!kfit()) return;
   R.push({id:Date.now().toString(36)+Math.random().toString(36).slice(2,6), n:$('fN').value.trim(), d:$('fD').value, a:num($('fA').value,MXA), b:num($('fB').value,MXB), k:kinds(), at:Date.now()});
   save(); sel=null; ['fA','fB','fN','k1','k2','k3','k4'].forEach(function(i){ $(i).value=''; }); upd(); list(); draw();
   if(window.goatcounter&&goatcounter.count) try{ goatcounter.count({path:'mock/add', event:true}); }catch(e){} };
