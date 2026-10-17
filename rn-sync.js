@@ -67,12 +67,12 @@
   document.head.appendChild(css);
   pg.innerHTML='<div class="rns-card">'+
     '<div id="rnsOff"><div class="rns-in-row"><input id="rnsCode" placeholder="다른 기기의 연동 코드" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="16" aria-label="연동 코드"><button class="rns-b" type="button" id="rnsGo">연결</button></div>'+
-      '<button class="rns-link" type="button" id="rnsFirst">처음 연동하나요? 새 코드 만들기</button></div>'+
-    '<div id="rnsLink" class="rns-h"><p class="rns-t" id="rnsLinkT">이 코드로 연결할까요?</p><div class="rns-code" id="rnsLinkCode"></div><button class="rns-b" type="button" id="rnsLinkGo" style="margin-top:10px">연결</button></div>'+
+      '<button class="rns-link" type="button" id="rnsFirst">처음이면 새 코드 만들기</button></div>'+
+    '<div id="rnsLink" class="rns-h"><p class="rns-t" id="rnsLinkT">이 코드로 연결</p><div class="rns-code" id="rnsLinkCode"></div><button class="rns-b" type="button" id="rnsLinkGo" style="margin-top:10px">연결</button></div>'+
     '<div id="rnsOn" class="rns-h"><p class="rns-t" id="rnsOnT"></p><div class="rns-code" id="rnsShow"></div>'+
       '<div class="rns-2"><button class="rns-b" type="button" id="rnsShare">링크 보내기</button><button class="rns-b rns-sub" type="button" id="rnsCp">코드 복사</button></div>'+
-      '<p class="rns-keep rns-h" id="rnsKeep"><b>링크를 저장해 두세요</b> · 기록이 지워져도 다시 받아요</p>'+
-      '<button class="rns-b rns-h" type="button" id="rnsDone" style="margin-top:12px">저장했어요</button>'+
+      '<p class="rns-keep rns-h" id="rnsKeep"><b>링크 저장해 두기</b> · 기록이 지워져도 다시 받을 수 있음</p>'+
+      '<button class="rns-b rns-h" type="button" id="rnsDone" style="margin-top:12px">저장함</button>'+
       '<p class="rns-st" id="rnsAt"></p></div>'+
     '<p class="rns-err rns-h" id="rnsErr"></p></div>'+
     '<button class="rns-off rns-h" type="button" id="rnsOffB">연동 끊기</button>';
@@ -84,25 +84,25 @@
   function linkUrl(){ return location.origin+location.pathname+'#sync='+fmt(sy.code); }
   function connect(k, b){ if(b) b.disabled=true;
     return fetch(DB+k+'.json',{cache:'no-store'}).then(function(r){ if(!r.ok) throw 0; return r.json(); }).then(function(d){
-      if(!d){ err('이 코드를 찾지 못했어요. 다시 확인해 주세요.'); return; }
-      sy={code:k}; sySave(); return pull().then(function(){ var n=Object.keys(getRec()).length; view(); $('rnsOnT').textContent='연결했어요 · '+n+'문제를 맞췄어요.'; $('rnsCode').value=''; paintRow(); }); })
-    .catch(function(){ err('연결하지 못했어요. 잠시 뒤 다시 해 주세요.'); }).then(function(){ if(b) b.disabled=false; }); }
-  $('rnsGo').onclick=function(){ var k=norm($('rnsCode').value); if(!/^[A-Z2-9]{12}$/.test(k)){ err('코드 12자리를 그대로 넣어 주세요.'); return; } connect(k, this); };
+      if(!d){ err('이 코드를 찾지 못함 — 다시 확인'); return; }
+      sy={code:k}; sySave(); return pull().then(function(){ var n=Object.keys(getRec()).length; view(); $('rnsOnT').textContent='연결됨 · '+n+'문제 맞춤'; $('rnsCode').value=''; paintRow(); }); })
+    .catch(function(){ err('연결하지 못함 — 잠시 뒤 다시'); }).then(function(){ if(b) b.disabled=false; }); }
+  $('rnsGo').onclick=function(){ var k=norm($('rnsCode').value); if(!/^[A-Z2-9]{12}$/.test(k)){ err('코드 12자리를 그대로 입력'); return; } connect(k, this); };
   $('rnsCode').addEventListener('keydown', function(e){ if(e.key==='Enter'&&!e.isComposing) $('rnsGo').click(); });
   $('rnsLinkGo').onclick=function(){ connect(this.dataset.k, this); };
   $('rnsFirst').onclick=function(){ var b=this, c='ABCDEFGHJKLMNPQRSTUVWXYZ23456789', a=new Uint32Array(12), k=''; crypto.getRandomValues(a); for(var i=0;i<12;i++) k+=c[a[i]%c.length];
     b.disabled=true; sy={code:k}; var rec=getRec(), up={}; Object.keys(rec).forEach(function(id){ up['r/'+id]=enc(rec[id]); }); fbMerge(null, up); idMerge(null, up);
-    push(up).then(function(){ sySave(); must=true; view(); paintRow(); }).catch(function(){ sy=null; err('연결하지 못했어요. 잠시 뒤 다시 해 주세요.'); }).then(function(){ b.disabled=false; }); };
+    push(up).then(function(){ sySave(); must=true; view(); paintRow(); }).catch(function(){ sy=null; err('연결하지 못함 — 잠시 뒤 다시'); }).then(function(){ b.disabled=false; }); };
   $('rnsDone').onclick=function(){ must=false; view(); };
   $('rnsShare').onclick=function(){ var b=this, u=linkUrl(); $('rnsDone').disabled=false;
     if(navigator.share) navigator.share({title:'기기 연동', url:u}).catch(function(){});
-    else (navigator.clipboard?navigator.clipboard.writeText(u):Promise.reject()).then(function(){ b.textContent='링크를 복사했어요'; setTimeout(function(){ b.textContent='링크 보내기'; },1500); }, function(){ err('복사가 안 돼요. 코드를 길게 눌러 복사해 주세요.'); }); };
-  $('rnsCp').onclick=function(){ var b=this; $('rnsDone').disabled=false; (navigator.clipboard?navigator.clipboard.writeText(fmt(sy.code)):Promise.reject()).then(function(){ b.textContent='복사했어요'; setTimeout(function(){ b.textContent='코드 복사'; },1500); }, function(){ err('복사가 안 돼요. 코드를 길게 눌러 복사해 주세요.'); }); };
-  $('rnsOffB').onclick=function(){ if(!confirm('연동을 끊을까요? 기록은 이 기기에 남아요.')) return; sy=null; sySave(); must=false; view(); paintRow(); };
+    else (navigator.clipboard?navigator.clipboard.writeText(u):Promise.reject()).then(function(){ b.textContent='링크 복사됨'; setTimeout(function(){ b.textContent='링크 보내기'; },1500); }, function(){ err('복사 안 됨 — 코드를 길게 눌러 복사'); }); };
+  $('rnsCp').onclick=function(){ var b=this; $('rnsDone').disabled=false; (navigator.clipboard?navigator.clipboard.writeText(fmt(sy.code)):Promise.reject()).then(function(){ b.textContent='복사됨'; setTimeout(function(){ b.textContent='코드 복사'; },1500); }, function(){ err('복사 안 됨 — 코드를 길게 눌러 복사'); }); };
+  $('rnsOffB').onclick=function(){ if(!confirm('연동을 끊습니다. 기록은 이 기기에 남습니다.')) return; sy=null; sySave(); must=false; view(); paintRow(); };
   view(); sync();
   addEventListener('beforeunload', function(e){ if(must){ e.preventDefault(); e.returnValue=''; } });
   var m=location.hash.match(/^#sync=([A-Za-z0-9-]{12,16})$/);
   if(m){ var k=norm(m[1]); try{ history.replaceState(history.state,'',location.pathname+location.search); }catch(e){}
     if(/^[A-Z2-9]{12}$/.test(k)&&!(sy&&sy.code===k)){ only('rnsLink'); $('rnsLinkCode').textContent=fmt(k); $('rnsLinkGo').dataset.k=k;
-      $('rnsLinkT').textContent=sy?'다른 코드로 연동 중이에요. 이 코드로 바꿀까요?':'이 코드로 연결할까요?'; } }
+      $('rnsLinkT').textContent=sy?'다른 코드로 연동 중 · 이 코드로 바꾸기':'이 코드로 연결'; } }
 })();

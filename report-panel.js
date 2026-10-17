@@ -41,7 +41,7 @@
     '<div class="rn-row"><span>단원</span><select class="rn-g"><option value="">선택 안 함</option></select></div>'+
     '<div class="rn-row"><span>절</span><select class="rn-p"><option value="">선택 안 함</option></select></div></div>'+
     '<textarea class="rn-ta" placeholder="고칠 내용"></textarea>'+
-    '<button class="rn-send" type="button">보내기</button><div class="rn-ok">보냈어요 · <a href="status.html">처리 현황</a></div></div>';
+    '<button class="rn-send" type="button">보내기</button><div class="rn-ok">보냄 · <a href="status.html">처리 현황</a></div></div>';
   document.body.appendChild(fab); document.body.appendChild(pan);
   var q=function(s){return pan.querySelector(s)}, selG=q('.rn-g'), selP=q('.rn-p'), ta=q('.rn-ta'), send=q('.rn-send'), ok=q('.rn-ok');
   q('.v').textContent=SUBJ;
@@ -73,9 +73,9 @@
   function close(){ document.body.classList.remove('rn-open'); pk.classList.remove('on'); }
   fab.onclick=open; q('.rn-x').onclick=close;
   document.addEventListener('keydown', function(e){ if(e.key==='Escape') close(); });
-  send.onclick=function(){ if(send.disabled) return; if(!ta.value.trim()){ tip(send,'고칠 내용을 적어 주세요'); ta.focus(); return; } send.disabled=true; send.textContent='보내는 중…';
+  send.onclick=function(){ if(send.disabled) return; if(!ta.value.trim()){ tip(send,'고칠 내용 적기'); ta.focus(); return; } send.disabled=true; send.textContent='보내는 중…';
     var g=G[selG.value], where=[g&&g[0], selP.value].filter(Boolean).join(' > ');
     var body=new URLSearchParams(); body.append(E_SUBJ, SUBJ); body.append(E_TEXT, (where?'[위치] '+where+'\n':'')+'[내용] '+ta.value.trim()+(rnFbId()?'\n[보낸 이] #'+rnFbId():''));
     fetch(FORM,{method:'POST',mode:'no-cors',body:body}).then(function(){ try{var a=JSON.parse(localStorage.getItem('rn-fb-sent')||'[]');a.push({t:Date.now(),s:SUBJ});localStorage.setItem('rn-fb-sent',JSON.stringify(a.slice(-20)));}catch(e){} ta.value=''; send.disabled=false; send.textContent='보내기'; ok.style.display='block'; })
-      .catch(function(){ send.disabled=false; send.textContent='다시 보내기'; alert('보내지 못했어요'); }); };
+      .catch(function(){ send.disabled=false; send.textContent='다시 보내기'; alert('보내지 못함'); }); };
 })();

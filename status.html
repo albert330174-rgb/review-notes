@@ -2,7 +2,7 @@
 <html lang="ko">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>처리 현황 · 초등 임용 정리 노트</title><script data-goatcounter="https://imgostudy.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script><script>(function(){try{var L=localStorage,d=new Date(),f=function(x){return x.getFullYear()+'-'+(x.getMonth()+1)+'-'+x.getDate();},k=f(d);if(L.getItem('rn_v_day')===k)return;var nw=!L.getItem('rn_v_seen'),pv=(L.getItem('rn_v_day')||'').split('-'),gp=8;if(pv.length===3){gp=Math.round((new Date(d.getFullYear(),d.getMonth(),d.getDate())-new Date(+pv[0],pv[1]-1,+pv[2]))/864e5);if(!(gp>=1))gp=8;if(gp>8)gp=8;}var n=0;(function go(){var g=window.goatcounter;if(g&&g.count){var e=function(p){g.count({path:p,title:p,event:true});};e('visit/day');if(nw)e('visit/new');e('visit/gap/'+gp);L.setItem('rn_v_day',k);L.setItem('rn_v_seen','1');return;}if(++n<40)setTimeout(go,250);})();}catch(e){}})();</script><link rel="icon" href="icon.svg" type="image/svg+xml"><meta name="description" content="보낸 피드백이 반영됐는지 제보 시각으로 확인해요"><meta property="og:type" content="website"><meta property="og:site_name" content="초등 임용 정리 노트"><meta property="og:title" content="처리 현황 · 초등 임용 정리 노트"><meta property="og:description" content="보낸 피드백이 반영됐는지 제보 시각으로 확인해요"><meta property="og:url" content="https://imgostudy.github.io/review-notes/status.html">
+<title>처리 현황 · 초등 임용 정리 노트</title><script data-goatcounter="https://imgostudy.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script><script>(function(){try{var L=localStorage,d=new Date(),f=function(x){return x.getFullYear()+'-'+(x.getMonth()+1)+'-'+x.getDate();},k=f(d);if(L.getItem('rn_v_day')===k)return;var nw=!L.getItem('rn_v_seen'),pv=(L.getItem('rn_v_day')||'').split('-'),gp=8;if(pv.length===3){gp=Math.round((new Date(d.getFullYear(),d.getMonth(),d.getDate())-new Date(+pv[0],pv[1]-1,+pv[2]))/864e5);if(!(gp>=1))gp=8;if(gp>8)gp=8;}var n=0;(function go(){var g=window.goatcounter;if(g&&g.count){var e=function(p){g.count({path:p,title:p,event:true});};e('visit/day');if(nw)e('visit/new');e('visit/gap/'+gp);L.setItem('rn_v_day',k);L.setItem('rn_v_seen','1');return;}if(++n<40)setTimeout(go,250);})();}catch(e){}})();</script><link rel="icon" href="icon.svg" type="image/svg+xml"><meta name="description" content="보낸 피드백이 반영됐는지 제보 시각으로 확인"><meta property="og:type" content="website"><meta property="og:site_name" content="초등 임용 정리 노트"><meta property="og:title" content="처리 현황 · 초등 임용 정리 노트"><meta property="og:description" content="보낸 피드백이 반영됐는지 제보 시각으로 확인"><meta property="og:url" content="https://imgostudy.github.io/review-notes/status.html">
 <link rel="stylesheet" href="kit.css?v=158c008e">
 <style>
 
@@ -65,7 +65,7 @@ body{margin:0;background:var(--bg);color:var(--label);}
 <div class="in">
   <a class="back" href="index.html"><svg viewBox="0 0 10 17" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 1.5 1.5 8.5l7 7"/></svg>목차</a>
   <h1>처리 현황</h1>
-  <p class="fs-lead">보낸 시각으로 찾아보세요</p>
+  <p class="fs-lead">보낸 시각으로 찾기</p>
   <section class="fs-mine" hidden><h2 class="fs-h"><span class="fs-mt">이 기기에서 보낸 제보</span><span class="fs-id" hidden></span></h2><div class="fs-grp"></div></section>
   <div class="fs-seg" hidden><button type="button" data-v="open">진행 중<span></span></button><button type="button" data-v="done">완료<span></span></button></div>
   <div class="fs-grp fs-list">
@@ -132,7 +132,7 @@ body{margin:0;background:var(--bg);color:var(--label);}
     rows.forEach(function(r){ r.classList.add('hid'); });
     list.forEach(function(r,i){ if(tab==='open' || i<shown) r.classList.remove('hid'); });
     more.hidden=!(tab==='done' && done.length>shown);
-    var e=L.querySelector('.fs-empty'); if(!e){ e=document.createElement('div'); e.className='fs-empty'; L.appendChild(e); } if(e){ e.style.display=list.length?'none':''; e.textContent=tab==='open'?'진행 중인 제보가 없어요':'아직 받은 제보가 없어요'; }
+    var e=L.querySelector('.fs-empty'); if(!e){ e=document.createElement('div'); e.className='fs-empty'; L.appendChild(e); } if(e){ e.style.display=list.length?'none':''; e.textContent=tab==='open'?'진행 중인 제보 없음':'받은 제보 없음'; }
     var g=mineBox.querySelector('.fs-grp'); g.innerHTML='';
     rows.forEach(function(r){ var k=r.dataset.k?key(r):r._k; var m=k && sent.filter(function(x){ return same(x,k); })[0]; if(m){ var c=r.cloneNode(true); c.classList.remove('hid');
       var x=document.createElement('button'); x.type='button'; x.className='fs-del'; x.setAttribute('aria-label','이 기기 목록에서 지우기'); x.title='지우기'; x.innerHTML=XI;   
@@ -167,4 +167,4 @@ body{margin:0;background:var(--bg);color:var(--label);}
   }).catch(function(){});
 })();
 </script>
-<script src="rn-theme.js?v=140188e2"></script><script src="rn-dl.js?v=c1e22fd8"></script><script src="rn-sync.js?v=8386b041"></script></html>
+<script src="rn-theme.js?v=140188e2"></script><script src="rn-dl.js?v=c1e22fd8"></script><script src="rn-sync.js?v=f0b27348"></script></html>

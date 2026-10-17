@@ -144,13 +144,13 @@
       ds=ds.map(function(d,i){ var h=th(d); return {d:d, k:h?0:1, l:h?(LV[d.meta.lv]!=null?LV[d.meta.lv]:3):0, i:i}; })
         .sort(function(a,b){ return a.k-b.k || a.l-b.l || a.i-b.i; }).map(function(x){ return x.d; }).slice(0,25);
       clearTimeout(logT); logT=setTimeout(function(){ if(my===seq) logQ(q, !ds.length); }, 1500);
-      if(!ds.length){ ls.innerHTML='<div class="rn-sx-n">찾는 말이 없어요</div>'; return; }
+      if(!ds.length){ ls.innerHTML='<div class="rn-sx-n">찾는 말 없음</div>'; return; }
       ls.innerHTML='<div class="rn-sx-g">'+ds.map(function(d){
         var path=[here&&SUBJ?'':d.meta.subj, clean(d.meta.path)].filter(Boolean).join(' › ');
         return '<a href="'+esc(d.url)+'">'+(path?'<span class="rn-sx-p">'+esc(path)+'</span>':'')+
           '<span class="rn-sx-t">'+esc(clean(d.meta.title))+'</span><span class="rn-sx-e">'+dropTitle(tidy(d.excerpt), tidy(d.meta.title))+'</span></a>'; }).join('')+'</div>';
       ls.scrollTop=0;
-    }).catch(function(){ if(my===seq) ls.innerHTML='<div class="rn-sx-n">검색을 불러오지 못했어요</div>'; });
+    }).catch(function(){ if(my===seq) ls.innerHTML='<div class="rn-sx-n">검색을 불러오지 못함</div>'; });
   }
 
   

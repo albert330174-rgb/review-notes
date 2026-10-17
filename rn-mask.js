@@ -156,7 +156,7 @@
   var mm=document.createElement('div'); mm.className='rn-mm'; mm.setAttribute('role','menu');
   mm.innerHTML=ITEMS.map(function(x){ return '<button type="button" role="menuitemradio" data-m="'+x[0]+'"><span class="ck">'+CHECK+'</span><span class="t"><b>'+x[1]+'</b>'+(x[2]?'<small>'+x[2]+'</small>':'')+'</span></button>'; }).join('')+
     '<button type="button" class="tg" role="menuitemcheckbox" data-t="1"><span class="ck">'+CHECK+'</span><span class="t"><b>타이핑으로 열기</b><small>개념어 마스킹에서 · 모르면 보기</small></span></button>'+
-    '<div class="nt">교육과정 글은 어느 쪽이든 <u>밑줄 친 핵심어</u>만 가려요 · 가린 칸을 누르면 열려요<span class="kb"> · 키보드 Space 다음 칸 · Shift+Space 닫기</span></div>';
+    '<div class="nt">교육과정 글은 어느 쪽이든 <u>밑줄 친 핵심어</u>만 가림 · 가린 칸을 누르면 열림<span class="kb"> · 키보드 Space 다음 칸 · Shift+Space 닫기</span></div>';
   document.body.appendChild(mm);
   var btns=[], opener=null;
   function paint(){ document.body.classList.toggle('rn-m-term', mode==='term'); document.body.classList.toggle('rn-m-desc', mode==='desc');

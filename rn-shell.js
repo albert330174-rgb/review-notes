@@ -200,7 +200,7 @@
     if(!el||el.querySelector('.rn-a')) return;
     var a=document.createElement('a'); a.className='rn-a'; a.href='#'+id; a.textContent='#'; a.setAttribute('aria-label','이 절 링크 복사');
     a.onclick=function(ev){ ev.preventDefault(); ev.stopPropagation(); var u=location.origin+location.pathname+'#'+encodeURIComponent(id);
-      (navigator.clipboard?navigator.clipboard.writeText(u):Promise.reject()).then(function(){ say('링크를 복사했어요'); }, function(){ history.replaceState(history.state,'','#'+id); say('주소창에 링크를 넣었어요'); }); };
+      (navigator.clipboard?navigator.clipboard.writeText(u):Promise.reject()).then(function(){ say('링크 복사됨'); }, function(){ history.replaceState(history.state,'','#'+id); say('주소창에 링크 넣음'); }); };
     el.classList.add('rn-ah'); el.appendChild(a); });
   
   function mark(e){ if(e.classList.contains('clpsd')){ if(!e.hasAttribute('hidden')) e.setAttribute('hidden','until-found'); } else if(e.getAttribute('hidden')==='until-found') e.removeAttribute('hidden'); }
