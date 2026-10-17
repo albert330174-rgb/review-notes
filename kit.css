@@ -459,6 +459,7 @@ h4.lab{font-size:13px;line-height:18px;font-weight:600;color:var(--sec);margin:1
 :root.v2 .vchain.conv .stp .mid{font-weight:600;white-space:normal;}
 :root.v2 .vchain{grid-template-columns:minmax(0,max-content) minmax(0,1fr);}   
 :root.v2 .vchain>.stp{min-width:0;max-width:11em;}
+@media (max-width:500px){ :root.v2 .vchain:not(.hz){grid-template-columns:minmax(0,1fr);} }   
 :root.v2 .vchain.conv .ann .up,:root.v2 .vchain.conv .ann .down{display:inline;font-size:1em;color:inherit;}
 :root.v2 .vchain.conv .ann>*+*::before{content:' · ';}
 
