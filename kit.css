@@ -571,6 +571,8 @@ h4.lab{font-size:13px;line-height:18px;font-weight:600;color:var(--sec);margin:1
 :root.v2.dae-big .endb .prose>p.sub::before{display:none;}
 
 :root.v2.dae-big .blk.prosey>.blb{max-width:46em;}
+
+:root.v2.dae-big .blk.prosey>.blb:has(.colset){max-width:none;}
 :root.v2.dae-big .converge>:last-child,:root.v2 .converge.m6>:last-child{flex:1 1 8em;min-width:min(8em,45%);}   
 :root.v2.dae-big .r-end.r-enddup{height:0;margin:0;padding:0;border:0;overflow:hidden;}
 
