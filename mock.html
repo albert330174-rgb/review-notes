@@ -39,6 +39,9 @@ button,input{font:inherit;color:inherit;}
 .mk-pt{stroke:var(--m-card);stroke-width:2;}
 .mk-x{stroke:var(--m-ter);stroke-width:.8;pointer-events:none;}
 .mk-empty{color:var(--m-ter);font-size:15px;text-align:center;padding:36px 0 30px;}
+
+.mk-box.demo .mk-svg,.mk-box.demo .mk-big,.mk-box.demo #kmeta{opacity:.45;}
+.mk-tag{display:inline-flex;align-items:center;height:20px;padding:0 8px;border-radius:10px;background:var(--m-fill);color:var(--m-sec);font-size:12px;font-weight:700;}
 .mk-sec{font-size:13px;font-weight:600;color:var(--m-sec);margin:0 16px 6px;}
 .mk-grp{background:var(--m-card);border-radius:12px;box-shadow:var(--m-sh);overflow:hidden;margin-bottom:8px;}
 .mk-row{display:flex;align-items:center;gap:12px;min-height:50px;padding:0 16px;position:relative;box-sizing:border-box;}
@@ -123,6 +126,9 @@ try{ mode=localStorage.getItem(MKEY)==='ab'?'ab':'t'; rng=localStorage.getItem('
 function save(){ try{ localStorage.setItem(KEY, JSON.stringify(R)); }catch(e){} }
 function sorted(){ return R.slice().sort(function(a,b){ return a.d<b.d?-1:a.d>b.d?1:(a.at||0)-(b.at||0); }); }
 function esc(s){ return String(s).replace(/[&<>"]/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+
+var DEMO=[["2026-09-13","26 백구 1회",31.0,28.0,[21,1,1,0]],["2026-09-19","27 백구 1회",25.0,27.0,[26,0,1,0]],["2026-09-21","26 백구 2회",27.0,26.0,[22,2,4,0]],["2026-09-25","26 테크니컬 5회",21.0,32.0,[25,0,2,0]],["2026-09-28","26 뉴로직 1회",22.0,25.0,[27,2,2,2]],["2026-09-30","26 테크니컬 6회",24.0,30.0,[16,4,2,3]],["2026-10-03","27 임고원포 1회",25.0,29.0,[19,3,3,1]],["2026-10-07","27 테크니컬 1회",30.0,33.0,[17,0,0,0]],["2026-10-10","27 임고원포 2회",32.0,33.0,[9,0,5,1]],["2026-10-12","27 테크니컬 2회",28.0,30.0,[5,3,3,11]],["2026-10-13","27 임고원포 3회",29.0,35.0,[7,3,1,5]],["2026-10-14","27 테크니컬 3회",35.0,32.0,[8,3,0,2]],["2026-10-16","27 백구 2회",30.0,30.0,[12,4,4,0]],["2026-10-17","27 테크니컬 4회",33.0,32.0,[6,2,5,2]],["2026-10-18","27 임고원포 4회",33.0,28.0,[6,3,2,8]],["2026-10-19","27 임고트립 1회",31.0,29.0,[6,4,1,8]]];
+function demoRows(){ return DEMO.map(function(x,i){ return {id:'demo'+i, n:x[1], d:x[0], a:x[2], b:x[3], k:x[4], at:i}; }); }
 var MXA=39, MXB=41;   
 function num(v,mx){ v=String(v||'').trim(); if(!/^\d{1,2}(\.\d{1,2})?$/.test(v)) return null; var x=parseFloat(v); return x>=0&&x<=mx?x:null; }
 function fmt(x){ return Math.round(x*100)/100; }
@@ -130,7 +136,8 @@ function md(d){ return Number(d.slice(5,7))+'/'+Number(d.slice(8,10)); }
 var W=340, H=180, L=10, RR=40;
 function X(i,n){ return L+(n<2?(W-L-RR)/2:i*(W-L-RR)/(n-1)); }
 function draw(){
-  var A0=sorted(), many=A0.length>10, S=many&&rng!=='all'?A0.slice(-10):A0, wrap=$('wrap'), n=S.length; VIEW=S;
+  var A0=sorted(), demo=!A0.length; if(demo) A0=demoRows(); document.querySelector('.mk-box').classList.toggle('demo', demo);
+  var many=A0.length>10, S=many&&rng!=='all'?A0.slice(-10):A0, wrap=$('wrap'), n=S.length; VIEW=S;
   $('rng').classList.toggle('mk-hide', !many); [].forEach.call($('rng').children, function(b){ b.classList.toggle('on', b.dataset.v===rng); });
   [].forEach.call($('seg').children, function(b){ b.classList.toggle('on', b.dataset.m===mode); });
   if(!n){ $('del').classList.add('mk-hide'); $('kbox').classList.add('mk-hide'); wrap.innerHTML='<div class="mk-empty">아래에 첫 기록을 넣으면 추이가 그려짐</div>'; $('big').innerHTML=''; $('meta').textContent=''; return; }
@@ -156,7 +163,8 @@ function draw(){
   var dl=function(a,b){ if(b==null) return ''; var x=fmt(a-b); return x?'<i class="'+(x>0?'up':'dn')+'">'+(x>0?'▲':'▼')+' '+Math.abs(x)+'</i>':''; };
   $('big').innerHTML=ab?[['A','var(--m-a)',r.a,pv&&pv.a,MXA],['B','var(--m-b)',r.b,pv&&pv.b,MXB]].map(function(z){ return '<span class="mk-ab"><em style="background:'+z[1]+'"></em><span class="l">'+z[0]+'</span><b>'+fmt(z[2])+'</b><small>/'+z[4]+'</small>'+dl(z[2],z[3])+'</span>'; }).join('')
     :'<b>'+fmt(r.a+r.b)+'</b><small>/80</small>'+dl(r.a+r.b, pv?pv.a+pv.b:null);
-  $('meta').textContent=Number(r.d.slice(5,7))+'월 '+Number(r.d.slice(8,10))+'일 · '+r.n; $('del').classList.remove('mk-hide'); $('del').dataset.id=r.id;
+  $('meta').textContent=Number(r.d.slice(5,7))+'월 '+Number(r.d.slice(8,10))+'일 · '+r.n; $('del').classList.toggle('mk-hide', demo); $('del').dataset.id=r.id;
+  if(demo) $('meta').innerHTML='<span class="mk-tag">예시</span>';
   [].forEach.call(document.querySelectorAll('.mk-li'), function(li){ li.classList.toggle('sel', sel!=null && li.dataset.id===r.id); });
   drawK(S, cur);
 }
