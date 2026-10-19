@@ -119,6 +119,50 @@ button.qz-row{cursor:pointer;} button.qz-row:active{background:var(--q-fill);}
 .qz-mine b{display:block;font-size:13px;font-weight:600;margin-bottom:2px;}
 .qz-meta{display:flex;align-items:center;justify-content:space-between;gap:12px;flex:0 0 auto;padding-top:8px;border-top:.5px solid var(--q-sep);}
 .qz-meta a,.qz-meta button{color:var(--q-sec);text-decoration:none;background:none;border:0;padding:6px 0;cursor:pointer;font-size:14px;}#qNote{color:var(--q-acc);}
+
+.qz-stage{width:100%;max-width:900px;flex:1;min-height:0;display:flex;gap:12px;margin-top:12px;}
+.qz-col{flex:1;min-width:0;display:flex;flex-direction:column;}
+.qz-col>.qz-card{max-width:none;margin:0 0 12px;}.qz-col>.qz-acts{max-width:none;}
+.qz-side,.qz-rp{display:none;}
+.qz-sh{margin:10px 8px 4px;font-size:13px;line-height:18px;font-weight:600;color:var(--q-sec);}
+.qz-sb{display:flex;align-items:center;gap:10px;width:100%;padding:10px 8px;border:0;border-radius:10px;background:none;color:var(--q-label);font:inherit;font-size:16px;text-align:left;cursor:pointer;box-sizing:border-box;}
+.qz-sb:hover{background:var(--q-fill);}.qz-sb svg{width:20px;height:20px;flex:0 0 auto;color:var(--q-acc);}
+.qz-sb .ti{display:flex;align-items:center;justify-content:center;width:20px;height:20px;flex:0 0 auto;}.qz-sb .ti svg{color:var(--q-acc);}.qz-sb .qz-kbd{margin-left:auto;}.qz-sp{flex:1;}.qz-sb.off svg{color:var(--q-sec);}
+[data-act="star"].on svg{color:#F5A623;}[data-act="star"].on svg path{fill:currentColor;}
+[data-act="drop"].on,[data-act="drop"].on svg{color:var(--q-again)!important;}
+.qz-mi{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;padding:0!important;border-radius:17px;color:var(--q-sec)!important;}
+.qz-mi svg{width:20px;height:20px;}.qz-mg{display:flex;gap:4px;margin-left:auto;}
+.qz-rp{align-items:center;height:44px;border-radius:22px;padding:0 4px;flex:0 0 auto;}
+.qz-rp button{width:40px;height:40px;border:0;border-radius:20px;background:none;color:var(--q-label);display:flex;align-items:center;justify-content:center;cursor:pointer;}
+.qz-rp button svg{width:18px;height:18px;}.qz-rp button:disabled{opacity:.3;cursor:default;}
+.qz-pause{position:fixed;inset:0;z-index:70;background:var(--q-bg);display:flex;align-items:center;justify-content:center;}
+.qz-pause .pc{text-align:center;width:100%;max-width:340px;padding:20px;box-sizing:border-box;}
+.qz-pause .pz{color:var(--q-sec);margin-bottom:10px;}.qz-pause .pz svg{width:34px;height:34px;}
+.qz-pause h2{margin:0 0 22px;font-size:22px;font-weight:800;}
+.qz-info{width:100%;max-width:560px;max-height:calc(100dvh - 32px);overflow:auto;background:var(--q-card);border-radius:26px;padding:20px;box-sizing:border-box;box-shadow:0 20px 60px rgba(0,0,0,.25);}
+.qz-info .qh{display:flex;align-items:center;justify-content:space-between;}.qz-info .qh b{font-size:20px;}
+.ci-scope{margin:12px 0 0;font-size:13px;font-weight:600;color:var(--q-sec);}
+.ci-q{margin:6px 0 0;font-size:17px;line-height:1.55;font-weight:600;}
+.ci-a{margin:10px 0 0;padding-top:10px;border-top:.5px solid var(--q-sep);font-size:16px;line-height:1.6;white-space:pre-wrap;}
+.ci-note{display:inline-block;margin-top:10px;font-size:14px;}
+.ci-sec{margin:18px 0 6px;font-size:13px;font-weight:600;color:var(--q-sec);}
+.ci-facts{display:flex;flex-wrap:wrap;gap:6px;}.ci-facts .f{padding:5px 10px;border-radius:12px;background:var(--q-fill);font-size:13px;}.ci-facts .f.warn{color:var(--q-again);}
+.ci-hist{max-height:200px;overflow:auto;border-radius:12px;background:var(--q-fill);}
+.ci-hr{display:flex;gap:14px;padding:8px 12px;font-size:14px;font-variant-numeric:tabular-nums;}.ci-hr+.ci-hr{box-shadow:inset 0 .5px 0 var(--q-sep);}
+.ci-hr .ok{color:var(--q-good);font-weight:700;}.ci-hr .no{color:var(--q-again);font-weight:700;}.ci-hr.old{color:var(--q-sec);}
+.ci-acts{display:flex;gap:8px;margin-top:18px;}.ci-act{flex:1;height:46px;border:0;border-radius:14px;background:var(--q-fill);color:var(--q-label);font:inherit;font-size:15px;font-weight:600;cursor:pointer;}.ci-act.on{color:var(--q-again);}
+.fc-box{border-radius:14px;background:var(--q-fill);padding:10px 10px 4px;}
+.fc-head{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;flex-wrap:wrap;}
+.fc-kpi{display:flex;gap:16px;}.fc-kpi span{display:flex;flex-direction:column;font-size:12px;color:var(--q-sec);}.fc-kpi b{font-size:17px;color:var(--q-label);font-variant-numeric:tabular-nums;}
+.fc-seg{display:flex;background:var(--q-bg);border-radius:9px;padding:2px;}.fc-seg button{border:0;background:none;font:inherit;font-size:12px;padding:4px 9px;border-radius:7px;color:var(--q-label);cursor:pointer;}.fc-seg button.on{background:var(--q-card);box-shadow:0 1px 3px rgba(0,0,0,.12);font-weight:600;}
+.fc-svg{display:block;margin-top:6px;overflow:visible;}
+.fc-g{stroke:var(--q-sep);stroke-width:.5;}.fc-t{font-size:10px;fill:var(--q-sec);}.fc-ret{stroke:var(--q-acc);stroke-width:1;stroke-dasharray:3 3;opacity:.7;}.fc-now{stroke:var(--q-sec);stroke-width:1;stroke-dasharray:2 3;}
+.fc-old{fill:none;stroke:var(--q-acc);stroke-width:1;opacity:.35;}.fc-line{fill:none;stroke:var(--q-acc);stroke-width:2;}.fc-ok{fill:var(--q-good);}.fc-no{fill:var(--q-again);}.fc-due{fill:var(--q-acc);}
+@media (min-width:768px){ .qz-bar,.qz-stage{max-width:1160px;} .qz-bar{padding-right:0;justify-content:space-between;}
+  .qz-prog{flex:0 1 420px;flex-direction:row;align-items:center;gap:12px;}.qz-prog .t{display:contents;}.qz-prog .t span:first-child{order:1;flex:0 1 auto;}.qz-prog .b{order:2;flex:1;}.qz-prog .t span:last-child{order:3;}
+  .qz-rp{display:flex;}
+  .qz-side{display:flex;flex-direction:column;flex:0 0 220px;background:var(--q-card);border-radius:26px;box-shadow:var(--q-sh);padding:10px;box-sizing:border-box;overflow:auto;}
+  .qz-meta .qz-mg{display:none;} body:has(#vQ:not(.qz-hide)) .rn-tg{display:none;} }
 .qz-acts{width:100%;max-width:900px;flex:0 0 auto;display:grid;grid-template-columns:1fr 1fr;gap:10px;}
 .qz-acts .show{grid-column:1/-1;height:56px;border:0;border-radius:28px;background:var(--q-sfill);color:#fff;font-size:17px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;}
 .qz-g{height:56px;border:0;border-radius:16px;font-size:17px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:inset 0 -3px 0 currentColor;}
@@ -151,6 +195,8 @@ button.qz-row{cursor:pointer;} button.qz-row:active{background:var(--q-fill);}
     <button class="qz-row" type="button" id="bRange"><span class="qk">범위</span><span class="v" id="sRange"></span><svg class="qz-cv" viewBox="0 0 8 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1 1l6 6-6 6"/></svg></button>
     <div class="qz-row"><span class="qk">문항 수</span><label class="qz-nv" id="sNv"><span id="sNa">전부&nbsp;&nbsp;</span><input id="sNi" type="text" inputmode="numeric" pattern="[0-9]*" enterkeyhint="done" autocomplete="off" aria-label="문항 수"><span id="sNu">문제</span></label><span class="qz-step"><button type="button" id="sNm" aria-label="줄이기"><svg viewBox="0 0 16 16"><path d="M3.5 8h9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button><i></i><button type="button" id="sNp" aria-label="늘리기"><svg viewBox="0 0 16 16"><path d="M3.5 8h9M8 3.5v9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button></span></div>
     <div class="qz-row" id="rOrd"><span class="qk">순서</span><span class="qz-seg" id="sOrd" role="group" aria-label="출제 순서"><button type="button" data-o="0">새 문제 먼저</button><button type="button" data-o="1">복습 먼저</button></span></div>
+    <div class="qz-row"><label class="qk" for="sS">즐겨찾기만</label><input type="checkbox" class="qz-sw" id="sS" role="switch"></div>
+    <div class="qz-row"><label class="qk" for="sD">끈 문제만</label><input type="checkbox" class="qz-sw" id="sD" role="switch"></div>
     <div class="qz-row"><label class="qk" for="sW">틀린 문제만</label><input type="checkbox" class="qz-sw" id="sW" role="switch"></div>
     <div class="qz-row"><label class="qk" for="sWr">써 보기</label><input type="checkbox" class="qz-sw" id="sWr" role="switch"></div>
   </div>
@@ -163,16 +209,18 @@ button.qz-row{cursor:pointer;} button.qz-row:active{background:var(--q-fill);}
   <div class="qz-bar">
     <button class="qz-circ qz-glass" type="button" id="bQuit" aria-label="그만"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
     <div class="qz-prog qz-glass"><div class="t"><span id="qName">쪽지시험</span><span id="qN"></span></div><div class="b"><i id="qBar"></i></div></div>
+    <div class="qz-rp qz-glass"><button type="button" id="bPause" aria-label="일시정지" title="일시정지 (S)"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4.5" width="4" height="15" rx="1.2"/><rect x="14" y="4.5" width="4" height="15" rx="1.2"/></svg></button><button type="button" id="bUndo" aria-label="되돌리기" title="되돌리기 (R)" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg></button></div>
   </div>
-  <div class="qz-card" id="qCard">
+  <div class="qz-stage"><div class="qz-col"><div class="qz-card" id="qCard">
     <div class="qz-hd"><span class="p" id="qWhere"></span><span class="why" id="qWhy"></span></div>
     <div class="qz-top"><p class="qz-q" id="qQ"></p><div id="qImgF"></div></div>
     <div class="qz-line"></div>
     <div class="qz-bot"><div class="qz-ans" id="qAns"><p class="qz-mine qz-hide" id="qMine"></p><p class="qz-lab">정답</p><div class="qz-a" id="qA"></div><ol id="qItems" class="qz-hide"></ol><div id="qImgB"></div></div><div class="qz-cover" id="qCover"><span id="qCoverT">누르면 정답</span><textarea id="qIn" class="qz-hide" placeholder="생각나는 답 쓰기 · Enter = 정답 보기" aria-label="답 써 보기"></textarea></div></div>
-    <div class="qz-meta"><button type="button" id="bOdd">이 문제 이상함</button><a id="qNote" target="_blank" rel="noopener">노트 ↗</a></div>
+    <div class="qz-meta"><button type="button" id="bOdd">이 문제 이상함</button><span class="qz-mg"><button type="button" class="qz-mi" data-act="star" aria-label="즐겨찾기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M12 3.6l2.6 5.3 5.8.8-4.2 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.2-4.1 5.8-.8z"/></svg></button><button type="button" class="qz-mi" data-act="drop" aria-label="끄기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M12 3.5v8"/><path d="M7.2 6.6a7.5 7.5 0 1 0 9.6 0"/></svg></button><button type="button" class="qz-mi" data-act="info" aria-label="카드 정보"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="12" cy="12" r="8.6"/><path d="M12 11v5.2"/><circle cx="12" cy="7.8" r=".6" fill="currentColor"/></svg></button></span><a id="qNote" target="_blank" rel="noopener">노트 ↗</a></div>
   </div>
   <div class="qz-acts" id="aShow"><button class="show" type="button" id="bShow">정답 보기 <span class="qz-kbd">Space</span></button></div>
-  <div class="qz-acts qz-hide" id="aRate"><button class="qz-g no" type="button" id="bNo">틀림 <span class="qz-kbd">Z</span></button><button class="qz-g ok" type="button" id="bOk">맞음 <span class="qz-kbd">C</span></button></div>
+  <div class="qz-acts qz-hide" id="aRate"><button class="qz-g no" type="button" id="bNo">틀림 <span class="qz-kbd">Z</span></button><button class="qz-g ok" type="button" id="bOk">맞음 <span class="qz-kbd">C</span></button></div></div>
+  <aside class="qz-side" aria-label="이 문제"><button type="button" class="qz-sb" data-act="theme"><span class="ti"></span><span class="l"></span></button><p class="qz-sh">이 문제</p><button type="button" class="qz-sb" data-act="star"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M12 3.6l2.6 5.3 5.8.8-4.2 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.2-4.1 5.8-.8z"/></svg><span>즐겨찾기</span><span class="qz-kbd">F</span></button><button type="button" class="qz-sb" data-act="info"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="12" cy="12" r="8.6"/><path d="M12 11v5.2"/><circle cx="12" cy="7.8" r=".6" fill="currentColor"/></svg><span>카드 정보</span></button><div class="qz-sp"></div><button type="button" class="qz-sb off" data-act="drop"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M12 3.5v8"/><path d="M7.2 6.6a7.5 7.5 0 1 0 9.6 0"/></svg><span class="l">끄기</span></button></aside></div>
 </div>
 
 <div class="qz-in qz-hide" id="vR">
@@ -189,6 +237,13 @@ button.qz-row{cursor:pointer;} button.qz-row:active{background:var(--q-fill);}
   <div class="qz-pk-hd"><b>범위 고르기</b><input type="search" id="pkQ" placeholder="과목·주제 검색"></div>
   <div class="qz-pk-ls" id="pkLs"></div>
   <div class="qz-pk-ft"><button class="no" type="button" id="pkNo">취소</button><button class="ok" type="button" id="pkOk">확인</button></div>
+</div></div>
+
+<div class="qz-pause qz-hide" id="qPause"><div class="pc"><div class="pz"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4.5" width="4" height="15" rx="1.2"/><rect x="14" y="4.5" width="4" height="15" rx="1.2"/></svg></div><h2>일시정지</h2><button class="qz-main" type="button" id="bResume">이어서</button></div></div>
+
+<div class="qz-sheet" id="shI" role="dialog" aria-label="카드 정보"><div class="qz-info">
+  <div class="qh"><b>카드 정보</b><button class="qz-x" type="button" id="bInX" aria-label="닫기">✕</button></div>
+  <div id="inBody"></div>
 </div></div>
 
 <div class="qz-sheet" id="sh" role="dialog" aria-label="이 문제 이상함"><div class="qz-odd">
@@ -229,7 +284,14 @@ function keysOf(s, tt){ var o=[]; TOPS[s].forEach(function(x){ if(tt!=null&&x.t!
 function stOf(ks, S){ var n=ks.filter(function(k){ return S[k]; }).length; return n===0?'':n===ks.length?'on':'mix'; }
 function selN(){ return Object.keys(sel).length; }
 function inSel(c){ return !selN() || sel[key(c)]; }
-function pool(){ var w=$('sW').checked; return D.filter(function(c){ return inSel(c) && (!w||(rec[c.id]&&rec[c.id][3]===0)); }); }
+
+var STAR={}, DROP={}, H={};
+function mkLoad(){ try{ STAR=JSON.parse(localStorage.getItem(KEY+'_star')||'{}')||{}; DROP=JSON.parse(localStorage.getItem(KEY+'_drop')||'{}')||{}; H=JSON.parse(localStorage.getItem(KEY+'_h')||'{}')||{}; }catch(e){ STAR={}; DROP={}; H={}; } }
+function mkSave(){ try{ localStorage.setItem(KEY+'_star', JSON.stringify(STAR)); localStorage.setItem(KEY+'_drop', JSON.stringify(DROP)); }catch(e){} }
+function hSave(){ try{ localStorage.setItem(KEY+'_h', JSON.stringify(H)); }catch(e){} }
+function live(c){ return inSel(c) && !DROP[c.id]; }
+function pool(){ var s=$('sS').checked, d=$('sD').checked; return pool0().filter(function(c){ return (d?DROP[c.id]:!DROP[c.id]) && (!s||STAR[c.id]); }); }
+function pool0(){ var w=$('sW').checked; return D.filter(function(c){ return inSel(c) && (!w||(rec[c.id]&&rec[c.id][3]===0)); }); }
 function rangeText(){ if(!selN()) return '전체';
   var labs=[], subs=[];
   SUBJ.forEach(function(s){ var st=stOf(keysOf(s), sel); if(!st) return; subs.push(s);
@@ -239,11 +301,13 @@ function rangeText(){ if(!selN()) return '전체';
   if(subs.length>1) return subs.map(sname).join(' · ');
   var pre=labs[0]&&labs[0].indexOf(' 전체')>0?'':sname(subs[0])+' › ';
   return pre+labs[0]+(labs.length>1?' 외 '+(labs.length-1):''); }
-function info(){ var p=pool(), all=D.filter(inSel), wn=all.filter(function(c){ return rec[c.id]&&rec[c.id][3]===0; }).length, seen=all.filter(function(c){ return rec[c.id]; }).length;
+function info(){ var sn=D.filter(function(c){ return live(c)&&STAR[c.id]; }).length, dn=D.filter(function(c){ return inSel(c)&&DROP[c.id]; }).length;
+  $('sS').disabled=!sn; if(!sn) $('sS').checked=false; $('sD').disabled=!dn; if(!dn) $('sD').checked=false;
+  var p=pool(), all=D.filter(live), wn=all.filter(function(c){ return rec[c.id]&&rec[c.id][3]===0; }).length, seen=all.filter(function(c){ return rec[c.id]; }).length;
   $('sRange').textContent=rangeText();
   $('sW').disabled=!wn; if(!wn) $('sW').checked=false;
   var now=new Date(), due=ORD?all.filter(function(c){ return rec[c.id]&&fsR(c.id, now)<TR; }).length:0; if(FSD) fsSave();
-  $('sInfo').textContent=$('sW').checked ? '틀린 문제 '+p.length+'개' : !ORD ? '문제 '+all.length.toLocaleString()+'개 · 푼 것 '+seen+'개 · 안 푼 것부터'
+  $('sInfo').textContent=$('sD').checked ? '끈 문제 '+p.length+'개' : $('sS').checked ? '즐겨찾기 '+p.length+'개' : $('sW').checked ? '틀린 문제 '+p.length+'개' : !ORD ? '문제 '+all.length.toLocaleString()+'개 · 푼 것 '+seen+'개 · 안 푼 것부터'
     : due ? '문제 '+all.length.toLocaleString()+'개 · 복습할 때 된 것 '+due+'개부터' : '문제 '+all.length.toLocaleString()+'개 · 복습할 때 된 것 없음 · 안 푼 것부터';
   slSet(p.length);
   $('bGo').disabled=!p.length;
@@ -264,7 +328,7 @@ $('sNm').onclick=function(){ stepBy(-1); }; $('sNp').onclick=function(){ stepBy(
 $('sNi').onfocus=function(){ this.placeholder=this.value; this.value=''; this.style.width='3ch'; };   // 누르면 비우고 원래 값은 흐린 글씨로 — 전체 선택(타이밍 의존)은 안 씀
 $('sNi').onkeydown=function(e){ if(e.key==='Enter'){ e.preventDefault(); this.blur(); } };
 $('sNi').onchange=$('sNi').onblur=function(){ var v=parseInt(String(this.value).replace(/[^0-9]/g,''),10); if(poolN&&v>0) nSet(Math.min(v,poolN,100)); else slShow(); };
-$('sW').onchange=info;
+$('sW').onchange=info; $('sS').onchange=function(){ if(this.checked) $('sD').checked=false; info(); }; $('sD').onchange=function(){ if(this.checked) $('sS').checked=false; info(); };
 try{ ORD=localStorage.getItem(KEY+'_ord')==='1'?1:0; }catch(e){}
 function ordPaint(){ [].forEach.call($('sOrd').children, function(b){ b.classList.toggle('on', +b.dataset.o===ORD); b.setAttribute('aria-pressed', +b.dataset.o===ORD); }); }
 $('sOrd').onclick=function(e){ var b=e.target.closest('button'); if(!b) return; ORD=+b.dataset.o; try{ localStorage.setItem(KEY+'_ord', ORD); }catch(x){} ordPaint(); info(); };
@@ -340,6 +404,7 @@ function paint(){ var c=run.list[run.i], n=run.list.length; revealed=false;
   var ol=$('qItems'); ol.innerHTML=''; ol.classList.toggle('qz-hide', !(c.it&&c.it.length>1));
   (c.it||[]).forEach(function(x){ var li=document.createElement('li'); li.textContent=x; ol.appendChild(li); });
   img($('qImgF'), c, 'f'); img($('qImgB'), c, 'b');
+  mkPaint();
   var a=$('qNote'); if(c.h){ a.href=c.h; a.classList.remove('qz-hide'); } else a.classList.add('qz-hide');
   $('qAns').style.visibility='hidden'; $('qCover').classList.remove('qz-hide');
   var wr=$('sWr').checked, qi=$('qIn'); $('qCover').classList.toggle('wr', wr); $('qCoverT').classList.toggle('qz-hide', wr); qi.classList.toggle('qz-hide', !wr); qi.value=''; $('qMine').classList.add('qz-hide');
@@ -348,8 +413,8 @@ function paint(){ var c=run.list[run.i], n=run.list.length; revealed=false;
 function reveal(){ if(!run||$('vQ').classList.contains('qz-hide')||revealed) return; revealed=true;
   var qi=$('qIn'), mine=$('sWr').checked?qi.value.trim():''; qi.blur(); if(mine){ $('qMine').innerHTML='<b>내 답</b>'+esc(mine); $('qMine').classList.remove('qz-hide'); }
   $('qAns').style.visibility=''; $('qCover').classList.add('qz-hide'); $('aShow').classList.add('qz-hide'); $('aRate').classList.remove('qz-hide'); }
-function rate(ok){ if(!run||!revealed) return; var c=run.list[run.i], r=rec[c.id]||[0,0,0,0];
-  r[0]++; if(ok) r[1]++; r[2]=Date.now(); r[3]=ok?1:0; rec[c.id]=r; save(); var fb=fsStep(FS[c.id], r[2], ok); if(fb){ FS[c.id]=fb; fsSave(); } run.res.push(ok); if(window.RNSync) RNSync.mark(c.id); if(!run.again) qsUp(c.id, ok);
+function rate(ok){ if(!run||!revealed) return; var c=run.list[run.i]; (run.undo||(run.undo=[])).push({i:run.i, id:c.id, r:rec[c.id]?rec[c.id].slice():null, f:FS[c.id]?FS[c.id].slice():null, h:H[c.id]?H[c.id].slice():null}); var r=rec[c.id]||[0,0,0,0];
+  r[0]++; if(ok) r[1]++; r[2]=Date.now(); r[3]=ok?1:0; rec[c.id]=r; save(); var hh=H[c.id]||(H[c.id]=[]); hh.push([r[2], ok?1:0]); if(hh.length>40) hh.splice(0, hh.length-40); hSave(); var fb=fsStep(FS[c.id], r[2], ok); if(fb){ FS[c.id]=fb; fsSave(); } run.res.push(ok); if(window.RNSync) RNSync.mark(c.id); if(!run.again) qsUp(c.id, ok);
   run.i++; if(run.i<run.list.length) paint(); else result(); }
 $('bShow').onclick=reveal; $('qCard').onclick=function(e){ if(e.target.closest('a,button,textarea')) return; reveal(); };
 $('qIn').addEventListener('keydown', function(e){ if(e.key==='Enter' && !e.shiftKey && !e.isComposing && e.keyCode!==229){ e.preventDefault(); reveal(); } e.stopPropagation(); });   // 쓰는 동안은 Space·Z·C 단축키를 막는다
@@ -359,11 +424,72 @@ $('bOk').onclick=function(){ rate(true); }; $('bNo').onclick=function(){ rate(fa
 $('bQuit').onclick=function(){ if(run&&run.res.length) result(); else { run=null; show('vSet'); info(); } };
 function result(){ if(!run.logged){ run.logged=1; gcEv('quiz/done'); } var done=run.res.length, ok=run.res.filter(Boolean).length, wr=run.list.slice(0,done).filter(function(c,i){ return !run.res[i]; });
   $('rScore').textContent=done+'문제 중 '+ok+'개 맞음'; $('rSub').textContent=wr.length?'틀린 문제는 노트에서 확인':'다 맞음';
-  $('bAgain').classList.toggle('qz-hide', !wr.length); run.wrong=wr;
+  run.wrong=wr.filter(function(c){ return !DROP[c.id]; }); $('bAgain').classList.toggle('qz-hide', !run.wrong.length);
   $('rWrong').innerHTML = wr.length ? '<h2>틀린 문제</h2><div class="qz-grp">'+wr.map(function(c){ return '<div class="qz-w"><div><p>'+esc(c.q)+'</p><p class="wa">'+esc(c.a)+'</p></div>'+(c.h?'<a class="qz-go" href="'+esc(c.h)+'" target="_blank" rel="noopener" aria-label="노트에서 보기" title="노트에서 보기">'+GO+'</a>':'')+'</div>'; }).join('')+'</div>' : '';
   show('vR'); }
 $('bAgain').onclick=function(){ start(shuffle(run.wrong.slice()), true); };
 $('bNew').onclick=function(){ run=null; show('vSet'); info(); };
+function mkPaint(){ var c=run&&run.list[run.i]; [].forEach.call(document.querySelectorAll('#vQ [data-act="star"],#vQ [data-act="drop"]'), function(b){ var on=!!(c&&(b.dataset.act==='star'?STAR:DROP)[c.id]);
+    b.classList.toggle('on', on); b.setAttribute('aria-pressed', on); var l=b.querySelector('.l'); if(l) l.textContent=on?'꺼짐':'끄기'; });
+  var tg=document.querySelector('.rn-tg'), tb=document.querySelector('.qz-side [data-act="theme"]'); if(tg&&tb){ tb.querySelector('.ti').innerHTML=tg.innerHTML; tb.querySelector('.l').textContent=/라이트/.test(tg.getAttribute('aria-label')||'')?'라이트 모드':'다크 모드'; }
+  $('bUndo').disabled=!(run&&run.undo&&run.undo.length); }
+function mkFlip(act){ var c=run&&run.list[run.i]; if(!c) return; var M=act==='star'?STAR:DROP; if(M[c.id]) delete M[c.id]; else M[c.id]=1; mkSave(); mkPaint(); }
+
+function undo(){ if(!run||!run.undo||!run.undo.length||$('vQ').classList.contains('qz-hide')) return; var u=run.undo.pop();
+  if(u.r) rec[u.id]=u.r; else delete rec[u.id]; if(u.f) FS[u.id]=u.f; else delete FS[u.id]; if(u.h) H[u.id]=u.h; else delete H[u.id];
+  save(); fsSave(); hSave(); if(window.RNSync) RNSync.mark(u.id); run.res.pop(); run.i=u.i; paint(); reveal(); }
+
+function pause(on){ if(on&&(!run||$('vQ').classList.contains('qz-hide'))) return; $('qPause').classList.toggle('qz-hide', !on); }
+function md(t){ var d=new Date(t); return (d.getMonth()+1)+'/'+d.getDate(); }
+function hm(t){ var d=new Date(t); return ('0'+d.getHours()).slice(-2)+':'+('0'+d.getMinutes()).slice(-2); }
+
+var FCR='all', inC=null;
+function fcPts(c){ var h=H[c.id]||[], r=rec[c.id], pts=[], a=null;
+  if(h.length && r && r[0]===h.length) h.forEach(function(x){ a=fsStep(a, x[0], x[1]===1); if(a) pts.push({t:x[0], S:a[1], g:x[1]}); });
+  else { var f=fsGet(c.id); if(f&&r) pts.push({t:f[6], S:f[1], g:r[3]}); }
+  return pts; }
+function fcSvg(c){ var e=eng(); if(!e) return ''; var P=fcPts(c); if(!P.length) return ''; var DAY=864e5, now=Date.now(), f=fsGet(c.id), due=f?f[0]:null;
+  var R=function(a,t){ try{ return e.forgetting_curve(Math.max(0,(t-a.t)/DAY), a.S); }catch(x){ return 1; } };
+  var endB=Math.max(now, due||now), full=endB-P[0].t, rng={w:7*DAY,m:30*DAY,y:365*DAY}[FCR], pad=Math.max(DAY,(rng||full)*0.06);
+  var t1=endB+pad, t0=rng?Math.max(P[0].t,t1-rng):P[0].t, span=Math.max(DAY,t1-t0);
+  var W=Math.max(240, Math.min(640, ($('inBody').clientWidth||440)-20)), Hh=170, ml=38, mr=10, mt=14, mb=24, seg=[], cur=[], minR=1, i, k, a;
+  for(i=0;i<P.length;i++){ a=P[i]; var end=i+1<P.length?P[i+1].t:t1, last=i===P.length-1; if(end<t0||a.t>t1) continue;
+    var s0=Math.max(a.t,t0), s1=Math.min(end,t1), n=Math.max(8,Math.round(60*(s1-s0)/span));
+    for(k=0;k<=n;k++){ var t=s0+(s1-s0)*k/n, rr=R(a,t); (last?cur:seg).push([t,rr]); if(rr<minR) minR=rr; } }
+  var yLo=Math.max(0, Math.min(Math.floor(Math.min(minR, TR-0.05)*10)/10, 0.8));
+  var X=function(t){ return ml+(t-t0)/span*(W-ml-mr); }, Y=function(r){ return mt+(1-(r-yLo)/(1-yLo))*(Hh-mt-mb); }, f1=function(v){ return v.toFixed(1); };
+  var pth=function(A){ return A.map(function(q,j){ return (j?'L':'M')+f1(X(q[0]))+','+f1(Y(q[1])); }).join(''); };
+  var step=(1-yLo)>0.5?0.2:0.1, g='';
+  for(var v=1; v>=yLo-1e-9; v=Math.round((v-step)*10)/10){ var y=f1(Y(v)); g+='<line x1="'+ml+'" x2="'+(W-mr)+'" y1="'+y+'" y2="'+y+'" class="fc-g"/><text x="'+(ml-6)+'" y="'+(+y+4).toFixed(1)+'" class="fc-t" text-anchor="end">'+Math.round(v*100)+'%</text>'; }
+  for(k=0;k<4;k++){ var tt=t0+span*k/3; g+='<text x="'+f1(X(tt))+'" y="'+(Hh-6)+'" class="fc-t" text-anchor="'+(k===0?'start':k===3?'end':'middle')+'">'+md(tt)+'</text>'; }
+  var yT=f1(Y(TR)), xN=f1(X(now));
+  var mk='<line x1="'+ml+'" x2="'+(W-mr)+'" y1="'+yT+'" y2="'+yT+'" class="fc-ret"/><text x="'+(ml+4)+'" y="'+(+yT-5).toFixed(1)+'" class="fc-t" text-anchor="start">목표 '+Math.round(TR*100)+'%</text>';
+  if(now>=t0&&now<=t1) mk+='<line x1="'+xN+'" x2="'+xN+'" y1="'+mt+'" y2="'+(Hh-mb)+'" class="fc-now"/><text x="'+xN+'" y="'+(mt-3)+'" class="fc-t" text-anchor="middle">오늘</text>';
+  if(due&&due>=t0&&due<=t1) mk+='<path d="M'+f1(X(due))+','+(Hh-mb)+'l-5,6h10z" class="fc-due"/>';
+  var dots=''; for(i=0;i<P.length;i++){ a=P[i]; if(a.t<t0||a.t>t1) continue; var r0=i?R(P[i-1],a.t):1; dots+='<circle cx="'+f1(X(a.t))+'" cy="'+f1(Y(Math.max(yLo,r0)))+'" r="3.2" class="'+(a.g?'fc-ok':'fc-no')+'"/>'; }
+  var lp=P[P.length-1], rNow=R(lp,now);
+  var sg=[['w','1주'],['m','1달'],['y','1년'],['all','전체']].map(function(x){ return '<button type="button" data-fcr="'+x[0]+'" class="'+(x[0]===FCR?'on':'')+'">'+x[1]+'</button>'; }).join('');
+  return '<p class="ci-sec">기억 곡선</p><div class="fc-box"><div class="fc-head"><div class="fc-kpi"><span><b>'+Math.round(rNow*100)+'%</b>지금</span><span><b>'+(lp.S>=10?Math.round(lp.S):lp.S.toFixed(1))+'일</b>안정도</span>'+(due?'<span><b>'+md(due)+'</b>다음 복습</span>':'')+'</div><div class="fc-seg">'+sg+'</div></div>'
+    +'<svg class="fc-svg" width="'+W+'" height="'+Hh+'" viewBox="0 0 '+W+' '+Hh+'" role="img" aria-label="기억 곡선">'+g+mk+'<path d="'+pth(seg)+'" class="fc-old"/><path d="'+pth(cur)+'" class="fc-line"/>'+dots+'</svg></div>'; }
+function inOpen(){ var c=run&&run.list[run.i]; if(!c) return; inC=c; $('shI').classList.add('on'); inDraw(); }
+function inDraw(){ var c=inC; if(!c) return; var r=rec[c.id], f=fsGet(c.id), h=H[c.id]||[], fx=[];
+  if(!r) fx.push('<span class="f">처음</span>');
+  else { fx.push('<span class="f">푼 <b>'+r[0]+'</b>번</span>'); fx.push('<span class="f">맞힘 <b>'+r[1]+'</b>번</span>'); if(r[0]>r[1]) fx.push('<span class="f warn">틀림 <b>'+(r[0]-r[1])+'</b>번</span>');
+    if(f&&eng()) fx.push('<span class="f">기억률 <b>'+Math.round(fsR(c.id, new Date())*100)+'%</b></span>'); if(f) fx.push('<span class="f">다음 복습 '+md(f[0])+'</span>'); }
+  if(STAR[c.id]) fx.push('<span class="f">즐겨찾기</span>'); if(DROP[c.id]) fx.push('<span class="f warn">꺼짐</span>');
+  var hs=h.slice().reverse().map(function(x){ return '<div class="ci-hr"><span class="'+(x[1]?'ok':'no')+'">'+(x[1]?'맞음':'틀림')+'</span><span>'+md(x[0])+' '+hm(x[0])+'</span></div>'; }).join('');
+  if(r&&r[0]>h.length) hs+='<div class="ci-hr old">이전 '+(r[0]-h.length)+'번'+(h.length?'':' · 마지막 '+md(r[2])+' '+(r[3]?'맞음':'틀림'))+'</div>';
+  if(FSD) fsSave();
+  $('inBody').innerHTML='<p class="ci-scope">'+esc(c.sn)+' › '+esc(c.t)+(c.m?' › '+esc(c.m):'')+'</p><p class="ci-q">'+esc(c.q)+'</p>'+(revealed?'<p class="ci-a">'+esc(c.a)+'</p>':'')
+    +(c.h?'<a class="qz-link ci-note" href="'+esc(c.h)+'" target="_blank" rel="noopener">노트 ↗</a>':'')+fcSvg(c)
+    +'<p class="ci-sec">상태</p><div class="ci-facts">'+fx.join('')+'</div>'
+    +'<p class="ci-sec">풀이 이력'+(r?' · '+r[0]+'번':'')+'</p><div class="ci-hist">'+(hs||'<div class="ci-hr old">아직 안 풂</div>')+'</div>'
+    +'<div class="ci-acts"><button type="button" class="ci-act'+(DROP[c.id]?' on':'')+'" data-ci="drop">'+(DROP[c.id]?'다시 켜기':'끄기')+'</button><button type="button" class="ci-act" data-ci="star">'+(STAR[c.id]?'즐겨찾기 빼기':'즐겨찾기')+'</button></div>'; }
+$('inBody').onclick=function(e){ var b=e.target.closest('button'); if(!b) return; if(b.dataset.fcr){ FCR=b.dataset.fcr; inDraw(); } else if(b.dataset.ci){ mkFlip(b.dataset.ci); inDraw(); } };
+$('bInX').onclick=function(){ $('shI').classList.remove('on'); }; $('shI').onclick=function(e){ if(e.target===$('shI')) $('shI').classList.remove('on'); };
+document.addEventListener('click', function(e){ var b=e.target.closest('#vQ [data-act]'); if(!b) return; e.stopPropagation(); var a=b.dataset.act;
+  if(a==='theme'){ var tg=document.querySelector('.rn-tg'); if(tg) tg.click(); setTimeout(mkPaint, 0); } else if(a==='info') inOpen(); else mkFlip(a); }, true);
+$('bUndo').onclick=undo; $('bPause').onclick=function(){ pause(true); }; $('bResume').onclick=function(){ pause(false); };
 var odd=null;
 $('bOdd').onclick=function(e){ e.stopPropagation(); odd=run.list[run.i]; $('shT').value=''; $('bShGo').disabled=false; $('bShGo').textContent='보내기'; $('shOk').classList.add('qz-hide'); $('sh').classList.add('on'); setTimeout(function(){ $('shT').focus(); },50); };
 function shut(){ $('sh').classList.remove('on'); }
@@ -375,14 +501,15 @@ $('bShGo').onclick=function(){ if(!odd||$('bShGo').disabled) return; var b=$('bS
   body.append(E_TEXT, '[카드] '+odd.id+'\n[위치] 쪽지시험 > '+odd.t+(odd.m?' > '+odd.m:'')+'\n[내용] '+$('shT').value.trim()+(rnFbId()?'\n[보낸 이] #'+rnFbId():''));
   fetch(FORM,{method:'POST',mode:'no-cors',body:body}).then(function(){ try{var a=JSON.parse(localStorage.getItem('rn-fb-sent')||'[]');a.push({t:Date.now(),s:odd.sn});localStorage.setItem('rn-fb-sent',JSON.stringify(a.slice(-20)));}catch(e){} b.disabled=false; b.textContent='보내기'; $('shT').value=''; $('shOk').classList.remove('qz-hide'); })
     .catch(function(){ b.disabled=false; b.textContent='다시 보내기'; alert('보내지 못함'); }); };
-document.addEventListener('keydown', function(e){ if($('sh').classList.contains('on')||$('pk').classList.contains('on')){ if(e.key==='Escape'){ shut(); $('pk').classList.remove('on'); } return; }
+document.addEventListener('keydown', function(e){ if(!$('qPause').classList.contains('qz-hide')){ if(!e.metaKey&&!e.ctrlKey&&!e.altKey){ e.preventDefault(); pause(false); } return; }
+  if($('sh').classList.contains('on')||$('pk').classList.contains('on')||$('shI').classList.contains('on')){ if(e.key==='Escape'){ shut(); $('pk').classList.remove('on'); $('shI').classList.remove('on'); } return; }
   if($('vQ').classList.contains('qz-hide')||e.metaKey||e.ctrlKey||e.altKey) return;
   var k=e.key.toLowerCase(), cd=e.code||'';   
-  if(k===' '||k==='enter'){ e.preventDefault(); reveal(); } else if(k==='z'||k==='ㅋ'||cd==='KeyZ'||k==='1') rate(false); else if(k==='c'||k==='ㅊ'||cd==='KeyC'||k==='2') rate(true); });
+  if(k===' '||k==='enter'){ e.preventDefault(); reveal(); } else if(k==='z'||k==='ㅋ'||cd==='KeyZ'||k==='1') rate(false); else if(cd==='KeyF'||k==='f'||k==='ㄹ') mkFlip('star'); else if(cd==='KeyS'||k==='s'||k==='ㄴ') pause(true); else if(cd==='KeyR'||k==='r'||k==='ㄱ') undo(); else if(k==='c'||k==='ㅊ'||cd==='KeyC'||k==='2') rate(true); });
 var QS=new URLSearchParams(location.search), FROM=QS.get('from'), NOTE=(QS.get('s')&&FROM)?encodeURIComponent(QS.get('s'))+'.html#rn-qz-'+encodeURIComponent(FROM):null;
 function backTo(a){ if(!NOTE) return; a.href=NOTE; a.lastChild.textContent='노트'; }
 if(NOTE){ backTo($('bBack1')); backTo($('bBack2')); $('bNote').href=NOTE; $('bNote').classList.remove('qz-hide'); }
-load(); fsLoad();
+load(); fsLoad(); mkLoad();
 fetch('quiz-data.json?v=89984e05').then(function(r){ return r.json(); }).then(function(j){ D=j.cards||[];
   D.forEach(function(c){ BY[c.id]=c; if(!TOPS[c.s]){ TOPS[c.s]=[]; SUBJ.push(c.s); }
     var x=TOPS[c.s].filter(function(z){ return z.t===c.t; })[0]; if(!x){ x={t:c.t, n:0, ms:[]}; TOPS[c.s].push(x); } x.n++;
