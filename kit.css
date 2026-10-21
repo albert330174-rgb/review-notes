@@ -543,6 +543,7 @@ h4.lab{font-size:13px;line-height:18px;font-weight:600;color:var(--sec);margin:1
 :root.v2 .ctree .fork>.mkf{display:none;}
 :root.v2 .ctree .bsub>.converge>.stack>*::before,:root.v2 .ctree .bsub>.converge>.stack>*::after{display:none;}   
 :root.v2 .ctree>*{padding-left:0 !important;}
+:root.v2 .ctree>.hng{text-indent:0 !important;}   
 :root.v2 .ctree .kids>*,:root.v2 .ctree .bracket>*{padding-left:1em;}
 :root.v2 .ctree .branch>.kids,:root.v2 .ctree .branch>.bracket{margin-left:0;}
 :root.v2 .ctree>.ccell+.ccell{margin-top:.9em;}
