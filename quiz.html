@@ -94,7 +94,7 @@ button.qz-row{cursor:pointer;} button.qz-row:active{background:var(--q-fill);}
 .qz-prog .b i{display:block;height:100%;width:0;background:var(--q-sacc);border-radius:2px;transition:width .25s;}
 .qz-card{width:100%;max-width:900px;flex:1;min-height:0;margin:12px 0;background:var(--q-card);border-radius:26px;box-shadow:var(--q-sh);display:flex;flex-direction:column;padding:16px 22px 12px;box-sizing:border-box;cursor:pointer;position:relative;}
 .qz-hd{display:flex;justify-content:space-between;gap:12px;font-size:13px;line-height:18px;color:var(--q-sec);flex:0 0 auto;}
-.qz-hd .p{font-weight:600;color:var(--q-label);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.qz-hd .p{font-weight:600;color:var(--q-label);min-width:0;}   
 .qz-hd .p i{font-style:normal;font-weight:400;color:var(--q-sec);}
 .qz-hd .why{flex:0 0 auto;}
 .qz-top,.qz-bot{min-height:0;display:flex;flex-direction:column;justify-content:center;overflow:auto;}
@@ -397,7 +397,7 @@ function img(box, c, on){ box.innerHTML=''; (c.img||[]).forEach(function(m){ if(
 var revealed=false;
 function paint(){ var c=run.list[run.i], n=run.list.length; revealed=false;
   $('qN').textContent=(run.i+1)+'/'+n; $('qBar').style.width=(run.i/n*100)+'%';
-  $('qWhere').innerHTML=esc(c.sn)+' <i>› '+esc(c.t)+(c.m&&innerWidth>500?' › '+esc(c.m):'')+'</i>';
+  $('qWhere').innerHTML=esc(c.sn)+' <i>› '+[c.t].concat(c.m?[c.m]:[], c.x||[]).map(esc).join(' › ')+'</i>';   // 10-22 카드 머리 〔…〕 깊은 칸(x)까지 · 폰에서도 중주제 숨기지 않음
   var r=rec[c.id]; $('qWhy').textContent=!r?'처음 보는 문제':r[3]?'지난번에 맞힘':'지난번에 틀림';
   $('qQ').textContent=c.q; $('qQ').classList.toggle('long', c.q.length>200);
   $('qA').textContent=c.a; $('qA').className='qz-a'+(c.a.length>30?' body':c.a.length>12?' qmid':'');
@@ -510,7 +510,7 @@ var QS=new URLSearchParams(location.search), FROM=QS.get('from'), NOTE=(QS.get('
 function backTo(a){ if(!NOTE) return; a.href=NOTE; a.lastChild.textContent='노트'; }
 if(NOTE){ backTo($('bBack1')); backTo($('bBack2')); $('bNote').href=NOTE; $('bNote').classList.remove('qz-hide'); }
 load(); fsLoad(); mkLoad();
-fetch('quiz-data.json?v=d91055b8').then(function(r){ return r.json(); }).then(function(j){ D=j.cards||[];
+fetch('quiz-data.json?v=eb8afcb6').then(function(r){ return r.json(); }).then(function(j){ D=j.cards||[];
   D.forEach(function(c){ BY[c.id]=c; if(!TOPS[c.s]){ TOPS[c.s]=[]; SUBJ.push(c.s); }
     var x=TOPS[c.s].filter(function(z){ return z.t===c.t; })[0]; if(!x){ x={t:c.t, n:0, ms:[]}; TOPS[c.s].push(x); } x.n++;
     var y=x.ms.filter(function(z){ return z.m===(c.m||''); })[0]; if(!y){ y={m:c.m||'', n:0}; x.ms.push(y); } y.n++; });
