@@ -39,7 +39,11 @@ body{margin:0;background:var(--bg);color:var(--label);}
 .fs-chip.fs-review{color:var(--wait);background:var(--wait-bg);}
 .fs-chip.fs-held{color:var(--sec);background:var(--fill);}
 .fs-chip.fs-thx{background:var(--fill);}
-.fs-chip.fs-new{color:var(--acc);background:var(--new-bg);}
+.fs-chip.fs-new,.fs-chip.fs-ans{color:var(--acc);background:var(--new-bg);}
+.fs-g.fs-ans{color:var(--label);}
+.fs-x .fs-g+.fs-ans{margin-top:10px;}
+.fs-ans b{display:block;font-size:13px;line-height:18px;font-weight:600;color:var(--acc);margin-bottom:2px;}
+.fs-ans span{display:block;}
 .fs-seg{display:flex;background:var(--fill);border-radius:9px;padding:2px;margin:0 0 12px;}
 .fs-seg button{flex:1;border:0;background:transparent;color:var(--label);font:inherit;font-size:15px;height:32px;border-radius:7px;cursor:pointer;}
 .fs-seg button.on{background:var(--card);box-shadow:0 1px 3px rgba(0,0,0,.12),0 0 0 .5px rgba(0,0,0,.04);font-weight:600;}
@@ -69,6 +73,7 @@ body{margin:0;background:var(--bg);color:var(--label);}
   <section class="fs-mine" hidden><h2 class="fs-h"><span class="fs-mt">이 기기에서 보낸 제보</span><span class="fs-id" hidden></span></h2><div class="fs-grp"></div></section>
   <div class="fs-seg" hidden><button type="button" data-v="open">진행 중<span></span></button><button type="button" data-v="done">완료<span></span></button></div>
   <div class="fs-grp fs-list">
+    <details class="fs-row" data-k="실과|2026-10-22T21:57"><summary><div class="fs-w"><span class="fs-t">10월 22일 오후 9:57</span><span class="fs-s">실과 · 2분 만에 반영</span></div><span class="fs-chip fs-fixed">반영</span><svg class="fs-cv" viewBox="0 0 8 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l6 6-6 6"/></svg></summary><div class="fs-x"><div><p class="fs-g">쪽지시험 &gt; 2022 개정 교육과정 &gt; 교육과정 설계의 개요 · 가정 분야 물음의 「이 분야」가 어느 분야인지 모호하다는 지적</p><p class="fs-g fs-why">가정 분야 물음의 「이 분야」를 「가정 분야」로 명시</p></div></div></details>
     <details class="fs-row" data-k="일반|2026-10-22T21:49"><summary><div class="fs-w"><span class="fs-t">10월 22일 오후 9:49</span><span class="fs-s">일반</span></div><span class="fs-chip fs-review">검토 중</span><svg class="fs-cv" viewBox="0 0 8 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l6 6-6 6"/></svg></summary><div class="fs-x"><div><p class="fs-g">원문·임고스터디 중 무엇을 보는지 질문 · 자료 감사 인사</p></div></div></details>
     <details class="fs-row" data-k="음악|2026-10-22T17:16"><summary><div class="fs-w"><span class="fs-t">10월 22일 오후 5:16</span><span class="fs-s">음악</span></div><span class="fs-chip fs-held">보류</span><svg class="fs-cv" viewBox="0 0 8 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l6 6-6 6"/></svg></summary><div class="fs-x"><div><p class="fs-g">서양 음악 &gt; 박자와 리듬 · 교재엔 「프레이즈」가 아니라 「프레이징」으로 표기</p><p class="fs-g fs-why">보류 사유 · 노트의 프레이즈는 악구 자체를 가리키는 말이고, 교재의 프레이징은 악구로 나누어 표현하는 것</p></div><a class="fs-go" href="8.%EC%9D%8C%EC%95%85.html#%EB%B0%95%EC%9E%90%EC%99%80_%EB%A6%AC%EB%93%AC" aria-label="노트에서 그 절 보기" title="노트에서 그 절 보기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6M20 4l-9 9M18 14v4.5a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 4 18.5v-11A1.5 1.5 0 0 1 5.5 6H10"/></svg></a></div></details>
     <details class="fs-row" data-k="실과|2026-10-22T17:01"><summary><div class="fs-w"><span class="fs-t">10월 22일 오후 5:01</span><span class="fs-s">실과 · 2분 만에 반영</span></div><span class="fs-chip fs-fixed">반영</span><svg class="fs-cv" viewBox="0 0 8 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l6 6-6 6"/></svg></summary><div class="fs-x"><div><p class="fs-g">쪽지시험 &gt; 2022 개정 교육과정 &gt; 교육과정 설계의 개요 · 물음 「이 분야」 → 「기술 분야」</p><p class="fs-g fs-why">물음 「이 분야」를 「기술 분야」로 또렷하게 고침</p></div></div></details>
@@ -143,7 +148,7 @@ body{margin:0;background:var(--bg);color:var(--label);}
     more.hidden=!(tab==='done' && done.length>shown);
     var e=L.querySelector('.fs-empty'); if(!e){ e=document.createElement('div'); e.className='fs-empty'; L.appendChild(e); } if(e){ e.style.display=list.length?'none':''; e.textContent=tab==='open'?'진행 중인 제보 없음':'받은 제보 없음'; }
     var g=mineBox.querySelector('.fs-grp'); g.innerHTML='';
-    rows.forEach(function(r){ var k=r.dataset.k?key(r):r._k; var m=k && sent.filter(function(x){ return same(x,k); })[0]; if(m){ var c=r.cloneNode(true); c.classList.remove('hid');
+    rows.forEach(function(r){ var k=r.dataset.k?key(r):r._k; var m=k && sent.filter(function(x){ return same(x,k); })[0]; if(m){ var c=r.cloneNode(true); c.classList.remove('hid'); if(c.classList.contains('fs-has-ans')) c.open=true;   
       var x=document.createElement('button'); x.type='button'; x.className='fs-del'; x.setAttribute('aria-label','이 기기 목록에서 지우기'); x.title='지우기'; x.innerHTML=XI;   
       x.addEventListener('click',function(ev){ ev.preventDefault(); ev.stopPropagation(); sent=sent.filter(function(y){ return y!==m; }); try{ localStorage.setItem('rn-fb-sent', JSON.stringify(sent)); }catch(e){} if(window.RNSync) RNSync.fbGone(m.t); render(); });
       (c.querySelector('summary')||c.querySelector('.fs-sum')).insertBefore(x, (c.querySelector('summary')||c.querySelector('.fs-sum')).firstChild); g.appendChild(c); } });
